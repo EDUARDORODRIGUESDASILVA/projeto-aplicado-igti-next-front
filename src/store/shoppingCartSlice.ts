@@ -19,7 +19,6 @@ const initialState: ShoppingCart = {
 const updateTotalCount = (products: ShoppingCartProduct[]) => {
   return products.map(x => x.amount).reduce((previous, current) => previous + current, 0)
 }
-const reducer = (previousValue: number, currentValue: number) => previousValue + currentValue;
 
 export const shoppingCartSlice = createSlice({
   name: 'shoppingCart',

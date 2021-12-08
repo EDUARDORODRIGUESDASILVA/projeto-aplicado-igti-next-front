@@ -22,7 +22,8 @@ export default function ProductDetailsCard({ id }: { id: string }) {
     async function fetchProductDetails() {
       setIsLoading(true)
       try {
-        const product = await loadProductById(parseInt(id))
+        const parsedId = parseInt(id)
+        const product = await loadProductById(parsedId)
         setProductDetails(product)
         setIsLoading(false)
       } catch (error) {
@@ -101,6 +102,7 @@ export default function ProductDetailsCard({ id }: { id: string }) {
 
         <CardActions>
           <Button size="small" onClick={onAddToShoppingCart}>Adicionar ao carrinho</Button>
+          <Button size="small" onClick={onAddToShoppingCart}>Voltar ao shopping</Button>
         </CardActions>
       </Card>
     </>

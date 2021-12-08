@@ -10,14 +10,8 @@ import ShoppingCartCount from './ShoppingCartCount';
 import Link from './Link'
 import SearchBar from './SearchBar';
 
-
-
-
 export default function Appbar() {
-  const [tabindex, settabindex] = useState(0);
-  const handleChange = () => {
 
-  }
   return (
     <React.Fragment>
       <Box>
@@ -58,16 +52,8 @@ export default function Appbar() {
               <Tab label="Item Three" />
             </Tabs> */}
 
-
-
-
             <ShoppingCartCount></ShoppingCartCount>
-
-
-
-
             <Avatar sx={{ bgcolor: deepOrange[500] }}>ERS</Avatar>
-
           </Toolbar>
         </AppBar>
       </Box>

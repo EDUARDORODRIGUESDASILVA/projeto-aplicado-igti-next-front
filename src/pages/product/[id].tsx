@@ -8,12 +8,16 @@ import ProductDetailsCard from '../../components/ProductDetailsCard';
 export default function ProductDetais() {
 
   const router = useRouter()
-  const { id } = router.query
+  let { id } = router.query
 
+  id = id?.toString() || ''
   const dispatch = useAppDispatch();
   const count = useAppSelector(selectCount);
   const [incrementAmount, setIncrementAmount] = useState<number>(0);
 
+  if (id == undefined) {
+    return 'Erro ao identificar o ID'
+  }
   return (
     <div>
       <Layout>
