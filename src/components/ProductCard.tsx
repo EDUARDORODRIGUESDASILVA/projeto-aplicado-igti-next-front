@@ -1,11 +1,13 @@
 import React from 'react'
 import Card from '@mui/material/Card';
+
+import Box from '@mui/material/Box';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { Backdrop, CardActionArea } from '@mui/material';
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import Rating from '@mui/material/Rating';
@@ -18,7 +20,8 @@ export default function ProductCard({product}: {product: IProduct}) {
 
     card: {
       maxWidth: 345,
-      maxHeight: 400
+      maxHeight: 430,
+      mt: '20px',
     },
     media: {
       height: "120px",
@@ -47,18 +50,32 @@ export default function ProductCard({product}: {product: IProduct}) {
         image={product.image}
         alt={product.title}
       />
-      <CardContent sx={{ height: 181}}>
-        <Typography gutterBottom variant="h6" component="div">
-          {product.title}
-        </Typography>
-        {/* <Typography variant="body2" color="text.secondary">
+      <CardContent >
+          <Box sx={{ height: 131 }}>
+            <Typography gutterBottom variant="h6" component="div">
+              {product.title}
+            </Typography>
+            {/* <Typography variant="body2" color="text.secondary">
           {props.product.description}
 
         </Typography> */}
-          <Typography variant="subtitle2" color="text.secondary">
-            <strong>R$ {product.price}</strong>
-            <Rating name="half-rating-read" defaultValue={product.rating.rate} precision={0.5} readOnly />
+
+        </Box>
+
+
+          <Typography variant="h5" color="text.secondary">
+            <strong>
+              {product.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+            </strong>
           </Typography>
+
+          <div style={{ display: 'flex' }}>
+            <Rating name="half-rating-read" defaultValue={product?.rating.rate} precision={0.5} readOnly />
+            <Typography sx={{ mb: 1.5, ml: 2 }} color="text.secondary">
+              <strong>{product?.rating.count} vendas</strong>
+            </Typography>
+          </div>
+
 
       </CardContent>
       </CardActionArea>

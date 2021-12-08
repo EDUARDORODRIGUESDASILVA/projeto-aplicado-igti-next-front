@@ -12,11 +12,13 @@ import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
 import { addProduct } from '../store/shoppingCartSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useRouter } from 'next/router'
 
 export default function ProductDetailsCard({ id }: { id: string }) {
   const [productDetails, setProductDetails] = useState<IProduct | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
+  const router = useRouter()
 
   useEffect(() => {
     async function fetchProductDetails() {
@@ -34,6 +36,10 @@ export default function ProductDetailsCard({ id }: { id: string }) {
     fetchProductDetails()
 
   }, [id]);
+
+  const onResumeShopping = () => {
+    router.push(`/`)
+  }
 
   const onAddToShoppingCart = () => {
     if(productDetails){
@@ -62,10 +68,11 @@ export default function ProductDetailsCard({ id }: { id: string }) {
                 height: 151,
                 marginLeft: 'auto',
                 marginRight: 'auto',
+                margin: 'auto',
                 objectFit: 'scale-down'
               }}
               image={productDetails?.image}
-              alt="Paella dish"
+              alt={ productDetails?.title}
             />
 
           </Box>
@@ -80,17 +87,21 @@ export default function ProductDetailsCard({ id }: { id: string }) {
               </Typography>
 
               <Typography variant="h6">
-                {productDetails?.price}
+                {productDetails?.price.toLocaleString('pt-br', {style: 'currency', currency: 'BRL' })}
               </Typography>
 
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 {productDetails?.description}
               </Typography>
 
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+
+              <div style={{display: 'flex'}}>
                 <Rating name="half-rating-read" defaultValue={productDetails?.rating.rate} precision={0.5} readOnly />
-                <strong>{productDetails?.rating.count} vendas</strong>
-              </Typography>
+                <Typography sx={{ mb: 1.5, ml: 2 }} color="text.secondary">
+                  <strong>{productDetails?.rating.count} vendas</strong>
+                </Typography>
+              </div>
+
 
             </CardContent>
           </Box>
@@ -102,7 +113,7 @@ export default function ProductDetailsCard({ id }: { id: string }) {
 
         <CardActions>
           <Button size="small" onClick={onAddToShoppingCart}>Adicionar ao carrinho</Button>
-          <Button size="small" onClick={onAddToShoppingCart}>Voltar ao shopping</Button>
+          <Button size="small" onClick={onResumeShopping}>Voltar ao shopping</Button>
         </CardActions>
       </Card>
     </>

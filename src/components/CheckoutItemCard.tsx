@@ -63,7 +63,8 @@ const CheckoutItemCard = ({ product, productDetails }: CheckoutItemCardProps) =>
             </Typography>
 
             <Typography variant="h6">
-              {productDetails?.price}  x
+              {productDetails?.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+               x
               <IconButton aria-label="cart">
                 <IconButton
                   size="large"
