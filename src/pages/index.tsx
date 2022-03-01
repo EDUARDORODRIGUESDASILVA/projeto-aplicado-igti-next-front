@@ -1,13 +1,19 @@
 import * as React from 'react';
 import type { NextPage } from 'next';
-import ListProducts from '../components/ListProducts';
-import Layout from '../components/Layout';
+import Dashboard from '../components/dashboard/Dashboard';
+import HomeGrid from '../components/grid/HomeGrid';
 
 const Home: NextPage = () => {
   return (
-    <Layout>
-      <ListProducts></ListProducts>
-    </Layout>
+    <>
+      <Dashboard>
+        <>
+          <HomeGrid></HomeGrid>
+        </>
+      </Dashboard>
+
+    </>
+
 
   );
 };

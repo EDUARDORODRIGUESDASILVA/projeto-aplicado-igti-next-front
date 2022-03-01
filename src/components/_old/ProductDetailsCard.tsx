@@ -106,7 +106,6 @@ export default function ProductDetailsCard({ id }: { id: string }) {
             </CardContent>
           </Box>
           <Box sx={{ display: 'flex' }}>
-
           </Box>
         </Box>
 

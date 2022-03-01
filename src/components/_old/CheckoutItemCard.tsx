@@ -6,15 +6,15 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
-import { IProduct } from '../interfaces/IProduct';
-import { addProduct, reduceAmount, removeProduct, ShoppingCartProduct } from '../store/shoppingCartSlice';
+import { IProduct } from '../../interfaces/IProduct';
+import { addProduct, reduceAmount, removeProduct, ShoppingCartProduct } from '../../store/_old/shoppingCartSlice';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { styled } from '@mui/material/styles';
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch } from '../../store/hooks';
 
 interface CheckoutItemCardProps {
   productDetails: IProduct | undefined,

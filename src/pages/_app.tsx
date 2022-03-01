@@ -23,7 +23,7 @@ export default function MyApp(props: MyAppProps) {
     <Provider store={store}>
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Amazonas</title>
+        <title>Distribuição de metas</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>

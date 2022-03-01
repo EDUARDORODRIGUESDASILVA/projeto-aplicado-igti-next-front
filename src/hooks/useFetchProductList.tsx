@@ -6,8 +6,8 @@ export const useFetchProductList = () => {
   const initialList: IProduct[] = []
   const [productsList, setProductsList] = useState(initialList);
   const [isLoading, setisLoading] = useState(false);
-  useEffect(() => {
 
+  useEffect(() => {
     async function fetchProducts() {
       setisLoading(true)
       try {
@@ -18,8 +18,8 @@ export const useFetchProductList = () => {
         console.log(error)
         setisLoading(false)
       }
-
     }
+
     fetchProducts()
   }, []);
 

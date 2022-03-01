@@ -2,7 +2,6 @@ import React from 'react'
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
-import Copyright from './Copyright';
 import AppBar from './Appbar'
 
 interface LayoutProps {
@@ -32,7 +31,6 @@ export default function Layout({ children }: LayoutProps) {
         >
           {children}
 
-          <Copyright />
         </Box>
       </Container>
     </>
