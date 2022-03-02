@@ -40,8 +40,6 @@ export default function HomeGrid() {
           </Paper>
         </Grid>
       </Grid>
-
-
     </div>
   )
 }

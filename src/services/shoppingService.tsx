@@ -1,11 +1,5 @@
-import axios from 'axios'
-import { IProduct } from '../interfaces/IProduct';
 
-const instance = axios.create({
-  baseURL: 'https://fakestoreapi.com',
-  headers: { 'X-Custom-Header': 'foobar' }
-
-});
+import instance from './axiosService'
 
 export async function loadAllProducts(): Promise<IProduct[]> {
   const resp = await instance.get('/products')

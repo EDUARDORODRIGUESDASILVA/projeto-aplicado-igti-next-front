@@ -13,6 +13,4 @@ export interface IRowAjustar {
   trava: string | number
   erros: number
   user: IUser
-  ipct: number
-  ivalor: number
 }

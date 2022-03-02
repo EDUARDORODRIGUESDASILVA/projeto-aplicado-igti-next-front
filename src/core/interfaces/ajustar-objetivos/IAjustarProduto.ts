@@ -1,5 +1,6 @@
 import { IProduto } from "../IProduto"
 import { IUnidade } from "../IUnidade"
+import { IRowAjustar } from "./IRowAjustar"
 
 export interface IAjustarProduto {
   unidade: IUnidade
@@ -9,5 +10,5 @@ export interface IAjustarProduto {
   trocas: number
   metaAjustada: number
   erros: number
-  rows: IAjustarProduto[]
+  rows: IRowAjustar[]
 }

@@ -86,8 +86,8 @@ export default function SideNav() {
     <List component="nav">
       <List>
           <ListItemButton
-            selected={router.pathname == '/'}
-            component="a" onClick={() => router.push('/')} >
+            selected={router.pathname == '/ajustes'}
+            component="a" onClick={() => router.push('/ajustes')} >
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>

@@ -11,10 +11,7 @@ const Home: NextPage = () => {
           <HomeGrid></HomeGrid>
         </>
       </Dashboard>
-
     </>
-
-
   );
 };
 
