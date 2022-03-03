@@ -1,8 +1,8 @@
-import { AjusteMetas } from '../core/interfaces/model/AjustarProduto';
-import { AjustarProdutoRow } from '../core/interfaces/model/AjustarProdutoRow';
+import { AjusteMetas } from '../core/model/AjustarProduto';
+import { AjustarProdutoRow } from '../core/model/AjustarProdutoRow';
 import { getLoggedUser } from './userService';
-import  { getUnidadeById }  from '../services/unidadesService'
-import  { getProdutoByCodSidem }  from '../services/produtosService'
+import { getUnidadeById } from '../services/unidadesService'
+import { getProdutoByCodSidem } from '../services/produtosService'
 
 
 export async function criarAjustePorAgregador(unidadeId: number, codsidem: string): Promise<AjusteMetas> {
@@ -11,7 +11,22 @@ export async function criarAjustePorAgregador(unidadeId: number, codsidem: strin
   const produto = await getProdutoByCodSidem(codsidem)
   const user = await getLoggedUser()
   const rows: AjustarProdutoRow[] = [
-    new AjustarProdutoRow(produto, unidade, 50, 50 , 50 , 10, 0, 0.3, 0, user, 0, 0 ),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
+    new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
     new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
     new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),
     new AjustarProdutoRow(produto, unidade, 50, 50, 50, 10, 0, 0.3, 0, user, 0, 0),

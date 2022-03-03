@@ -1,6 +1,6 @@
-import { IAjustarProduto } from "../ajustar-objetivos/IAjustarProduto";
-import { IProduto } from "../IProduto";
-import { IUnidade } from "../IUnidade";
+import { IAjustarProduto } from "../interfaces/ajustar-objetivos/IAjustarProduto";
+import { IProduto } from "../interfaces/IProduto";
+import { IUnidade } from "../interfaces/IUnidade";
 import { AjustarProdutoRow } from "./AjustarProdutoRow";
 
 export class AjusteMetas implements IAjustarProduto {

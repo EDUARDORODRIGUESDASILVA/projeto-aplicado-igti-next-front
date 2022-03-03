@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { AjusteMetas } from '../core/interfaces/model/AjustarProduto';
+import { AjusteMetas } from '../core/model/AjustarProduto';
 import {criarAjustePorAgregador} from '../services/ajustesService'
 
 export const useFetchAjustePorAgregador = (unidadeId: number, codsidem: string) => {
   const [isLoading, setisLoading] = useState(false);
   const [error, seterror] = useState('');
   const [ajuste, setajuste] = useState<AjusteMetas>();
-
+  const [shouldRefetch, refetch] = useState({});
   useEffect(() => {
     async function fetchAjuste() {
       setisLoading(true)
@@ -16,7 +16,7 @@ export const useFetchAjustePorAgregador = (unidadeId: number, codsidem: string) 
       setisLoading(false)
     }
     fetchAjuste()
-  }, [unidadeId, codsidem]);
+  }, [unidadeId, codsidem, shouldRefetch]);
 
-  return { isLoading, ajuste, error }
+  return { isLoading, ajuste, error, refetch }
 }

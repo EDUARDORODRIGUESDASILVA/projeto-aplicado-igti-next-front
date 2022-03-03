@@ -2,11 +2,35 @@ import TextField from '@mui/material/TextField';
 import NumberFormat from 'react-number-format';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import { AjustarProdutoRow } from '../../core/interfaces/model/AjustarProdutoRow';
+import { AjustarProdutoRow } from '../../core/model/AjustarProdutoRow';
 import { useState } from 'react';
-import styles from './AjustarMetasRow.module.css';
+import { alpha, Checkbox, Input, InputBase, styled } from '@mui/material';
 
-export default function AjustarMetasRow( props: {row: AjustarProdutoRow}) {
+
+const PcInput = styled(Input)(({ theme }) => ({
+  'label + &': {
+    margin: theme.spacing(0),
+  },
+  '& .MuiInputBase-input': {
+    padding: '5px 12px',
+    backgroundColor: 'rgba(0, 0, 0, 0.06)',
+    textAlign: 'right'
+  },
+}));
+
+const ValorInput = styled(Input)(({ theme }) => ({
+  'label + &': {
+    margin: theme.spacing(0),
+  },
+  '& .MuiInputBase-input': {
+    padding: '5px 12px',
+    backgroundColor: 'rgba(0, 0, 0, 0.06)',
+    textAlign: 'right'
+
+  },
+}));
+
+export default function AjustarMetasRow(props: { row: AjustarProdutoRow }) {
   const row = props.row
 
   const [inputPct, setInputPct] = useState(row.inputPct);
@@ -16,27 +40,62 @@ export default function AjustarMetasRow( props: {row: AjustarProdutoRow}) {
   const handleInputValorChanges = (row: AjustarProdutoRow, valor: number) => {
     row.inputValor = valor
     setInputValor(valor)
-  //  setMetaAjustada(row.metaAjustada)
   }
 
   const handleInputPctrChanges = (row: AjustarProdutoRow, pct: number) => {
     row.inputPct = pct
     setInputPct(pct)
-    // setMetaAjustada(row.metaAjustada)
-
   }
 
   return (
-    <TableRow  >
-      <TableCell >{row.iUnidade.nome}</TableCell>
-      <TableCell>{row.iUnidade.tipo}</TableCell>
-      <TableCell>{row.iUnidade.porte}</TableCell>
-      <TableCell >{row.metaReferencia}</TableCell>
-      <TableCell >{row.metaMinima}</TableCell>
-      <TableCell>{row.trava}</TableCell>
-      <TableCell>
+    <TableRow style={{ height: 25 }}
+      sx={{ backgroundColor: row.erros > 0 ? "#ffebee" : "" }}
+    >
+      <TableCell padding="checkbox">
+        <Checkbox
+          color="primary"
+        />
+      </TableCell>
+      <TableCell >{row.iUnidade.id} - {row.iUnidade.tipo} {row.iUnidade.nome}</TableCell>
+      <TableCell align="center" sx={{ fontWeight: 'bold', color:'purple' }}>{row.iUnidade.porte}</TableCell>
+      <TableCell align="right" >
+           <NumberFormat
+          value={row.metaReferencia}
+          thousandSeparator="."
+          decimalSeparator=","
+          prefix=""
+          fixedDecimalScale={true}
+          allowLeadingZeros={false}
+          displayType="text"
+          allowNegative={true}
+          decimalScale={2}
+          suffix=""
+          isNumericString={false}
+        />
+       </TableCell>
+      <TableCell align="right" >
         <NumberFormat
-          variant="filled"
+          value={row.metaMinima}
+          thousandSeparator="."
+          decimalSeparator=","
+          prefix=""
+          fixedDecimalScale={true}
+          allowLeadingZeros={false}
+          displayType="text"
+          allowNegative={true}
+          decimalScale={2}
+          suffix=""
+          isNumericString={false}
+        />
+
+
+
+      </TableCell>
+      <TableCell align="center">
+        {row.trava}</TableCell>
+      <TableCell sx={{ maxWidth: '90px' }}>
+        <NumberFormat
+          margin="dense"
           size="small"
           value={row.inputPct}
           thousandSeparator="."
@@ -44,7 +103,7 @@ export default function AjustarMetasRow( props: {row: AjustarProdutoRow}) {
           prefix=""
           fixedDecimalScale={true}
           allowLeadingZeros={false}
-          customInput={TextField}
+          customInput={PcInput}
           onValueChange={(values, sourceInfo) => {
             const { floatValue } = values;
             if (typeof floatValue == 'undefined') {
@@ -62,9 +121,8 @@ export default function AjustarMetasRow( props: {row: AjustarProdutoRow}) {
           isNumericString={false}
         />
       </TableCell>
-      <TableCell align="right">
+      <TableCell align="right" sx={{ maxWidth: '120px' }}>
         <NumberFormat
-          variant="filled"
           size="small"
           value={row.inputValor}
           thousandSeparator="."
@@ -72,7 +130,7 @@ export default function AjustarMetasRow( props: {row: AjustarProdutoRow}) {
           prefix=""
           fixedDecimalScale={true}
           allowLeadingZeros={false}
-          customInput={TextField}
+          customInput={ValorInput}
           onValueChange={(values, sourceInfo) => {
             const { floatValue } = values;
             if (typeof floatValue == 'undefined') {
@@ -92,7 +150,7 @@ export default function AjustarMetasRow( props: {row: AjustarProdutoRow}) {
 
       </TableCell>
 
-      <TableCell>
+      <TableCell align="right" sx={{fontWeight: 'bold'}}>
         <NumberFormat
           value={row.metaAjustada}
           thousandSeparator="."
@@ -106,12 +164,6 @@ export default function AjustarMetasRow( props: {row: AjustarProdutoRow}) {
           suffix=""
           isNumericString={false}
         />
-        </TableCell>
-      <TableCell >
-        <div className={styles.error}>
-          {row.erros}
-        </div>
-
       </TableCell>
     </TableRow>
   )
