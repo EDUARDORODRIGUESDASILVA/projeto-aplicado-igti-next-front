@@ -4,19 +4,13 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import { AjustarProdutoRow } from '../../core/model/AjustarProdutoRow';
 import { useState } from 'react';
-import { alpha, Checkbox, Input, InputBase, styled } from '@mui/material';
+import { alpha, Checkbox, Input, InputBase, styled, Typography } from '@mui/material';
+import NumberTextFormat from '../../utils/NumberTextFormat';
+import NumberInputFormat from '../../utils/NumberInputFormat';
+import DebounceTeste from '../../utils/DebounceTeste';
 
 
-const PcInput = styled(Input)(({ theme }) => ({
-  'label + &': {
-    margin: theme.spacing(0),
-  },
-  '& .MuiInputBase-input': {
-    padding: '5px 12px',
-    backgroundColor: 'rgba(0, 0, 0, 0.06)',
-    textAlign: 'right'
-  },
-}));
+
 
 const ValorInput = styled(Input)(({ theme }) => ({
   'label + &': {
@@ -30,21 +24,23 @@ const ValorInput = styled(Input)(({ theme }) => ({
   },
 }));
 
-export default function AjustarMetasRow(props: { row: AjustarProdutoRow }) {
+export default function AjustarMetasRow(props: { row: AjustarProdutoRow, rerender: Function }) {
   const row = props.row
-
+  const sincronizar = props.rerender
   const [inputPct, setInputPct] = useState(row.inputPct);
   const [inputValor, setInputValor] = useState(row.inputValor);
-  const [metaAjustada, setMetaAjustada] = useState(row.metaAjustada);
+  // const [metaAjustada, setMetaAjustada] = useState(row.metaAjustada);
 
   const handleInputValorChanges = (row: AjustarProdutoRow, valor: number) => {
     row.inputValor = valor
     setInputValor(valor)
+    sincronizar({})
   }
 
   const handleInputPctrChanges = (row: AjustarProdutoRow, pct: number) => {
     row.inputPct = pct
     setInputPct(pct)
+    sincronizar({})
   }
 
   return (
@@ -56,73 +52,36 @@ export default function AjustarMetasRow(props: { row: AjustarProdutoRow }) {
           color="primary"
         />
       </TableCell>
-      <TableCell >{row.iUnidade.id} - {row.iUnidade.tipo} {row.iUnidade.nome}</TableCell>
-      <TableCell align="center" sx={{ fontWeight: 'bold', color:'purple' }}>{row.iUnidade.porte}</TableCell>
-      <TableCell align="right" >
-           <NumberFormat
-          value={row.metaReferencia}
-          thousandSeparator="."
-          decimalSeparator=","
-          prefix=""
-          fixedDecimalScale={true}
-          allowLeadingZeros={false}
-          displayType="text"
-          allowNegative={true}
-          decimalScale={2}
-          suffix=""
-          isNumericString={false}
-        />
+      <TableCell padding='none' >
+        <Typography variant="caption" display="block" gutterBottom>
+          {row.iUnidade.tipo} {row.iUnidade.nome}
+        </Typography>
+        </TableCell>
+      <TableCell padding='none' align="center" sx={{ fontWeight: 'bold', color:'purple' }}>
+        {row.iUnidade.cluster}</TableCell>
+      <TableCell padding='none'align="right" >
+        <NumberTextFormat value={row.metaReferencia} />
        </TableCell>
-      <TableCell align="right" >
-        <NumberFormat
-          value={row.metaMinima}
-          thousandSeparator="."
-          decimalSeparator=","
-          prefix=""
-          fixedDecimalScale={true}
-          allowLeadingZeros={false}
-          displayType="text"
-          allowNegative={true}
-          decimalScale={2}
-          suffix=""
-          isNumericString={false}
-        />
-
-
-
+      <TableCell padding='none' align="right" >
+        <NumberTextFormat value={row.metaMinima} />
       </TableCell>
-      <TableCell align="center">
+      <TableCell padding='none' align="center">
         {row.trava}</TableCell>
-      <TableCell sx={{ maxWidth: '90px' }}>
-        <NumberFormat
-          margin="dense"
-          size="small"
+      <TableCell padding='none' sx={{ minWidth: '90px' , maxWidth: '90px' }}>
+        <NumberInputFormat
           value={row.inputPct}
-          thousandSeparator="."
-          decimalSeparator=","
-          prefix=""
-          fixedDecimalScale={true}
-          allowLeadingZeros={false}
-          customInput={PcInput}
-          onValueChange={(values, sourceInfo) => {
-            const { floatValue } = values;
-            if (typeof floatValue == 'undefined') {
-              handleInputPctrChanges(row, 0)
-            } else {
-              handleInputPctrChanges(row, floatValue | 0)
-            }
-            // const { event, source } = sourceInfo;
-          }}
-
-          displayType="input"
-          allowNegative={true}
-          decimalScale={2}
-          suffix=""
-          isNumericString={false}
-        />
+          handleInputChanges={handleInputPctrChanges}
+          row={row}        ></NumberInputFormat>
       </TableCell>
-      <TableCell align="right" sx={{ maxWidth: '120px' }}>
-        <NumberFormat
+      <TableCell align="right" padding='none'
+       sx={{ minWidth: '140px', maxWidth: '140px', paddingLeft: '10px' }}>
+        <NumberInputFormat
+          value={row.inputValor}
+          handleInputChanges={handleInputValorChanges}
+          row={row}        ></NumberInputFormat>
+        {/* <NumberFormat
+     //     disabled={true}
+
           size="small"
           value={row.inputValor}
           thousandSeparator="."
@@ -146,13 +105,20 @@ export default function AjustarMetasRow(props: { row: AjustarProdutoRow }) {
           decimalScale={2}
           suffix=""
           isNumericString={false}
-        />
+        /> */}
 
       </TableCell>
 
-      <TableCell align="right" sx={{fontWeight: 'bold'}}>
-        <NumberFormat
-          value={row.metaAjustada}
+      <TableCell align="right" padding='none'
+        sx={{ minWidth: '100px', maxWidth: '150px', fontWeight: 'bold'}}
+      >
+        <NumberTextFormat value={row.metaAjustada} />
+       </TableCell>
+
+      <TableCell padding='none' sx={{ paddingLeft: '13px' }}align="right">
+        <NumberTextFormat value={row.pctChange} />%
+        {/* <NumberFormat
+          value={row.pctChange}
           thousandSeparator="."
           decimalSeparator=","
           prefix=""
@@ -163,7 +129,28 @@ export default function AjustarMetasRow(props: { row: AjustarProdutoRow }) {
           decimalScale={2}
           suffix=""
           isNumericString={false}
-        />
+        />% */}
+      </TableCell>
+
+      <TableCell align="right">
+        <NumberTextFormat value={row.shareRef} />
+        {/* <NumberFormat
+          value={row.shareRef}
+          thousandSeparator="."
+          decimalSeparator=","
+          prefix=""
+          fixedDecimalScale={true}
+          allowLeadingZeros={false}
+          displayType="text"
+          allowNegative={true}
+          decimalScale={2}
+          suffix=""
+          isNumericString={false}
+        /> */}
+      </TableCell>
+
+      <TableCell  align="right">
+        <NumberTextFormat value={row.shareAjustado}/>
       </TableCell>
     </TableRow>
   )

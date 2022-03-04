@@ -9,20 +9,14 @@ export default function index() {
       <Dashboard>
         <div>
           {/* Chart */}
-          <Grid container spacing={3}>
+          <AjustarMetas></AjustarMetas>
+          {/* <Grid container spacing={1} maxWidth="xl" xl={12}>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 <AjustarMetas></AjustarMetas>
               </Paper>
             </Grid>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <AjustarMetas2></AjustarMetas2>
-            </Paper>
-          </Grid>
-
+          </Grid> */}
         </div>
 
       </Dashboard>

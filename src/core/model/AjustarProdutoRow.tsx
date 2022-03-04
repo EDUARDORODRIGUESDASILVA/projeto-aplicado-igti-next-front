@@ -2,10 +2,16 @@ import { IRowAjustar } from "../interfaces/ajustar-objetivos/IRowAjustar";
 import { IProduto } from "../interfaces/IProduto";
 import { IUnidade } from "../interfaces/IUnidade";
 import { IUser } from "../interfaces/IUser";
+import { AjusteMetas } from "./AjusteMetas";
 
 export class AjustarProdutoRow implements IRowAjustar {
 
+  private pshareRef: number = 0
+  private pshareAjustado: number = 0
+  private pparent: AjusteMetas | undefined
+  private ppctChange: number = 0
   constructor(
+    public id: number,
     public produto: IProduto,
     public iUnidade: IUnidade,
     public metaReferencia: number,
@@ -27,6 +33,11 @@ export class AjustarProdutoRow implements IRowAjustar {
   set inputValor(valor: number) {
     this.ivalor = valor
     this.calculaMetaAjustada()
+    if(this.parent){
+      this.parent.totalizar()
+    }
+
+
   }
 
   get inputPct(): number {
@@ -36,14 +47,56 @@ export class AjustarProdutoRow implements IRowAjustar {
   set inputPct(pct: number) {
     this.ipct = pct
     this.calculaMetaAjustada()
+    if(this.parent){
+      this.parent.totalizar()
+    }
   }
 
+  get shareRef(): number {
+    return this.pshareRef
+  }
+
+  set shareRef(share: number) {
+    this.pshareRef = share
+  }
+
+  get shareAjustado(): number {
+    return this.pshareAjustado
+  }
+
+  set shareAjustado(share: number) {
+    this.pshareAjustado = share
+  }
+
+  get parent(): AjusteMetas | undefined {
+     return this.pparent
+  }
+  set parent(p: AjusteMetas | undefined) {
+    this.pparent = p
+  }
+
+  get pctChange(): number {
+    return this.ppctChange
+  }
   private calculaMetaAjustada() {
     this.metaAjustada = this.metaReferencia2 + this.trocas +
-      this.metaReferencia * (this.inputPct / 100) + this.inputValor
+    this.metaReferencia * (this.inputPct / 100) + this.inputValor
     this.verificaErros()
+    this.calcPctChange()
+
   }
 
+  private calcPctChange() {
+
+    this.ppctChange = ((this.metaAjustada / this.metaReferencia) - 1) * 100
+    this.ppctChange = Math.trunc(this.ppctChange * 100) / 100
+    const sign = Math.sign(this.ppctChange)
+    let value = Math.abs(this.ppctChange)
+    if(value > 9999.99) {
+      value = 9999.99
+      this.ppctChange = sign * value
+    }
+  }
   private verificaErros() {
     const erroPct = this.verificaTravaPercentual()
     const erroPiso = this.verificaPiso()
