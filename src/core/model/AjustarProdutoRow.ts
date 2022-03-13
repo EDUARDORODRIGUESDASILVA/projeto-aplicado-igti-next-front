@@ -5,7 +5,6 @@ import { IUser } from "../interfaces/IUser";
 import { AjusteMetas } from "./AjusteMetas";
 
 export class AjustarProdutoRow implements IRowAjustar {
-
   private pshareRef: number = 0
   private pshareAjustado: number = 0
   private pparent: AjusteMetas | undefined
@@ -27,6 +26,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   private ipct: number
   private ivalor: number
 
+  private linhaSelecionada: boolean
   constructor(r: IRowAjustar) {
     this.id = r.id
     this.unidadeId = r.unidadeId
@@ -47,11 +47,13 @@ export class AjustarProdutoRow implements IRowAjustar {
     this.ivalor = this.metaAjustada - (this.metaReferencia2 + this.trocas)
     this.verificaErros()
     this.calcPctChange()
+    this.linhaSelecionada = false;
   }
 
   get inputValor(): number {
     return this.ivalor
   }
+
   set inputValor(valor: number) {
     this.ivalor = valor
     this.calculaMetaAjustada()
@@ -91,6 +93,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   get parent(): AjusteMetas | undefined {
     return this.pparent
   }
+
   set parent(p: AjusteMetas | undefined) {
     this.pparent = p
   }
@@ -98,9 +101,17 @@ export class AjustarProdutoRow implements IRowAjustar {
   get pctChange(): number {
     return this.ppctChange
   }
+
+  adicionarValor(valor: number) {
+    const novaMeta = this.metaAjustada + valor
+    this.ipct = 0
+    this.ivalor = 0
+    const novoValor = novaMeta - (this.metaReferencia2 + this.trocas)
+    this.inputValor = novoValor
+  }
   private calculaMetaAjustada() {
     this.metaAjustada = this.metaReferencia2 + this.trocas +
-      this.metaReferencia * (this.inputPct / 100) + this.inputValor
+    this.metaReferencia * (this.inputPct / 100) + this.inputValor
     this.verificaErros()
     this.calcPctChange()
   }
@@ -161,5 +172,23 @@ export class AjustarProdutoRow implements IRowAjustar {
       return 1
     }
     return 0
+  }
+
+  get checked() {
+    return this.linhaSelecionada
+  }
+
+  set checked(v: boolean) {
+    this.linhaSelecionada = v
+  }
+
+  toggleChecked() {
+    this.linhaSelecionada = !this.linhaSelecionada
+  }
+
+  zerar() {
+    this.ipct = 0
+    this.ivalor = 0
+    this.calculaMetaAjustada()
   }
 }

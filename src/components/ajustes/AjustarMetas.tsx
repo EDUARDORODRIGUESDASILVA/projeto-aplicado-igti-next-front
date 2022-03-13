@@ -8,7 +8,7 @@ import Title from '../dashboard/Title';
 import GridOnIcon from '@mui/icons-material/GridOn';
 import { useFetchAjustePorAgregador } from '../../hooks/useFetchAjustePorAgregador';
 import AjustarMetasRow from './AjustarMetasRow';
-import { Alert, AlertTitle, Box, Button, Checkbox, Divider, IconButton, Link, Paper, Snackbar, TablePagination, Typography } from '@mui/material';
+import { Alert, AlertColor, AlertTitle, Box, Button, Checkbox, Divider, IconButton, Link, Paper, Snackbar, TablePagination, Typography } from '@mui/material';
 import TableContainer from '@mui/material/TableContainer';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
@@ -67,10 +67,11 @@ export default function AjustarMetas() {
   const [rows, setrows] = useState<AjustarProdutoRow[]>([]);
   const [rerender, setrerender] = useState<Object>({});
 
+  const [isUploading, setIsUploading] = React.useState(false);
   const [page, setPage] = React.useState(2);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const [snack, setSnack] = React.useState(false);
+  const [snack, setSnack] = React.useState<{ open: Boolean, message: string, severity: AlertColor}>({open: false, message: '', severity: 'success'});
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -91,15 +92,42 @@ export default function AjustarMetas() {
       return;
     }
 
-    setSnack(false)
+    setSnack({ open: false, message: '', severity: 'success' })
 };
+
+const handleZerar = () => {
+  if (ajuste){
+    ajuste?.zerar()
+    const r = orderRows(ajuste.rows)
+    setrows(r)
+  }
+}
 
   const handleGravar = async (unid: number, prod: number, ajuste: AjusteMetas) => {
     try {
+      setIsUploading(true)
       const res = await atualizarObjetivosLote(unid, prod, ajuste)
-      setSnack(true)
+      setSnack({open: true, message: 'Gravado com sucesso!', severity: 'success' })
+      setIsUploading(false)
     } catch (error) {
+      setIsUploading(false)
+      setSnack({ open: true, message: 'Falha ao gravar!', severity: 'error' })
+    }
+  }
 
+  const handleCheckbox = () => {
+    if (ajuste) {
+      ajuste.toggleCheckbox()
+      const r = orderRows(ajuste.rows)
+      setrows(r)
+    }
+  }
+
+  const handleCalc = () => {
+    if(ajuste) {
+      ajuste.distribuirProporcional()
+      const r = orderRows(ajuste.rows)
+      setrows(r)
     }
 
   }
@@ -143,36 +171,33 @@ export default function AjustarMetas() {
     </>
   }
 
-
-
   if (ajuste) {
-    return <>
-      <Snackbar open={snack}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      autoHideDuration={1000} onClose={handleClose}>
-        <Alert severity="success" sx={{ width: '100%' }}>
-          Gravado com sucesso!
-        </Alert>
-      </Snackbar>
 
-      <Card sx={{ px: '2px' }}>
-        <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+    return <><>
+
+
+        <Snackbar open={(snack.open ? true: false)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          autoHideDuration={1500} onClose={handleClose}>
+          <Alert severity={snack.severity} sx={{ width: '100%' }}>
+            {snack.message}
+          </Alert>
+        </Snackbar>
+
+        <Card sx={{ px: '2px' }}>
+          <CardHeader
+            avatar={<Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
               <small>{ajuste.unidade.id}</small>
-            </Avatar>
-
-          }
-          action={
-             <Box sx={{mt: '13px'}}>
-            {/* //   <IconButton aria-label="settings">
+            </Avatar>}
+            action={<Box sx={{ mt: '13px' }}>
+              {/* //   <IconButton aria-label="settings">
             //   <MoreVertIcon />
             // </IconButton> */}
 
 
               <Button variant="text"
                 sx={{ mr: 1 }}
-                onClick={() => { }}
+                onClick={() => { } }
                 disabled={true}
               >
                 Incluir troca
@@ -180,7 +205,7 @@ export default function AjustarMetas() {
 
               <Button variant="text"
                 sx={{ mr: 1 }}
-                onClick={() => { }}
+                onClick={() => { } }
                 disabled={true}
               >
                 Upload
@@ -188,7 +213,7 @@ export default function AjustarMetas() {
 
               <Button variant="text"
                 sx={{ mr: 1 }}
-                onClick={() => { }}
+                onClick={() => { } }
                 disabled={true}
               >
                 Exportar
@@ -196,181 +221,187 @@ export default function AjustarMetas() {
 
               <Button variant="text"
                 sx={{ mr: 1 }}
-                onClick={() => { }}
-                disabled={true}
+                onClick={handleZerar}
+                disabled={isUploading}
               >
                 Zerar
               </Button>
 
               <Button variant="text"
 
-                onClick={() => { refetch({}) }}
+                onClick={() => { refetch({}); } }
               >
                 Atualizar
               </Button>
 
-              <Button variant="contained" sx={{ ml: 1 }}
-               onClick={() => {handleGravar(unid, prod, ajuste)}}
-                disabled={ajuste.erros > 0 || ajuste.saldo !== 0}
-              color="success">
-                Gravar
+              <Button variant="contained" sx={{ ml: 1, width: '100px' }}
+                onClick={() => { handleGravar(unid, prod, ajuste); } }
+                disabled={ajuste.erros > 0 || ajuste.saldo !== 0 || isUploading}
+                color="success">
+                {isUploading ? (
+                  <small>
+                    <CircularProgress color="info" size="15px" />
+                  </small>
+                ) : (<>Gravar </> )
+                }
+
+
               </Button>
 
-            </Box>
-          }
-          title=
-          {<Title>{ajuste.produto.codsidem + ' ' + ajuste.produto.nome + ' (' + ajuste.qtdTotalizacoes + ')'}</Title>}
-          subheader={ajuste.unidade.nome + ' (' + ajuste.erros + ' erros)'}
-        />
-        {/* <CardContent>
-          {/* <Typography variant="body2" color="text.secondary">
-            This impressive paella is a perfect party dish and a fun meal to cook
-            together with your guests. Add 1 cup of frozen peas along with the mussels,
-            if you like.
-          </Typography>
+            </Box>}
+            title={<Title>{ajuste.produto.codsidem + ' ' + ajuste.produto.nome + ' (' + ajuste.qtdTotalizacoes + ')'}</Title>}
+            subheader={ajuste.unidade.nome + ' (' + ajuste.erros + ' erros)'} />
+          {/* <CardContent>
+      {/* <Typography variant="body2" color="text.secondary">
+        This impressive paella is a perfect party dish and a fun meal to cook
+        together with your guests. Add 1 cup of frozen peas along with the mussels,
+        if you like.
+      </Typography>
+      <CheckboxesTags></CheckboxesTags>
+    </CardContent> */}
+          {/* <CardActions disableSpacing>
+      <IconButton aria-label="add to favorites">
+        <FavoriteIcon />
+      </IconButton>
+      <IconButton aria-label="share">
+        <ShareIcon />
+      </IconButton>
+    </CardActions> */}
+        </Card>
+
+        <Card sx={{ mt: '6px', pt: '2px' }}>
           <CheckboxesTags></CheckboxesTags>
-        </CardContent> */}
-        {/* <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-        </CardActions> */}
-      </Card>
+        </Card>
 
-      <Card sx={{ mt: '6px', pt: '2px' }} >
-        <CheckboxesTags></CheckboxesTags>
-      </Card>
+        {/* <Grid container spacing={2}>
+      <Grid item xs={6} md={8}>
+        <Title>
+        </Title>
 
-      {/* <Grid container spacing={2}>
-        <Grid item xs={6} md={8}>
-          <Title>
-          </Title>
+       </Grid>
 
-         </Grid>
+      <Grid item xs={6} md={4}>
 
-        <Grid item xs={6} md={4}>
-
-        </Grid>
+      </Grid>
 
 
-        <Grid item xs={6} md={4}>
-          <Item>xs=6 md=4</Item>
-        </Grid>
-        <Grid item xs={6} md={8}>
-          <Item><h1></h1></Item>
-        </Grid>
-      </Grid> */}
+      <Grid item xs={6} md={4}>
+        <Item>xs=6 md=4</Item>
+      </Grid>
+      <Grid item xs={6} md={8}>
+        <Item><h1></h1></Item>
+      </Grid>
+    </Grid> */}
 
-      <Box display="flex" sx={{ pb: 1 }}>
-        <Box flexGrow={1}>
+        <Box display="flex" sx={{ pb: 1 }}>
+          <Box flexGrow={1}>
+          </Box>
+          <Box>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={2}
+            >
+            </Stack>
+          </Box>
         </Box>
-        <Box>
-          <Stack
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-            spacing={2}
-          >
-          </Stack>
-        </Box>
-      </Box>
 
-      <Divider />
-      <Paper sx={{ width: '100%' }}>
-        <TableContainer sx={{ maxHeight: '62vh' }}>
-          <Table stickyHeader size="small" >
-            <TableHead>
-              <TableRow >
-                <TableCell padding="checkbox" >
-                  <Checkbox
-                    color="primary"
-                    checked={true}
-                    disabled={true}
-                  />
-                </TableCell>
-                <TableCell sx={{ maxWidth: '110px' }}>
-                  Unidade
+        <Divider />
+        <Paper sx={{ width: '100%' }}>
+          <TableContainer sx={{ maxHeight: '66vh' }}>
+            <Table stickyHeader size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      color="primary"
+                    checked={ajuste.checked}
+                    onChange={handleCheckbox}
+                      disabled={false} />
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: '110px' }}>
+                    Unidade
 
-                </TableCell>
-                <TableCell align="center" >Cluster</TableCell>
-                <TableCell align="center">Referência</TableCell>
-                <TableCell align="center">Mínima</TableCell>
-                <TableCell align="center">Trava</TableCell>
-                <TableCell align="center">%</TableCell>
-                <TableCell align="center">Valor
-                  <IconButton disabled={true} color="primary" aria-label="upload picture" component="span">
-                    <CalculateIcon  />
-                  </IconButton>
+                  </TableCell>
+                  <TableCell align="center">Cluster</TableCell>
+                  <TableCell align="center">Referência</TableCell>
+                  <TableCell align="center">Mínima</TableCell>
+                  <TableCell align="center">Trava</TableCell>
+                  <TableCell align="center">%</TableCell>
+                  <TableCell align="center">Valor
+                    <IconButton disabled={isUploading || ajuste.saldo == 0 }
+                      onClick = {handleCalc}
+                    color="primary" aria-label="upload picture" component="span">
+                      <CalculateIcon />
+                    </IconButton>
 
-                </TableCell>
-                <TableCell align="right" colSpan={3}>
-                  <h2>
-                    <NumberTextFormat value={ajuste.metaAjustada} />
-                  </h2>
-                </TableCell>
-                <TableCell align="center" padding='none' colSpan={2}>
-                  <h2>
-                    <NumberTextFormat value={ajuste.saldo} />
-                  </h2>
-                </TableCell>
+                  </TableCell>
+                  <TableCell align="right" colSpan={3}>
+                    <h2>
+                      <NumberTextFormat value={ajuste.metaAjustada} />
+                    </h2>
+                  </TableCell>
+                  <TableCell align="center" padding='none' colSpan={2}>
+                    <h2>
+                      <NumberTextFormat value={ajuste.saldo} />
+                    </h2>
+                  </TableCell>
 
-              </TableRow>
-              {/* <TableRow >
-                <TableCell padding="checkbox" >
-                  <Checkbox
-                    color="primary"
-                    checked={true}
-                  />
-                </TableCell>
-                <TableCell sx={{ maxWidth: '110px' }}>
-                  Unidade
+                </TableRow>
+                {/* <TableRow >
+      <TableCell padding="checkbox" >
+        <Checkbox
+          color="primary"
+          checked={true}
+        />
+      </TableCell>
+      <TableCell sx={{ maxWidth: '110px' }}>
+        Unidade
 
-                </TableCell>
-                <TableCell align="center" >Cluster</TableCell>
-                <TableCell align="center">Referência</TableCell>
-                <TableCell align="center">Mínima</TableCell>
-                <TableCell align="center">Trava</TableCell>
-                <TableCell align="center">%</TableCell>
-                <TableCell align="center">Valor
-                  <IconButton color="primary" aria-label="upload picture" component="span">
-                    < GridOnIcon />
-                  </IconButton>
+      </TableCell>
+      <TableCell align="center" >Cluster</TableCell>
+      <TableCell align="center">Referência</TableCell>
+      <TableCell align="center">Mínima</TableCell>
+      <TableCell align="center">Trava</TableCell>
+      <TableCell align="center">%</TableCell>
+      <TableCell align="center">Valor
+        <IconButton color="primary" aria-label="upload picture" component="span">
+          < GridOnIcon />
+        </IconButton>
 
-                </TableCell>
-                <TableCell align="right" colSpan={2}>
-                  <h2>
-                    <NumberTextFormat value={ajuste.metaAjustada} />
-                  </h2>
-                </TableCell>
-                <TableCell align="center" padding='none' colSpan={2}>
-                  <h2>
-                    <NumberTextFormat value={ajuste.saldo} />
-                  </h2>
-                </TableCell>
+      </TableCell>
+      <TableCell align="right" colSpan={2}>
+        <h2>
+          <NumberTextFormat value={ajuste.metaAjustada} />
+        </h2>
+      </TableCell>
+      <TableCell align="center" padding='none' colSpan={2}>
+        <h2>
+          <NumberTextFormat value={ajuste.saldo} />
+        </h2>
+      </TableCell>
 
-              </TableRow> */}
-            </TableHead>
-            <TableBody>
-              {rows.map((row, i) => (
-                <AjustarMetasRow row={row} key={row.id} rerender={atualizar}></AjustarMetasRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        {/* <TablePagination
-          component="div"
-          count={100}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        /> */}
+    </TableRow> */}
+              </TableHead>
+              <TableBody>
+                {rows.map((row, i) => (
+                  <AjustarMetasRow row={row} key={row.id} rerender={atualizar}></AjustarMetasRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {/* <TablePagination
+      component="div"
+      count={100}
+      page={page}
+      onPageChange={handleChangePage}
+      rowsPerPage={rowsPerPage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
+    /> */}
 
-      </Paper>
-    </>
+        </Paper>
+      </></>
   }
   return (
     <>

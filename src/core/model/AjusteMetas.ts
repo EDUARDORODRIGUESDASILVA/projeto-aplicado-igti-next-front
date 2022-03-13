@@ -9,6 +9,7 @@ export class AjusteMetas implements IAjustarProduto {
   private pmetaAjustada: number = 0
   public rows: AjustarProdutoRow[] = []
 
+  private checkbox: boolean
   public qtdTotalizacoes: number = 0
   constructor(
     public unidade: IUnidade,
@@ -19,6 +20,7 @@ export class AjusteMetas implements IAjustarProduto {
     public erros: number = 0,
 
   ) {
+    this.checkbox = false
   }
 
   addRows(rows: AjustarProdutoRow[]) {
@@ -99,5 +101,57 @@ export class AjusteMetas implements IAjustarProduto {
     return this.psaldo
   }
 
+  get checked() {
+    return this.checkbox
+  }
+
+  set checked(v: boolean) {
+    this.checkbox = v
+    this.rows.forEach(r => r.checked = this.checkbox)
+  }
+
+  toggleCheckbox() {
+    this.checked = !this.checkbox
+
+  }
+  sincronizarCheckbox() {
+    let allChecked = true
+    let NoneChecked = true
+    this.rows.forEach( r => {
+      if (r.checked) {
+        NoneChecked = false
+      } else {
+        allChecked = false
+      }
+
+      this.checkbox = allChecked
+    })
+  }
+
+  distribuirProporcional() {
+    let totalSelecionado = 0
+    const saldo = this.saldo
+    this.rows.forEach( r => {
+      if(r.checked) {
+        totalSelecionado += r.metaAjustada
+      }
+    })
+
+    this.rows.forEach(r => {
+      if (r.checked) {
+        const adicionar = (r.metaAjustada / totalSelecionado) * saldo * -1
+        r.adicionarValor(adicionar)
+
+      }
+    })
+
+  }
+  zerar() {
+    this.rows.forEach( r => {
+      r.zerar()
+    })
+
+    this.totalizar()
+  }
 
 }

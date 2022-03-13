@@ -47,13 +47,20 @@ export default function AjustarMetasRow(props: { row: AjustarProdutoRow, rerende
     sincronizar({})
   }
 
+  const handleCheck = (row: AjustarProdutoRow) => {
+    row.toggleChecked()
+    sincronizar({})
+  }
+
   return (
     <TableRow style={{ height: 18 }}
       sx={{ backgroundColor: row.erros > 0 ? "#ffebee" : "" }}
     >
       <TableCell padding="checkbox">
         <Checkbox
-          disabled={true}
+          disabled={false}
+          checked={row.checked}
+          onChange={() => {handleCheck(row)}}
           color="primary"
         />
       </TableCell>
