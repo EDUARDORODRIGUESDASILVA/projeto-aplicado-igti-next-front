@@ -1,43 +1,62 @@
-# Next.js with TypeScript example
+PROJETO APLICADO IGT - FRONTEND
 
-## How to use
+ESCOPO - AJUSTE DE OBJETIVOS
+  [ ] PERMITIR O AJUSTE POR UNIDADE COM REGRAS
 
-Download the example [or clone the repo](https://github.com/mui-org/material-ui):
+  [ ] PERMITIR INCLUSAO TROCAS
+  
+  [ ] PERMITIR O AJUSTE POR AGREGADOR COM REGRAS
+  [ ] RECALCULAR UNIDADES ATINGIDAS - AGREGADOR  
+  [ ] RECALCULAR UNIDADES ATINGIDAS - TROCAS
+  [ ] OUTLIERS
+  
 
-<!-- #default-branch-switch -->
 
-```sh
-curl https://codeload.github.com/mui-org/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/nextjs-with-typescript
-cd nextjs-with-typescript
-```
+FRONTEND
+  [X] [NEXTJS]  ESCOLHER TECNOLOGIA (ANGULAR / REACT / VUE / NEXTJS)
+  [X] [MUI] ESCOLHER UI FRAMEWORK  (TAILWIND / MUI / PRIMEREACT / BOOTSTRAP )
+  [X] CRIAR PROJETO
+  [X] CONFIGURAR ESLINT
+  [X] CONFIGURAR GIT 
+  [ ] CONFIGURAR JEST
+  [X] CRIAR ESTRUTURA DE PASTAS
+  [X] CONFIGURAR AXIOS
+  [X] CONFIGURAR REDUX
+  [X] PROPOSTA DE LAYOUT
+  [ ] FUNCIONALIDADES DO ESCOPO
+  [ ] AUTENTICACAO
+  [ ] AUTORIZACAO
+  [ ] TESTES
+  [ ] DEPLOY
 
-Install it and run:
+  
+  [ ] PERMITIR O AJUSTE POR UNIDADE COM REGRAS     
+      [X] PROPOSTA LAYOUT - TELA AJUSTES        
+      [ ] BAIXAR OBJETIVOS (COD PRODUTO, AGREGADOR)      
+      [ ] ATUALIZAR
+      [ ] ZERAR
+      [ ] AJUSTAR POR %
+      [ ] AJUSTAR POR VALOR
+      [ ] CALCULADORA - REDISTRIBUIR LINEAR
+      [ ] VERIFICAR REGRAS
+      [ ] GRAVAR
+      [ ] EXPORTAR PARA EXCEL
+      [ ] UPLOAD - ENVIAR OBJETIVOS - EXCEL      
+      [ ] PAGINACAO      
+      [ ] FILTRO - CLUSTER / AGREGADOR / UNIDADE
 
-```sh
-npm install
-npm run dev
-```
+  [ ] PERMITIR O AJUSTE POR AGREGADOR COM REGRAS
 
-or:
+  [ ] OUTLIERS  
+  
+  [ ] PERMITIR INCLUSAO TROCAS 
 
-<!-- #default-branch-switch -->
+  [ ] RECALCULAR UNIDADES ATINGIDAS - AGREGADOR
 
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/mui-org/material-ui/tree/master/examples/nextjs-with-typescript)
+  [ ] RECALCULAR UNIDADES ATINGIDAS - TROCAS
 
-## The idea behind the example
+  [ ] SIGIN
 
-The project uses [Next.js](https://github.com/vercel/next.js), which is a framework for server-rendered React apps.
-It includes `@mui/material` and its peer dependencies, including `emotion`, the default style engine in MUI v5. If you prefer, you can [use styled-components instead](https://mui.com/guides/interoperability/#styled-components).
 
-## The link component
+  
 
-Next.js has [a custom Link component](https://nextjs.org/docs/api-reference/next/link).
-The example folder provides adapters for usage with MUI.
-More information [in the documentation](https://mui.com/guides/routing/#next-js).
-
-## What's next?
-
-<!-- #default-branch-switch -->
-
-You now have a working example project.
-You can head back to the documentation, continuing browsing it from the [templates](https://mui.com/getting-started/templates/) section.

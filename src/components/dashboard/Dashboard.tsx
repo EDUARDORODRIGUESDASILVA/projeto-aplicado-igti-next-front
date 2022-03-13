@@ -24,6 +24,7 @@ import { login, selectUser } from '../../store/userSlice';
 import { useFetchLoggedUser } from '../../hooks/useFetchLoggedUser';
 import { useDispatch } from 'react-redux';
 import { IUser } from '../../core/interfaces/IUser';
+import { Alert } from '@mui/material';
 
 const drawerWidth: number = 240;
 interface AppBarProps extends MuiAppBarProps {
@@ -161,15 +162,34 @@ interface LayoutProps {
 }
 
 export default function Dashboard({ children }: LayoutProps) {
-  const {user} = useFetchLoggedUser()
+  const {user, isLoading, error} = useFetchLoggedUser()
+
+  // if (error) {
+  //   <>
+  //     <Alert severity="error">This is an error alert — check it out!</Alert>
+  //     <Alert severity="warning">This is a warning alert — check it out!</Alert>
+  //     <Alert severity="info">This is an info alert — check it out!</Alert>
+  //     <Alert severity="success">This is a success alert — check it out!</Alert>
+  //   </>
+  // }
+
   if (!user) {
     return <DashboardContent>
-      <SignIn></SignIn>
+      <SignIn isloading={isLoading} error={error} ></SignIn>
     </DashboardContent>
   }
+
+  if(user){
+    return <>
+      <DashboardContent>
+        {children}
+      </DashboardContent>
+    </>
+  }
+
   return <>
     <DashboardContent>
-      { children }
-     </DashboardContent>
+    </DashboardContent>
   </>
+
 }

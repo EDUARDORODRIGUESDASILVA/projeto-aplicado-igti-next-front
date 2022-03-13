@@ -12,7 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { login, selectUser } from '../../store/userSlice';
 import { useEffect, useState } from 'react';
-import { CircularProgress, LinearProgress } from '@mui/material';
+import { Alert, CircularProgress, LinearProgress } from '@mui/material';
 import { useFetchLoggedUser } from '../../hooks/useFetchLoggedUser';
 
 function Copyright(props: any) {
@@ -31,7 +31,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function SignIn({isloading, error}: {isloading: boolean, error: Error | undefined}) {
 
   return (
     <ThemeProvider theme={theme}>
@@ -51,8 +51,17 @@ export default function SignIn() {
           </Avatar>
 
           <Box component="div" sx={{ mt: 1 }}>
-            <LinearProgress color="secondary" />
-            Aguarde...
+
+            {isloading ? (
+              <><LinearProgress color="secondary" />
+              Aguarde...
+              </>
+            ) : (
+                <Alert severity="error">Falha ao autenticar o usuário!</Alert>
+            )
+            }
+
+
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

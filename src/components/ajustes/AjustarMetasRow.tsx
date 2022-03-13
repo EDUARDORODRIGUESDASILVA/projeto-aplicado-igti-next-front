@@ -4,13 +4,9 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import { AjustarProdutoRow } from '../../core/model/AjustarProdutoRow';
 import { useState } from 'react';
-import { alpha, Checkbox, Input, InputBase, styled, Typography } from '@mui/material';
+import { Checkbox, Input, styled, Typography } from '@mui/material';
 import NumberTextFormat from '../../utils/NumberTextFormat';
 import NumberInputFormat from '../../utils/NumberInputFormat';
-import DebounceTeste from '../../utils/DebounceTeste';
-
-
-
 
 const ValorInput = styled(Input)(({ theme }) => ({
   'label + &': {
@@ -44,7 +40,7 @@ export default function AjustarMetasRow(props: { row: AjustarProdutoRow, rerende
   }
 
   return (
-    <TableRow style={{ height: 25 }}
+    <TableRow style={{ height: 18 }}
       sx={{ backgroundColor: row.erros > 0 ? "#ffebee" : "" }}
     >
       <TableCell padding="checkbox">
@@ -52,13 +48,13 @@ export default function AjustarMetasRow(props: { row: AjustarProdutoRow, rerende
           color="primary"
         />
       </TableCell>
-      <TableCell padding='none' >
+      <TableCell  >
         <Typography variant="caption" display="block" gutterBottom>
-          {row.iUnidade.tipo} {row.iUnidade.nome}
+          {row.Unidade.tipo} {row.Unidade.nome}
         </Typography>
         </TableCell>
       <TableCell padding='none' align="center" sx={{ fontWeight: 'bold', color:'purple' }}>
-        {row.iUnidade.cluster}</TableCell>
+        {row.Unidade.cluster}</TableCell>
       <TableCell padding='none'align="right" >
         <NumberTextFormat value={row.metaReferencia} />
        </TableCell>

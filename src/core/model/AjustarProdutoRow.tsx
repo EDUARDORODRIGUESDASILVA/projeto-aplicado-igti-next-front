@@ -10,21 +10,38 @@ export class AjustarProdutoRow implements IRowAjustar {
   private pshareAjustado: number = 0
   private pparent: AjusteMetas | undefined
   private ppctChange: number = 0
-  constructor(
-    public id: number,
-    public produto: IProduto,
-    public iUnidade: IUnidade,
-    public metaReferencia: number,
-    public metaReferencia2: number,
-    public metaAjustada: number,
-    public metaMinima: number,
-    public trocas: number,
-    public trava: string | number,
-    public erros: number,
-    public user: IUser,
-    private ipct: number,
-    private ivalor: number
-  ) {
+  public id: number
+  public unidadeId: number
+  public produtoId: number
+  public Produto: IProduto
+  public Unidade: IUnidade
+  public metaReferencia: number
+  public metaReferencia2: number
+  public metaAjustada: number
+  public metaMinima: number
+  public trocas: number
+  public trava: string
+  public erros: number
+  public user: IUser
+  private ipct: number
+  private ivalor: number
+
+  constructor(r: IRowAjustar) {
+    this.id = r.id
+    this.unidadeId = r.unidadeId
+    this.produtoId = r.produtoId
+    this.Produto = r.Produto,
+    this.Unidade = r.Unidade,
+    this.metaReferencia = r.metaReferencia,
+    this.metaReferencia2 = r.metaReferencia2,
+    this.metaAjustada = r.metaAjustada,
+    this.metaMinima = r.metaMinima,
+    this.trocas = r.trocas,
+    this.trava = r.trava,
+    this.erros = r.erros,
+    this.user = r.user,
+    this.ipct = 0,
+    this.ivalor = 0
   }
 
   get inputValor(): number {
@@ -33,11 +50,9 @@ export class AjustarProdutoRow implements IRowAjustar {
   set inputValor(valor: number) {
     this.ivalor = valor
     this.calculaMetaAjustada()
-    if(this.parent){
+    if (this.parent) {
       this.parent.totalizar()
     }
-
-
   }
 
   get inputPct(): number {
@@ -47,7 +62,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   set inputPct(pct: number) {
     this.ipct = pct
     this.calculaMetaAjustada()
-    if(this.parent){
+    if (this.parent) {
       this.parent.totalizar()
     }
   }
@@ -69,7 +84,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   }
 
   get parent(): AjusteMetas | undefined {
-     return this.pparent
+    return this.pparent
   }
   set parent(p: AjusteMetas | undefined) {
     this.pparent = p
@@ -80,10 +95,9 @@ export class AjustarProdutoRow implements IRowAjustar {
   }
   private calculaMetaAjustada() {
     this.metaAjustada = this.metaReferencia2 + this.trocas +
-    this.metaReferencia * (this.inputPct / 100) + this.inputValor
+      this.metaReferencia * (this.inputPct / 100) + this.inputValor
     this.verificaErros()
     this.calcPctChange()
-
   }
 
   private calcPctChange() {
@@ -92,7 +106,7 @@ export class AjustarProdutoRow implements IRowAjustar {
     this.ppctChange = Math.trunc(this.ppctChange * 100) / 100
     const sign = Math.sign(this.ppctChange)
     let value = Math.abs(this.ppctChange)
-    if(value > 9999.99) {
+    if (value > 9999.99) {
       value = 9999.99
       this.ppctChange = sign * value
     }
@@ -142,6 +156,4 @@ export class AjustarProdutoRow implements IRowAjustar {
     }
     return 0
   }
-
-
 }

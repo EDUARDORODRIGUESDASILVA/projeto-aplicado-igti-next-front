@@ -1,27 +1,38 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getLoggedUser } from '../services/userService';
-import { useAppSelector } from '../store/hooks';
-import { login, selectUser} from '../store/userSlice';
 
+import { fetchLoggedUser, getLoggedUser, logInUser } from '../services/userService';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { login, logout, selectUser } from '../store/userSlice';
 export const useFetchLoggedUser = () => {
   const [isLoading, setisLoading] = useState(false);
-  const [error, seterror] = useState('');
+  const [error, seterror] = useState<Error>();
   const user = useAppSelector(selectUser);
-  const dispatch = useDispatch()
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     async function fetchUser() {
-      setisLoading(true)
-      const retUser = await getLoggedUser()
-      dispatch(login(retUser))
-      setisLoading(false)
+
+      try {
+
+        if (!user) {
+          console.log('update user')
+          setisLoading(true)
+          const user = await fetchLoggedUser()
+          dispatch(login(user))
+
+        }
+
+      } catch (error: any) {
+        dispatch(logout())
+        seterror(new Error('Não foi possível autenticar o usuário!'))
+      } finally {
+        setisLoading(false)
+      }
     }
 
-    if (!user && isLoading == false){
+    if (!user) {
       fetchUser()
     }
   }, []);
 
-  return { isLoading, user, error}
+  return { isLoading, user, error }
 }

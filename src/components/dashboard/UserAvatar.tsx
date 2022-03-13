@@ -2,6 +2,7 @@ import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { useAppSelector } from '../../store/hooks';
 import { selectUser } from '../../store/userSlice';
+
 import AccountMenu from './AcountMenu';
 
 function stringToColor(string: string) {
@@ -25,8 +26,8 @@ function stringToColor(string: string) {
 }
 
 function stringAvatar(name: string) {
-  if (typeof name == "undefined") {
-    name = ''
+  if (typeof name == "undefined" || name == '' || name.split(' ').length < 2) {
+    return {}
   }
   return {
     sx: {
@@ -44,9 +45,9 @@ export default function UserAvatar() {
     <>
       {user ? (
         <>
-      <AccountMenu></AccountMenu>
-      <Avatar {...stringAvatar(user.nome)} sx={{ bgcolor: deepOrange[500] }}></Avatar>
-      </>
+          <AccountMenu></AccountMenu>
+          <Avatar {...stringAvatar(user.nome)} sx={{ bgcolor: deepOrange[500] }}></Avatar>
+        </>
       ) : (<></>)
       }
     </>
