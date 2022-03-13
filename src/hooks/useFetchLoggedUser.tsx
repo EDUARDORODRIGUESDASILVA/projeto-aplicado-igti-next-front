@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { fetchLoggedUser, getLoggedUser, logInUser } from '../services/userService';
+import { fetchLoggedUser } from '../services/userService';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { login, logout, selectUser } from '../store/userSlice';
 export const useFetchLoggedUser = () => {
