@@ -23,6 +23,7 @@
     "next-redux-wrapper": "^7.0.5",
     "npm": "^8.2.0",
     "react": "latest",
+    "react-debounce-input": "^3.2.5",
     "react-dom": "latest",
     "react-number-format": "^4.9.1",
     "react-redux": "^7.2.6",
