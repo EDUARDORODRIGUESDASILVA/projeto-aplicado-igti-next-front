@@ -32,17 +32,15 @@ export default function NumberInputFormat(props: {handleInputChanges: Function, 
         allowLeadingZeros={false}
         customInput={PcInput}
         onValueChange={(values, sourceInfo) => {
-          const { floatValue } = values;
-          if (typeof floatValue == 'undefined') {
-            handleInputChanges(row, 0)
-          } else {
-            handleInputChanges(row, floatValue | 0)
-          }
+          const {floatValue } = values;
+          handleInputChanges(row, floatValue)
           // const { event, source } = sourceInfo;
         }}
         displayType="input"
         allowNegative={true}
         decimalScale={2}
+        allowEmptyFormatting={false}
+
         suffix=""
         isNumericString={false}
       />

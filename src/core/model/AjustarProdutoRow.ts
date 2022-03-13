@@ -12,6 +12,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   private ppctChange: number = 0
   public id: number
   public unidadeId: number
+  public userId: string
   public produtoId: number
   public Produto: IProduto
   public Unidade: IUnidade
@@ -30,18 +31,22 @@ export class AjustarProdutoRow implements IRowAjustar {
     this.id = r.id
     this.unidadeId = r.unidadeId
     this.produtoId = r.produtoId
-    this.Produto = r.Produto,
-    this.Unidade = r.Unidade,
-    this.metaReferencia = r.metaReferencia,
-    this.metaReferencia2 = r.metaReferencia2,
-    this.metaAjustada = r.metaAjustada,
-    this.metaMinima = r.metaMinima,
-    this.trocas = r.trocas,
-    this.trava = r.trava,
-    this.erros = r.erros,
-    this.user = r.user,
-    this.ipct = 0,
-    this.ivalor = 0
+    this.userId = r.userId
+    this.Produto = r.Produto
+    this.Unidade = r.Unidade
+    this.metaReferencia = r.metaReferencia
+    this.metaReferencia2 = r.metaReferencia2
+    this.metaAjustada = r.metaAjustada
+    this.metaMinima = r.metaMinima
+    this.trocas = r.trocas
+    this.trava = r.trava
+    this.erros = r.erros
+    this.user = r.user
+
+    this.ipct = 0
+    this.ivalor = this.metaAjustada - (this.metaReferencia2 + this.trocas)
+    this.verificaErros()
+    this.calcPctChange()
   }
 
   get inputValor(): number {
@@ -123,11 +128,12 @@ export class AjustarProdutoRow implements IRowAjustar {
     }
 
     let travaPct: number = 0
-    if (typeof this.trava == 'number') {
-      travaPct = this.trava
-    } this.trava
-    if (typeof (this.trava) == 'string' && this.trava !== 'Livre') {
-      travaPct = parseFloat(this.trava)
+
+   if (typeof (this.trava) == 'string' && this.trava.endsWith('%')) {
+    const strava = this.trava.replace('%','')
+     travaPct = parseFloat(strava)/100
+    } else {
+      return 1
     }
 
     if (this.metaAjustada == 0 && this.metaReferencia == 0) {

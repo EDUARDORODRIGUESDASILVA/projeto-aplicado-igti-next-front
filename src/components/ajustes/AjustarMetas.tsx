@@ -8,7 +8,7 @@ import Title from '../dashboard/Title';
 import GridOnIcon from '@mui/icons-material/GridOn';
 import { useFetchAjustePorAgregador } from '../../hooks/useFetchAjustePorAgregador';
 import AjustarMetasRow from './AjustarMetasRow';
-import { Alert, AlertTitle, Box, Button, Checkbox, Divider, IconButton, Link, Paper, TablePagination, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, Button, Checkbox, Divider, IconButton, Link, Paper, Snackbar, TablePagination, Typography } from '@mui/material';
 import TableContainer from '@mui/material/TableContainer';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
@@ -23,7 +23,9 @@ import { red } from '@mui/material/colors';
 import NumberTextFormat from '../../utils/NumberTextFormat';
 import CheckboxesTags from './Filtro';
 import { useRouter } from 'next/router';
-
+import CalculateIcon from '@mui/icons-material/Calculate';
+import { atualizarObjetivosLote } from '../../services/ajustesService';
+import { AjusteMetas } from '../../core/model/AjusteMetas';
 
 function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
@@ -38,7 +40,6 @@ function preventDefault(event: React.MouseEvent) {
 //   color: theme.palette.text.secondary,
 // }));
 
-
 const orderRows = (rows: AjustarProdutoRow[]): AjustarProdutoRow[] => {
   const o = rows.sort((a: AjustarProdutoRow, b: AjustarProdutoRow) => {
     return b.metaAjustada - a.metaAjustada
@@ -46,13 +47,11 @@ const orderRows = (rows: AjustarProdutoRow[]): AjustarProdutoRow[] => {
   return rows.slice(0, 150)
 }
 
-
-
 export default function AjustarMetas() {
   const router = useRouter()
   let { unidadeId, produtoid} = router.query
   const unid = parseInt(unidadeId?.toString() || '0')
-  const produtoId = parseInt(produtoid?.toString() || '0')
+  const prod = parseInt(produtoid?.toString() || '0')
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -61,7 +60,8 @@ export default function AjustarMetas() {
   };
 
 
-  const { isLoading, ajuste, error, refetch } = useFetchAjustePorAgregador(unid, produtoId)
+
+  const { isLoading, ajuste, error, refetch } = useFetchAjustePorAgregador(unid, prod)
 
 
   const [rows, setrows] = useState<AjustarProdutoRow[]>([]);
@@ -69,6 +69,8 @@ export default function AjustarMetas() {
 
   const [page, setPage] = React.useState(2);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const [snack, setSnack] = React.useState(false);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -84,6 +86,24 @@ export default function AjustarMetas() {
     setPage(0);
   };
 
+  const handleClose = (event: any, reason: any) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnack(false)
+};
+
+  const handleGravar = async (unid: number, prod: number, ajuste: AjusteMetas) => {
+    try {
+      const res = await atualizarObjetivosLote(unid, prod, ajuste)
+      setSnack(true)
+    } catch (error) {
+
+    }
+
+  }
+
 
   useEffect(() => {
     if (ajuste) {
@@ -95,6 +115,8 @@ export default function AjustarMetas() {
       setrows([])
     };
   }, [ajuste]);
+
+
   const atualizar = (k: Object) => {
     console.log('vamos atualizar...')
     setrerender(k)
@@ -125,6 +147,13 @@ export default function AjustarMetas() {
 
   if (ajuste) {
     return <>
+      <Snackbar open={snack}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      autoHideDuration={1000} onClose={handleClose}>
+        <Alert severity="success" sx={{ width: '100%' }}>
+          Gravado com sucesso!
+        </Alert>
+      </Snackbar>
 
       <Card sx={{ px: '2px' }}>
         <CardHeader
@@ -144,6 +173,7 @@ export default function AjustarMetas() {
               <Button variant="text"
                 sx={{ mr: 1 }}
                 onClick={() => { }}
+                disabled={true}
               >
                 Incluir troca
               </Button>
@@ -151,6 +181,7 @@ export default function AjustarMetas() {
               <Button variant="text"
                 sx={{ mr: 1 }}
                 onClick={() => { }}
+                disabled={true}
               >
                 Upload
               </Button>
@@ -158,6 +189,7 @@ export default function AjustarMetas() {
               <Button variant="text"
                 sx={{ mr: 1 }}
                 onClick={() => { }}
+                disabled={true}
               >
                 Exportar
               </Button>
@@ -165,6 +197,7 @@ export default function AjustarMetas() {
               <Button variant="text"
                 sx={{ mr: 1 }}
                 onClick={() => { }}
+                disabled={true}
               >
                 Zerar
               </Button>
@@ -176,11 +209,10 @@ export default function AjustarMetas() {
                 Atualizar
               </Button>
 
-
-
-
-
-              <Button variant="contained" sx={{ ml: 1 }} color="success">
+              <Button variant="contained" sx={{ ml: 1 }}
+               onClick={() => {handleGravar(unid, prod, ajuste)}}
+                disabled={ajuste.erros > 0 || ajuste.saldo !== 0}
+              color="success">
                 Gravar
               </Button>
 
@@ -188,7 +220,7 @@ export default function AjustarMetas() {
           }
           title=
           {<Title>{ajuste.produto.codsidem + ' ' + ajuste.produto.nome + ' (' + ajuste.qtdTotalizacoes + ')'}</Title>}
-          subheader={ajuste.unidade.nome + ' (' + ajuste.erros + ')'}
+          subheader={ajuste.unidade.nome + ' (' + ajuste.erros + ' erros)'}
         />
         {/* <CardContent>
           {/* <Typography variant="body2" color="text.secondary">
@@ -248,7 +280,7 @@ export default function AjustarMetas() {
 
       <Divider />
       <Paper sx={{ width: '100%' }}>
-        <TableContainer sx={{ maxHeight: '66vh' }}>
+        <TableContainer sx={{ maxHeight: '62vh' }}>
           <Table stickyHeader size="small" >
             <TableHead>
               <TableRow >
@@ -256,6 +288,7 @@ export default function AjustarMetas() {
                   <Checkbox
                     color="primary"
                     checked={true}
+                    disabled={true}
                   />
                 </TableCell>
                 <TableCell sx={{ maxWidth: '110px' }}>
@@ -268,12 +301,12 @@ export default function AjustarMetas() {
                 <TableCell align="center">Trava</TableCell>
                 <TableCell align="center">%</TableCell>
                 <TableCell align="center">Valor
-                  <IconButton color="primary" aria-label="upload picture" component="span">
-                    < GridOnIcon />
+                  <IconButton disabled={true} color="primary" aria-label="upload picture" component="span">
+                    <CalculateIcon  />
                   </IconButton>
 
                 </TableCell>
-                <TableCell align="right" colSpan={2}>
+                <TableCell align="right" colSpan={3}>
                   <h2>
                     <NumberTextFormat value={ajuste.metaAjustada} />
                   </h2>
@@ -327,14 +360,14 @@ export default function AjustarMetas() {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
+        {/* <TablePagination
           component="div"
           count={100}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        /> */}
 
       </Paper>
     </>

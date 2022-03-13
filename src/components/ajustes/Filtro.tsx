@@ -15,6 +15,7 @@ export default function CheckboxesTags() {
       size="small"
       id="checkboxes-tags-demo"
       options={top100Films}
+      disabled={true}
       disableCloseOnSelect
       getOptionLabel={(option) => option.title}
       renderOption={(props, option, { selected }) => (
@@ -24,6 +25,8 @@ export default function CheckboxesTags() {
             checkedIcon={checkedIcon}
             style={{ marginRight: 8 }}
             checked={selected}
+
+            disabled={true}
           />
           {option.title}
         </li>

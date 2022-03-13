@@ -6,6 +6,7 @@ export interface IRowAjustar {
   id: number,
   unidadeId: number,
   produtoId: number,
+  userId: string,
   Produto: IProduto
   Unidade: IUnidade
   metaReferencia: number

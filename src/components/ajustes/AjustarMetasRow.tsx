@@ -23,19 +23,27 @@ const ValorInput = styled(Input)(({ theme }) => ({
 export default function AjustarMetasRow(props: { row: AjustarProdutoRow, rerender: Function }) {
   const row = props.row
   const sincronizar = props.rerender
-  const [inputPct, setInputPct] = useState(row.inputPct);
-  const [inputValor, setInputValor] = useState(row.inputValor);
+  // const [inputPct, setInputPct] = useState(row.inputPct);
+  // const [inputValor, setInputValor] = useState(row.inputValor);
   // const [metaAjustada, setMetaAjustada] = useState(row.metaAjustada);
 
+  const parseValue = (v: string): number => {
+    let t = v.trim().replace('.', '').replace(',', '.')
+    if ( t=='') {
+      t = '0'
+    }
+    return parseFloat(t)
+
+  }
   const handleInputValorChanges = (row: AjustarProdutoRow, valor: number) => {
-    row.inputValor = valor
-    setInputValor(valor)
+    row.inputValor = valor ? valor: 0
+    // setInputValor(v)
     sincronizar({})
   }
 
   const handleInputPctrChanges = (row: AjustarProdutoRow, pct: number) => {
-    row.inputPct = pct
-    setInputPct(pct)
+    row.inputPct = pct ? pct : 0
+    // setInputPct(pct)
     sincronizar({})
   }
 
@@ -45,6 +53,7 @@ export default function AjustarMetasRow(props: { row: AjustarProdutoRow, rerende
     >
       <TableCell padding="checkbox">
         <Checkbox
+          disabled={true}
           color="primary"
         />
       </TableCell>
@@ -61,7 +70,9 @@ export default function AjustarMetasRow(props: { row: AjustarProdutoRow, rerende
       <TableCell padding='none' align="right" >
         <NumberTextFormat value={row.metaMinima} />
       </TableCell>
-      <TableCell padding='none' align="center">
+      <TableCell padding='none' align="center"
+        sx={{ fontWeight: 'bold', color: 'gray' }}
+      >
         {row.trava}</TableCell>
       <TableCell padding='none' sx={{ minWidth: '90px' , maxWidth: '90px' }}>
         <NumberInputFormat
@@ -128,7 +139,9 @@ export default function AjustarMetasRow(props: { row: AjustarProdutoRow, rerende
         />% */}
       </TableCell>
 
-      <TableCell align="right">
+      <TableCell align="right"
+        sx={{ fontWeight: 'bold', color: 'gray' }}
+      >
         <NumberTextFormat value={row.shareRef} />
         {/* <NumberFormat
           value={row.shareRef}
@@ -145,8 +158,15 @@ export default function AjustarMetasRow(props: { row: AjustarProdutoRow, rerende
         /> */}
       </TableCell>
 
-      <TableCell  align="right">
+      <TableCell  align="right"
+        sx={{ fontWeight: 'bold', color: 'gray' }}
+      >
         <NumberTextFormat value={row.shareAjustado}/>
+      </TableCell>
+      <TableCell align="right"
+        sx={{ fontWeight: 'italic', color: 'gray' }}
+      >
+        <small>{row.userId}</small>
       </TableCell>
     </TableRow>
   )

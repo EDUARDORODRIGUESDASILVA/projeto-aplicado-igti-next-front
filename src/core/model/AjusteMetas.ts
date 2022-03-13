@@ -54,9 +54,31 @@ export class AjusteMetas implements IAjustarProduto {
     // this.metaReferencia2 = totalMetaReferencia2
     this.metaReferencia = totalMetaRef
     this.metaAjustada = totalMetaAjustada
-    this.psaldo = this.metaAjustada - (this.metaReferencia2 + this.trocas)
+    this.psaldo = Math.trunc(((this.metaAjustada - (this.metaReferencia2 + this.trocas)) * 100)) / 100
+    this.totalizarErros()
     this.calcularShare()
     this.qtdTotalizacoes++
+  }
+
+  private totalizarErros() {
+    if (this.rows === undefined) {
+      this.erros = 1
+      throw new Error("Sem linhas para totalizar");
+    }
+
+    this.erros = 0
+    this.rows.forEach (r =>  {
+
+      this.erros += r.erros > 0 ? 1 : 0
+    })
+
+    if (this.psaldo > 0)  {
+      this.erros++
+    }
+
+
+
+
   }
 
   private calcularShare() {
