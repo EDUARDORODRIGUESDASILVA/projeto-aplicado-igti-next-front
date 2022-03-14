@@ -18,13 +18,13 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import SideNav from './SideNav';
 import UserAvatar from './UserAvatar';
 import SignIn from '../sign-in/SignIn';
-
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { login, selectUser } from '../../store/userSlice';
 import { useFetchLoggedUser } from '../../hooks/useFetchLoggedUser';
 import { useDispatch } from 'react-redux';
 import { IUser } from '../../core/interfaces/IUser';
 import { Alert } from '@mui/material';
+import { useRouter } from 'next/router'
 
 const drawerWidth: number = 240;
 interface AppBarProps extends MuiAppBarProps {
@@ -83,8 +83,9 @@ function DashboardContent({ children }: LayoutProps) {
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
+  const router = useRouter()
   return (
+
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
@@ -106,15 +107,22 @@ function DashboardContent({ children }: LayoutProps) {
             >
               <MenuIcon />
             </IconButton>
+
+
             <Typography
               component="h1"
               variant="h6"
               color="inherit"
               noWrap
+                onClick={() => { router.push('/') }}
               sx={{ flexGrow: 1 }}
+              style={{cursor: 'pointer'}}
+
             >
               Distribuição de metas
+
             </Typography>
+
             <UserAvatar></UserAvatar>
           </Toolbar>
         </AppBar>

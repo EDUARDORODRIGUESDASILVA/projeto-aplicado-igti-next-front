@@ -26,6 +26,7 @@ import { useRouter } from 'next/router';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import { atualizarObjetivosLote } from '../../services/ajustesService';
 import { AjusteMetas } from '../../core/model/AjusteMetas';
+import { AjusteMetasExportaExcel } from '../../core/model/AjusteMetasExportaExcel';
 
 function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
@@ -87,6 +88,13 @@ export default function AjustarMetas() {
     setPage(0);
   };
 
+  const handleGerarExcel = () => {
+    if(ajuste) {
+      const gerador = new AjusteMetasExportaExcel(ajuste)
+      gerador.gerarExcel()
+    }
+  }
+
   const handleClose = (event: any, reason: any) => {
     if (reason === 'clickaway') {
       return;
@@ -109,6 +117,7 @@ const handleZerar = () => {
       const res = await atualizarObjetivosLote(unid, prod, ajuste)
       setSnack({open: true, message: 'Gravado com sucesso!', severity: 'success' })
       setIsUploading(false)
+      refetch({})
     } catch (error) {
       setIsUploading(false)
       setSnack({ open: true, message: 'Falha ao gravar!', severity: 'error' })
@@ -146,7 +155,6 @@ const handleZerar = () => {
 
 
   const atualizar = (k: Object) => {
-    console.log('vamos atualizar...')
     setrerender(k)
   }
   if (isLoading) {
@@ -213,10 +221,10 @@ const handleZerar = () => {
 
               <Button variant="text"
                 sx={{ mr: 1 }}
-                onClick={() => { } }
-                disabled={true}
+                onClick={handleGerarExcel}
+                disabled={false}
               >
-                Exportar
+                Excel
               </Button>
 
               <Button variant="text"

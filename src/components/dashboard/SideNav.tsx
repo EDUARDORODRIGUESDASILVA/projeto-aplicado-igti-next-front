@@ -11,73 +11,11 @@ import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-
+import GroupIcon from '@mui/icons-material/Group';
 import { useRouter } from 'next/router';
-
-export const mainListItems =
-  (
-    <>
-        <ListItemButton
-          selected={true}
-          component="a" href="/unidades">
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Unidades" />
-        </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon>
-          <ShoppingCartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Orders" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Customers" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Reports" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon>
-          <LayersIcon />
-        </ListItemIcon>
-        <ListItemText primary="Integrations" />
-      </ListItemButton>
-    </>
-  )
-
-export const secondaryListItems = (
-  <React.Fragment>
-    <ListSubheader component="div" inset>
-      Saved reports
-    </ListSubheader>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItemButton>
-    <ListItemButton selected={true}>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItemButton>
-    <ListItemButton selected={true}>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItemButton>
-  </React.Fragment>
-);
-
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 export default function SideNav() {
   const router = useRouter();
   const pathname = router.pathname
@@ -89,27 +27,49 @@ export default function SideNav() {
             selected={router.pathname == '/ajustes'}
             component="a" onClick={() => router.push('/ajustes')} >
             <ListItemIcon>
-              <DashboardIcon />
+              <AppRegistrationIcon />
             </ListItemIcon>
-            <ListItemText primary="Home" />
+            <ListItemText primary="Ajustes" />
           </ListItemButton>
 
         <ListItemButton
+            disabled={true}
+            selected={pathname == '/trocas'}
+            component="a" onClick={() => router.push('/trocas')} >
+          <ListItemIcon>
+              <SwapHorizIcon />
+          </ListItemIcon>
+          <ListItemText primary="Trocas" />
+        </ListItemButton>
+
+          <ListItemButton
+            disabled={true}
+            selected={pathname == '/Outliers'}
+            component="a" onClick={() => router.push('/Outliers')} >
+            <ListItemIcon>
+              <ErrorOutlineIcon />
+            </ListItemIcon>
+            <ListItemText primary="Outliers" />
+          </ListItemButton>
+
+
+          <ListItemButton
+            disabled={true}
             selected={pathname == '/unidades'}
             component="a" onClick={() => router.push('/unidades')} >
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Unidades" />
-        </ListItemButton>
-          <ListItemButton
+            <ListItemIcon>
+              <GroupIcon />
+            </ListItemIcon>
+            <ListItemText primary="Usuários" />
+          </ListItemButton>
+          {/* <ListItemButton
             selected={pathname == '/about'}
             component="a"  onClick={() => router.push('/about')} >
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="About" />
-          </ListItemButton>
+          </ListItemButton> */}
     </List>
 
       <Divider sx={{ my: 1 }} />

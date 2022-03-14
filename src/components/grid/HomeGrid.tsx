@@ -1,45 +1,47 @@
-import { Grid, Paper } from '@mui/material';
-import Chart from '../dashboard/Chart';
-import Deposits from '../dashboard/Deposits';
-import Orders from '../dashboard/Orders';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Link, Paper, Stack, Typography } from '@mui/material';
+import Image from 'next/image'
 
 export default function HomeGrid() {
+
   return (
     <div>
-      {/* Chart */}
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={8} lg={9}>
-          <Paper
-            sx={{
-              p: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              height: 240,
-            }}
+      <Box
+        sx={{
+          bgcolor: 'background.paper',
+          pt: 8,
+          pb: 6,
+        }}
+      >
+        <Container maxWidth="lg">
+          <Typography
+            component="h3"
+            variant="h4"
+            align="center"
+            color="text.primary"
+            gutterBottom
           >
-            <Chart />
-          </Paper>
-        </Grid>
-        {/* Recent Deposits */}
-        <Grid item xs={12} md={4} lg={3}>
-          <Paper
-            sx={{
-              p: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              height: 240,
-            }}
+            Sistema de Apoio a Distribuição de Metas
+          </Typography>
+          <Box sx={{ml: 'auto', mr: 'auto', maxWidth:'580px', maxHeight:'400px'}}>
+            <Image src="/objetivos.jpg" alt="me" width="600" height='400' layout='responsive'/>
+          </Box>
+
+
+          <Typography variant="h5" align="center" color="text.secondary" paragraph>
+          Bem vindo!
+          O prazo de ajustes é ate <b>08/05 - 14hs</b>
+          </Typography>
+          <Stack
+            sx={{ pt: 1 }}
+            direction="row"
+            spacing={2}
+            justifyContent="center"
           >
-            <Deposits />
-          </Paper>
-        </Grid>
-        {/* Recent Orders */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-            <Orders />
-          </Paper>
-        </Grid>
-      </Grid>
-    </div>
+            <Button variant="contained" href ='/ajustes' component={Link}>Relatório</Button>
+            <Button variant="outlined">Trocas</Button>
+          </Stack>
+        </Container>
+      </Box>
+      </div >
   )
 }

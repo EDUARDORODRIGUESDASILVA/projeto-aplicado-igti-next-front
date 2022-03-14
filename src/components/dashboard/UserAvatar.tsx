@@ -45,7 +45,7 @@ export default function UserAvatar() {
     <>
       {user ? (
         <>
-          <AccountMenu></AccountMenu>
+          {/* <AccountMenu></AccountMenu> */}
           <Avatar {...stringAvatar(user.nome)} sx={{ bgcolor: deepOrange[500] }}></Avatar>
         </>
       ) : (<></>)
