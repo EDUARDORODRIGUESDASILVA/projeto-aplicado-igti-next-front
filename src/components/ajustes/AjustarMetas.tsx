@@ -203,13 +203,16 @@ const handleZerar = () => {
             // </IconButton> */}
 
 
-              <Button variant="text"
-                sx={{ mr: 1 }}
-                onClick={() => { } }
-                disabled={true}
-              >
-                Incluir troca
-              </Button>
+{
+                ajuste.unidade.tipo == 'SR' ? (<Button variant="text"
+                  sx={{ mr: 1 }}
+                  onClick={() => { }}
+                  disabled={true}
+                >
+                  Grava Referência
+                </Button>) : (<></>)
+}
+
 
               <Button variant="text"
                 sx={{ mr: 1 }}
@@ -350,7 +353,9 @@ const handleZerar = () => {
                       <NumberTextFormat value={ajuste.metaAjustada} />
                     </h2>
                   </TableCell>
-                  <TableCell align="center" padding='none' colSpan={2}>
+                  <TableCell align="center" padding='none'
+                  sx={{ backgroundColor: ajuste.saldo !== 0 ? "#ffebee" : "" }}
+                  colSpan={2}>
                     <h2>
                       <NumberTextFormat value={ajuste.saldo} />
                     </h2>
