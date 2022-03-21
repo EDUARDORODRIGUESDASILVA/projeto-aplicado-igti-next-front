@@ -50,7 +50,7 @@ const orderRows = (rows: AjustarProdutoRow[]): AjustarProdutoRow[] => {
 
 export default function AjustarMetas() {
   const router = useRouter()
-  let { unidadeId, produtoid} = router.query
+  let { unidadeId, produtoid } = router.query
   const unid = parseInt(unidadeId?.toString() || '0')
   const prod = parseInt(produtoid?.toString() || '0')
 
@@ -72,7 +72,7 @@ export default function AjustarMetas() {
   const [page, setPage] = React.useState(2);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const [snack, setSnack] = React.useState<{ open: Boolean, message: string, severity: AlertColor}>({open: false, message: '', severity: 'success'});
+  const [snack, setSnack] = React.useState<{ open: Boolean, message: string, severity: AlertColor }>({ open: false, message: '', severity: 'success' });
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -89,7 +89,7 @@ export default function AjustarMetas() {
   };
 
   const handleGerarExcel = () => {
-    if(ajuste) {
+    if (ajuste) {
       const gerador = new AjusteMetasExportaExcel(ajuste)
       gerador.gerarExcel()
     }
@@ -101,21 +101,21 @@ export default function AjustarMetas() {
     }
 
     setSnack({ open: false, message: '', severity: 'success' })
-};
+  };
 
-const handleZerar = () => {
-  if (ajuste){
-    ajuste?.zerar()
-    const r = orderRows(ajuste.rows)
-    setrows(r)
+  const handleZerar = () => {
+    if (ajuste) {
+      ajuste?.zerar()
+      const r = orderRows(ajuste.rows)
+      setrows(r)
+    }
   }
-}
 
   const handleGravar = async (unid: number, prod: number, ajuste: AjusteMetas) => {
     try {
       setIsUploading(true)
       const res = await atualizarObjetivosLote(unid, prod, ajuste)
-      setSnack({open: true, message: 'Gravado com sucesso!', severity: 'success' })
+      setSnack({ open: true, message: 'Gravado com sucesso!', severity: 'success' })
       setIsUploading(false)
       refetch({})
     } catch (error) {
@@ -133,7 +133,7 @@ const handleZerar = () => {
   }
 
   const handleCalc = () => {
-    if(ajuste) {
+    if (ajuste) {
       ajuste.distribuirProporcional()
       const r = orderRows(ajuste.rows)
       setrows(r)
@@ -141,6 +141,9 @@ const handleZerar = () => {
 
   }
 
+  const handleAvatarClick = () => {
+    router.push(`/relatorio/${ajuste?.unidade.id}`)
+  }
 
   useEffect(() => {
     if (ajuste) {
@@ -181,10 +184,11 @@ const handleZerar = () => {
 
   if (ajuste) {
 
-    return <><>
+    return <>
+      <>
 
 
-        <Snackbar open={(snack.open ? true: false)}
+        <Snackbar open={(snack.open ? true : false)}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           autoHideDuration={1500} onClose={handleClose}>
           <Alert severity={snack.severity} sx={{ width: '100%' }}>
@@ -194,16 +198,24 @@ const handleZerar = () => {
 
         <Card sx={{ px: '2px' }}>
           <CardHeader
-            avatar={<Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            avatar={
+              <IconButton
+                onClick={handleAvatarClick}
+              >
+            <Avatar sx={{ bgcolor: red[500] }}
+
+            aria-label="recipe">
               <small>{ajuste.unidade.id}</small>
-            </Avatar>}
+            </Avatar>
+            </IconButton>
+            }
             action={<Box sx={{ mt: '13px' }}>
               {/* //   <IconButton aria-label="settings">
             //   <MoreVertIcon />
             // </IconButton> */}
 
 
-{
+              {
                 ajuste.unidade.tipo == 'SR' ? (<Button variant="text"
                   sx={{ mr: 1 }}
                   onClick={() => { }}
@@ -211,12 +223,12 @@ const handleZerar = () => {
                 >
                   Grava Referência
                 </Button>) : (<></>)
-}
+              }
 
 
               <Button variant="text"
                 sx={{ mr: 1 }}
-                onClick={() => { } }
+                onClick={() => { }}
                 disabled={true}
               >
                 Upload
@@ -240,20 +252,20 @@ const handleZerar = () => {
 
               <Button variant="text"
 
-                onClick={() => { refetch({}); } }
+                onClick={() => { refetch({}); }}
               >
                 Atualizar
               </Button>
 
               <Button variant="contained" sx={{ ml: 1, width: '100px' }}
-                onClick={() => { handleGravar(unid, prod, ajuste); } }
+                onClick={() => { handleGravar(unid, prod, ajuste); }}
                 disabled={ajuste.erros > 0 || ajuste.saldo !== 0 || isUploading}
                 color="success">
                 {isUploading ? (
                   <small>
                     <CircularProgress color="info" size="15px" />
                   </small>
-                ) : (<>Gravar </> )
+                ) : (<>Gravar </>)
                 }
 
 
@@ -284,26 +296,6 @@ const handleZerar = () => {
           <CheckboxesTags></CheckboxesTags>
         </Card>
 
-        {/* <Grid container spacing={2}>
-      <Grid item xs={6} md={8}>
-        <Title>
-        </Title>
-
-       </Grid>
-
-      <Grid item xs={6} md={4}>
-
-      </Grid>
-
-
-      <Grid item xs={6} md={4}>
-        <Item>xs=6 md=4</Item>
-      </Grid>
-      <Grid item xs={6} md={8}>
-        <Item><h1></h1></Item>
-      </Grid>
-    </Grid> */}
-
         <Box display="flex" sx={{ pb: 1 }}>
           <Box flexGrow={1}>
           </Box>
@@ -327,8 +319,8 @@ const handleZerar = () => {
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                    checked={ajuste.checked}
-                    onChange={handleCheckbox}
+                      checked={ajuste.checked}
+                      onChange={handleCheckbox}
                       disabled={false} />
                   </TableCell>
                   <TableCell sx={{ maxWidth: '110px' }}>
@@ -341,9 +333,9 @@ const handleZerar = () => {
                   <TableCell align="center">Trava</TableCell>
                   <TableCell align="center">%</TableCell>
                   <TableCell align="center">Valor
-                    <IconButton disabled={isUploading || ajuste.saldo == 0 }
-                      onClick = {handleCalc}
-                    color="primary" aria-label="upload picture" component="span">
+                    <IconButton disabled={isUploading || ajuste.saldo == 0}
+                      onClick={handleCalc}
+                      color="primary" aria-label="upload picture" component="span">
                       <CalculateIcon />
                     </IconButton>
 
@@ -354,8 +346,8 @@ const handleZerar = () => {
                     </h2>
                   </TableCell>
                   <TableCell align="center" padding='none'
-                  sx={{ backgroundColor: ajuste.saldo !== 0 ? "#ffebee" : "" }}
-                  colSpan={2}>
+                    sx={{ backgroundColor: ajuste.saldo !== 0 ? "#ffebee" : "" }}
+                    colSpan={2}>
                     <h2>
                       <NumberTextFormat value={ajuste.saldo} />
                     </h2>

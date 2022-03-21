@@ -37,7 +37,7 @@ export default function HomeGrid() {
             spacing={2}
             justifyContent="center"
           >
-            <Button variant="contained" href ='/ajustes' component={Link}>Relatório</Button>
+            <Button variant="contained" href ='/relatorio/2625' component={Link}>Relatório</Button>
             <Button variant="outlined">Trocas</Button>
           </Stack>
         </Container>

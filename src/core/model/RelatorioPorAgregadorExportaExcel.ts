@@ -1,11 +1,12 @@
 import { AjusteMetas } from './AjusteMetas'
 import XlsxPopulate from 'xlsx-populate'
+import { RelatorioPorAgregador } from './RelatorioPorAgregador'
 
-export class AjusteMetasExportaExcel {
-  constructor(private ajustes: AjusteMetas) { }
+export class RelatorioPorAgregadorExportaExcel {
+  constructor(private relatorio: RelatorioPorAgregador) { }
 
   gerarExcel() {
-    const arquivo = 'exporta.xlsx'
+    const arquivo = 'ajustesPorAgregador.xlsx'
 
     XlsxPopulate.fromBlankAsync().then((workbook: XlsxPopulate.Workbook ) => {
       this.geraWorkbook(workbook)
@@ -29,23 +30,19 @@ export class AjusteMetasExportaExcel {
   }
 
   private geraWorkbook(workbook: XlsxPopulate.Workbook): XlsxPopulate.Workbook {
-    workbook.sheet(0).cell("A1").value("This was created in the browser!").style("fontColor", "ff0000");
 
     let  linha = 2
-    this.ajustes.rows.forEach (r => {
+    this.relatorio.rows.forEach (r => {
 
       let coluna = 1
       const unidade = workbook.sheet(0).cell(linha, coluna++)
-      unidade.value(r.Unidade.nome)
+      unidade.value(r.unidade.nome)
 
       const cluster = workbook.sheet(0).cell(linha, coluna++)
-      cluster.value(r.Unidade.cluster)
+      cluster.value(r.produto.nome)
 
       const referencia = workbook.sheet(0).cell(linha, coluna++)
       referencia.value(r.metaReferencia)
-
-      const minima = workbook.sheet(0).cell(linha, coluna++)
-      minima.value(r.metaMinima)
 
       const referencia2 = workbook.sheet(0).cell(linha, coluna++)
       referencia2.value(r.metaReferencia2)
@@ -53,9 +50,17 @@ export class AjusteMetasExportaExcel {
       const ajustada = workbook.sheet(0).cell(linha, coluna++)
       ajustada.value(r.metaAjustada)
 
-          const erros = workbook.sheet(0).cell(linha, coluna++)
+      const saldo = workbook.sheet(0).cell(linha, coluna++)
+      saldo.value(r.saldo)
+
+      const erros = workbook.sheet(0).cell(linha, coluna++)
       erros.value(r.erros)
 
+      const gravadas = workbook.sheet(0).cell(linha, coluna++)
+      gravadas.value(r.gravado)
+
+      const qtdlinhas = workbook.sheet(0).cell(linha, coluna++)
+      qtdlinhas.value(r.qtdlinhas)
       linha++
 
     })
