@@ -6,6 +6,7 @@ import { RelatorioPorAgregadorRow } from "./RelatorioPorAgregadorRow";
 export interface RelatorioPorAgregadorFilter {
   comErros: boolean
   produtos: IProduto[]
+  unidades: IUnidade[]
 }
 export class RelatorioPorAgregador implements IRelatorio {
   id: number;
@@ -35,7 +36,8 @@ export class RelatorioPorAgregador implements IRelatorio {
 
     this.pfilter = {
       comErros: false,
-      produtos: []
+      produtos: [],
+      unidades: [this.agregador]
     }
 
 
@@ -96,6 +98,13 @@ export class RelatorioPorAgregador implements IRelatorio {
         console.log(ids)
         this.pfilteredrows = this.prows.filter (
           r=> ids.includes(r.produto.id)
+        )
+      }
+
+      if (this.filter.unidades.length > 0 && this.filter.produtos.length === 0) {
+        const ids = this.filter.unidades.map(r => r.id)
+        this.pfilteredrows = this.pfilteredrows.filter(
+          r => ids.includes(r.unidade.id)
         )
       }
     }

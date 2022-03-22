@@ -48,12 +48,16 @@ interface IUpdateObjetivosLote  {
   metaAjustada: number
 }
 
-export async function atualizarObjetivosLote (unidadeId: number, produtoId: number, ajuste: AjusteMetas): Promise<Boolean> {
+export async function atualizarObjetivosLote (unidadeId: number, produtoId: number, ajuste: AjusteMetas, gravaReferencia: boolean): Promise<Boolean> {
   try {
     const lote: IUpdateObjetivosLote[] = []
 
     ajuste.rows.forEach ( r => {
-      lote.push( {id: r.id, metaAjustada: r.metaAjustada})
+      const l: any = { id: r.id, metaAjustada: r.metaAjustada }
+      if (gravaReferencia) {
+        l.metaReferencia2 = r.metaAjustada
+      }
+      lote.push(l)
     })
     const resp = await instance.post(`/objetivo/ajustar/${unidadeId}/${produtoId}`, lote)
 

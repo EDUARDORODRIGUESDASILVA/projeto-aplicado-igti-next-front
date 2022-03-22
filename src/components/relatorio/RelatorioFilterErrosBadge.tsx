@@ -1,7 +1,7 @@
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
-import { RelatorioPorAgregador } from '../../core/model/RelatorioPorAgregador';
+import { RelatorioPorAgregador, RelatorioPorAgregadorFilter } from '../../core/model/RelatorioPorAgregador';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useState } from 'react';
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
@@ -20,10 +20,16 @@ export default function RelatorioFilterErrosBadge(props:
   const handleFilterChange = props.handleFilterChange
   const [checked, setchecked] = useState(relatorio.filter.comErros);
   const toggleChecked = () => {
-    setchecked(!checked)
-    const f = relatorio.filter
-    f.comErros = checked
-    handleFilterChange(f)
+    const j: RelatorioPorAgregadorFilter = { comErros: false,
+      produtos: relatorio.filter.produtos,
+      unidades: []}
+    j.comErros = !relatorio.filter.comErros
+
+    if (!j.comErros) {
+      j.unidades =  relatorio.filter.unidades
+    }
+    setchecked(j.comErros)
+    handleFilterChange(j)
   }
   if (relatorio)
     return (
