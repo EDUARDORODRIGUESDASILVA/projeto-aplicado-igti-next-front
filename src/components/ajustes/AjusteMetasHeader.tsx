@@ -87,7 +87,7 @@ export default function AjusteMetasHeader(props: {
 
               <Button variant="text"
                 sx={{ mr: 1 }}
-                onClick={handleZerar}
+                onClick={() => handleZerar()}
                 disabled={isUploading}
               >
                 Zerar

@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Title from '../dashboard/Title';
 import GridOnIcon from '@mui/icons-material/GridOn';
 import { useFetchAjustePorAgregador } from '../../hooks/useFetchAjustePorAgregador';
-import AjustarMetasRow from './AjustarMetasRow';
+import AjustarMetasRow from './AjustarMetasTableRow';
 import { Alert, AlertColor, AlertTitle, Box, Button, Checkbox, Divider, IconButton, Link, Paper, Snackbar, TablePagination, Typography } from '@mui/material';
 import TableContainer from '@mui/material/TableContainer';
 import CircularProgress from '@mui/material/CircularProgress';
