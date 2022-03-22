@@ -1,6 +1,5 @@
 import Dashboard from "../../../components/dashboard/Dashboard";
-import { Grid, Paper } from '@mui/material';
-import AjustarMetas from "../../../components/ajustes/AjustarMetas";
+import AjustarMetasV1 from "../../../components/ajustes/AjustarMetasV1";
 
 export default function index() {
   return (
@@ -8,7 +7,7 @@ export default function index() {
       <Dashboard>
         <div>
           {/* Chart */}
-          <AjustarMetas></AjustarMetas>
+          <AjustarMetasV1></AjustarMetasV1>
           {/* <Grid container spacing={1} maxWidth="xl" xl={12}>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
