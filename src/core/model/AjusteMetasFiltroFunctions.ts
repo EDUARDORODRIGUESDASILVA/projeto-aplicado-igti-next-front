@@ -31,7 +31,7 @@ export const getOptions = (rows: AjustarProdutoRow[]): AjusteMetasFiltroOption[]
 
   sevs = sevs.sort((a, b) => a - b)
   unidades = unidades.sort((a, b) => a.id - b.id)
-  clusters = clusters.sort((a, b) => a < b ? -1 : (b > a ? 1 : 0))
+  clusters = clusters.sort((a, b) => a < b ? -1 : (a > b ? 1 : 0))
 
   const options: AjusteMetasFiltroOption[] = []
   clusters.forEach(cluster => {
@@ -43,6 +43,7 @@ export const getOptions = (rows: AjustarProdutoRow[]): AjusteMetasFiltroOption[]
     options.push(o)
   })
 
+  if (sevs.length > 1) {
   sevs.forEach(sev => {
     const o: AjusteMetasFiltroOption = {
       label: sev.toString(),
@@ -51,6 +52,7 @@ export const getOptions = (rows: AjustarProdutoRow[]): AjusteMetasFiltroOption[]
     }
     options.push(o)
   })
+  }
 
   unidades.forEach(un => {
     const o: AjusteMetasFiltroOption = {

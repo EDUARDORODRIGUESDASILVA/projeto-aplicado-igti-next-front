@@ -2,13 +2,11 @@ import { AjusteMetas } from './AjusteMetas'
 import XlsxPopulate from 'xlsx-populate'
 
 export class AjusteMetasExportaExcel {
-  constructor(private ajustes: AjusteMetas) { }
-
-  gerarExcel() {
-    const arquivo = 'exporta.xlsx'
+  static gerarExcel(nome: string, ajustes: AjusteMetas) {
+    const arquivo = `${nome}.xlsx`
 
     XlsxPopulate.fromBlankAsync().then((workbook: XlsxPopulate.Workbook ) => {
-      this.geraWorkbook(workbook)
+      AjusteMetasExportaExcel.geraWorkbook(workbook, ajustes)
       workbook.outputAsync()
         .then((blob: any) => {
           const url = window.URL.createObjectURL(blob);
@@ -28,11 +26,9 @@ export class AjusteMetasExportaExcel {
     })
   }
 
-  private geraWorkbook(workbook: XlsxPopulate.Workbook): XlsxPopulate.Workbook {
-    workbook.sheet(0).cell("A1").value("This was created in the browser!").style("fontColor", "ff0000");
-
+  private static geraWorkbook(workbook: XlsxPopulate.Workbook, ajustes: AjusteMetas): XlsxPopulate.Workbook {
     let  linha = 2
-    this.ajustes.rows.forEach (r => {
+    ajustes.rows.forEach (r => {
 
       let coluna = 1
       const unidade = workbook.sheet(0).cell(linha, coluna++)

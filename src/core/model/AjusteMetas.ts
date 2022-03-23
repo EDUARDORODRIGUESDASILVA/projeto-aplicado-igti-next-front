@@ -18,6 +18,7 @@ export class AjusteMetas implements IAjustarProduto {
 
   private checkbox: boolean
 
+  private pauxiliarTroca: number
   private pfilter: IAjusteMetasFiltro
   public qtdTotalizacoes: number = 0
   constructor(
@@ -28,6 +29,7 @@ export class AjusteMetas implements IAjustarProduto {
     public trocas: number,
     public erros: number = 0
   ) {
+    this.pauxiliarTroca = 0
     this.checkbox = false
     this.pfilter = {
       sevs: [],
@@ -52,6 +54,13 @@ export class AjusteMetas implements IAjustarProduto {
     this.rows = rows
   }
 
+  get auxiliarTroca(): number {
+    return this.pauxiliarTroca
+  }
+  set auxiliarTroca(valor: number) {
+    this.pauxiliarTroca = valor
+    this.totalizar()
+  }
   get filter() {
     return this.pfilter
   }
@@ -83,7 +92,7 @@ export class AjusteMetas implements IAjustarProduto {
     }
 
     this.metaAjustada = totalMetaAjustada
-    this.psaldo = Math.trunc(((this.metaAjustada - (this.metaReferencia2 + this.trocas)) * 100)) / 100
+    this.psaldo = Math.trunc(((this.metaAjustada - (this.metaReferencia2 + this.trocas + this.pauxiliarTroca)) * 100)) / 100
     this.totalizarErros()
     this.calcularShare()
     this.qtdTotalizacoes++
@@ -164,7 +173,10 @@ export class AjusteMetas implements IAjustarProduto {
     this.checkbox = allChecked
   }
 
-  distribuirProporcional() {
+  distribuirProporcional(contagem?: number) {
+    if (typeof(contagem)=='undefined') {
+      contagem = 3
+    }
     let totalSelecionado = 0
     const saldo = this.saldo
     this.rows.forEach(r => {
@@ -180,6 +192,16 @@ export class AjusteMetas implements IAjustarProduto {
 
       }
     })
+    if(this.auxiliarTroca !==0) {
+      this.auxiliarTroca = 0
+    } else {
+      // garantir o arredondamento zero
+      if (this.saldo !== 0 && contagem > 0) {
+        this.distribuirProporcional(contagem - 1)
+      }
+    }
+
+
 
   }
   zerar() {

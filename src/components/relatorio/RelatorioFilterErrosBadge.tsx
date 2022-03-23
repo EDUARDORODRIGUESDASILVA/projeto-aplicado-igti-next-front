@@ -16,8 +16,6 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 
 export default function RelatorioFilterErrosBadge({ actions }: { actions: IUseRelatorio }) {
 
-
-
   const [checked, setchecked] = useState(false);
 
   const toggleChecked = () => {
@@ -28,10 +26,6 @@ export default function RelatorioFilterErrosBadge({ actions }: { actions: IUseRe
         unidades: []
       }
       j.comErros = !checked
-
-      // if (!j.comErros) {
-      //   j.unidades = actions.relatorio.filter.unidades
-      // }
       setchecked(j.comErros)
       actions.handleFilterChange(j)
     }

@@ -25,6 +25,7 @@ export interface IUseAjuste {
   handleSnackClose: (event: any, reason: any) => void
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handleInputAuxiliarTroca: (valor: number) => void
   rows: AjustarProdutoRow[]
   page: number
   rowsPerPage: number
@@ -37,19 +38,9 @@ export interface IUseAjuste {
 
 }
 
-const orderRows = (rows: AjustarProdutoRow[]): AjustarProdutoRow[] => {
-  const o = rows.sort((a: AjustarProdutoRow, b: AjustarProdutoRow) => {
-    return b.metaAjustada - a.metaAjustada
-  })
-  return rows.slice(0, 150)
-}
-
-
 export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUseAjuste => {
   const { isLoading, ajuste, error, refetch } = useFetchAjustePorAgregador(unidadeId, produtoId)
   const [filterValue, setFilterValue] = useState<AjusteMetasFiltroOption[]>([]);
-  // const [inputValue, setInputValue] = useState('');
-
   const [snack, setSnack] = useState<{ open: Boolean, message: string, severity: AlertColor }>({ open: false, message: '', severity: 'success' });
   const [isUploading, setIsUploading] = useState(false);
   const [rows, setrowsState] = useState<AjustarProdutoRow[]>([]);
@@ -86,8 +77,11 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
 
   const handleGerarExcel = () => {
     if (ajuste) {
-      const gerador = new AjusteMetasExportaExcel(ajuste)
-      gerador.gerarExcel()
+      const sidem = ajuste.produto.codsidem
+      const produto = ajuste.produto.nome
+      const unidade = ajuste.unidade.nome
+      const nome = `${sidem} - ${produto} - ${unidade}`
+      AjusteMetasExportaExcel.gerarExcel(nome, ajuste)
     }
   }
 
@@ -153,15 +147,22 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     setrows([...rows])
   }
 
+  const handleInputAuxiliarTroca = (valor: number ) => {
+    if (ajuste) {
+      ajuste.auxiliarTroca = valor ? valor : 0
+    }
+    setrows([...rows])
+  }
 
-    const handleToggleCheckBox = (row: AjustarProdutoRow) => {
+  const handleToggleCheckBox = (row: AjustarProdutoRow) => {
       row.toggleChecked()
       setrows([...rows])
    }
 
-  const handleAtualizar = () => {
+   const handleAtualizar = () => {
     refetch({})
   }
+
   const handleGravar =  (referencia: boolean) => {
     if(ajuste) {
       try {
@@ -170,7 +171,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
           () => {
             setSnack({ open: true, message: 'Gravado com sucesso!', severity: 'success' })
             setIsUploading(false)
-
+            handleGerarExcel()
             if (referencia){
               handleAtualizar()
             }
@@ -193,7 +194,6 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     setPage(0);
   };
 
-
   const handleSnackClose = (event: any, reason: any) => {
     // if (reason === 'clickaway') {
     //   return;
@@ -201,7 +201,12 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     setSnack({ open: false, message: '', severity: 'success' })
   };
 
-
+  const orderRows = (rows: AjustarProdutoRow[]): AjustarProdutoRow[] => {
+    const o = rows.sort((a: AjustarProdutoRow, b: AjustarProdutoRow) => {
+      return b.metaAjustada - a.metaAjustada
+    })
+    return rows.slice(0, 150)
+  }
 
   const a: IUseAjuste = {
     isLoading,
@@ -215,6 +220,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     handleToggleCheckBox,
     handleInputPct,
     handleInputValor,
+    handleInputAuxiliarTroca,
     handleSnackClose,
     handleChangePage,
     handleFiltro,

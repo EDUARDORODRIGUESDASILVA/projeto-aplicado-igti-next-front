@@ -14,12 +14,12 @@ const PcInput = styled(Input)(({ theme }) => ({
 }));
 
 
-export default function NumberInputFormat(props: {handleInputChanges: Function, value: number, row: AjustarProdutoRow} ) {
+export default function NumberInputFormat(props: {handleInputChanges: Function, value: number, row?: AjustarProdutoRow} ) {
   const handleInputChanges = props.handleInputChanges
   const value = props.value
   const row = props.row
   return (
-    <div>
+    <>
       <NumberFormat
         minLength={1}
         margin="dense"
@@ -44,7 +44,7 @@ export default function NumberInputFormat(props: {handleInputChanges: Function, 
         suffix=""
         isNumericString={false}
       />
-    </div>
+    </>
   )
 }
 

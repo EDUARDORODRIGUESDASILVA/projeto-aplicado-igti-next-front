@@ -2,12 +2,16 @@ import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, Tabl
 import NumberTextFormat from "../../utils/NumberTextFormat";
 import AjusteMetasTableRow from './AjusteMetasTableRow'
 import CalculateIcon from '@mui/icons-material/Calculate';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
+import NumberInputFormat from "../../utils/NumberInputFormat";
+import { useState } from "react";
 
 
 
 
 export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
+  const [showAuxiliarInput, setshowAuxiliarInput] = useState(false);
   if (actions.ajuste) {
     return (
       <>
@@ -51,6 +55,12 @@ export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
               </TableCell>
 
               <TableCell align="center" >
+                  <IconButton
+                    onClick={() => setshowAuxiliarInput(!showAuxiliarInput)}
+                    color={showAuxiliarInput ? 'primary' : 'default'}  component="span">
+                    <ShuffleIcon fontSize="small"/>
+                </IconButton>
+
                 Valor
                 <IconButton disabled={actions.ajuste.saldo == 0}
                   onClick={() => actions.handleCalc()}
@@ -74,13 +84,33 @@ export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
               </TableCell>
 
             </TableRow>
+              {showAuxiliarInput ? (
+             <TableRow>
+                <TableCell align="center" colSpan={7} padding='none'>
+
+                </TableCell>
+                <TableCell padding='none' colSpan={2}>
+                  <NumberInputFormat
+                    value={actions.ajuste.auxiliarTroca}
+                    handleInputChanges={ (_row: undefined, value: number)=> {
+                      actions.handleInputAuxiliarTroca(value)
+                    }}
+                    ></NumberInputFormat>
+                </TableCell>
+                <TableCell align="left" colSpan={5} padding='none'>
+
+                </TableCell>
+
+             </TableRow>
+              ):(<></>)
+              }
           </TableHead>
 
           {actions.rows.length > 0 ? (
           <TableBody>
             { actions.rows
             .slice(actions.page * actions.rowsPerPage, actions.page * actions.rowsPerPage + actions.rowsPerPage)
-            .map((row, i) => (
+            .map((row, _i) => (
               <AjusteMetasTableRow row={row} key={row.id} actions={actions}></AjusteMetasTableRow>
             ))}
           </TableBody>

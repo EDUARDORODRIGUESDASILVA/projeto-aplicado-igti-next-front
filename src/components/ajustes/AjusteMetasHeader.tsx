@@ -40,8 +40,8 @@ export default function AjusteMetasHeader({actions}: { actions: IUseAjuste} ) {
             {
               actions.ajuste.unidade.tipo == 'SR' ? (<Button variant="text"
                 sx={{ mr: 1 }}
-                disabled={ actions.ajuste.saldo !== 0 || actions.isUploading}
-                onClick={() => { actions.handleGravar(false); }}
+                disabled={actions.ajuste.saldo !== 0 || actions.ajuste.auxiliarTroca !== 0 || actions.isUploading}
+                onClick={() => { actions.handleGravar(true); }}
 
               >
                 Grava Referência
@@ -82,7 +82,7 @@ export default function AjusteMetasHeader({actions}: { actions: IUseAjuste} ) {
 
             <Button variant="contained" sx={{ ml: 1, width: '100px' }}
               onClick={() => { actions.handleGravar(false); }}
-              disabled={actions.ajuste.erros > 0 || actions.ajuste.saldo !== 0 ||  actions.isUploading}
+              disabled={actions.ajuste.erros > 0 || actions.ajuste.saldo !== 0 || actions.ajuste.auxiliarTroca !== 0|| actions.isUploading}
               color="success">
               { actions.isUploading ? (
                 <small>
