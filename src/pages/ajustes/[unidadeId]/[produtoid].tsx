@@ -1,5 +1,5 @@
 import Dashboard from "../../../components/dashboard/Dashboard";
-import AjustarMetasV1 from "../../../components/ajustes/AjustarMetasV1";
+import AjusteMetas from "../../../components/ajustes2/AjusteMetas";
 
 export default function index() {
   return (
@@ -7,7 +7,7 @@ export default function index() {
       <Dashboard>
         <div>
           {/* Chart */}
-          <AjustarMetasV1></AjustarMetasV1>
+          <AjusteMetas></AjusteMetas>
           {/* <Grid container spacing={1} maxWidth="xl" xl={12}>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>

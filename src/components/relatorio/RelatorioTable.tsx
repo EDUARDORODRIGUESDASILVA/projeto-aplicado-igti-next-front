@@ -3,7 +3,7 @@ import { useState } from "react";
 import { RelatorioPorAgregador, RelatorioPorAgregadorFilter } from "../../core/model/RelatorioPorAgregador";
 import RelatorioFilterErrosBadge from "./RelatorioFilterErrosBadge";
 import RelatorioFilterProduto from "./RelatorioFilterProduto";
-import RelatorioTableRow from "./RelatrioTableRow";
+import RelatorioTableRow from "./RelatorioTableRow";
 
 export default function RelatorioTable(props: { relatorio: RelatorioPorAgregador }) {
   const relatorio = props.relatorio
