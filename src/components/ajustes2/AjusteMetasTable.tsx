@@ -1,4 +1,4 @@
-import { Checkbox, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import NumberTextFormat from "../../utils/NumberTextFormat";
 import AjusteMetasTableRow from './AjusteMetasTableRow'
 import CalculateIcon from '@mui/icons-material/Calculate';
@@ -11,6 +11,7 @@ export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
   if (actions.ajuste) {
     return (
       <>
+        <TableContainer sx={{ maxHeight: '60vh', marginTop: '2px' }}>
         <Table stickyHeader size="small">
           <TableHead>
             <TableRow>
@@ -72,13 +73,26 @@ export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
 
           {actions.rows.length > 0 ? (
           <TableBody>
-            { actions.rows.map((row, i) => (
+            { actions.rows
+            .slice(actions.page * actions.rowsPerPage, actions.page * actions.rowsPerPage + actions.rowsPerPage)
+            .map((row, i) => (
               <AjusteMetasTableRow row={row} key={row.id} actions={actions}></AjusteMetasTableRow>
             ))}
           </TableBody>
         ) : <></>
         }
         </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 15,25, 130]}
+          component="div"
+          count={actions.rows.length}
+          rowsPerPage={actions.rowsPerPage}
+          page={actions.page}
+          labelRowsPerPage={'Linhas por página: '}
+          onPageChange={actions.handleChangePage}
+          onRowsPerPageChange={actions.handleChangeRowsPerPage}
+        />
       </>
     )
   }

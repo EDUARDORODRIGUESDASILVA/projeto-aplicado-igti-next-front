@@ -1,23 +1,18 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useState } from "react";
 import { RelatorioPorAgregador, RelatorioPorAgregadorFilter } from "../../core/model/RelatorioPorAgregador";
+import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
 import RelatorioFilterErrosBadge from "./RelatorioFilterErrosBadge";
 import RelatorioFilterProduto from "./RelatorioFilterProduto";
 import RelatorioTableRow from "./RelatorioTableRow";
 
-export default function RelatorioTable(props: { relatorio: RelatorioPorAgregador }) {
-  const relatorio = props.relatorio
+export default function RelatorioTable({ actions }: { actions: IUseRelatorio }) {
 
-  const [rows, setrows] = useState(relatorio.rows);
-
-  const handleFilterChange = (filter: RelatorioPorAgregadorFilter) => {
-    relatorio.filter = filter;
-    setrows(relatorio.rows)
-  }
-
-
+  if(actions.relatorio)
   return (
     <div>
+      <TableContainer sx={{ maxHeight: '66vh' }}>
+
       <Table stickyHeader size="small">
         <TableHead>
           <TableRow>
@@ -26,7 +21,7 @@ export default function RelatorioTable(props: { relatorio: RelatorioPorAgregador
             </TableCell>
             <TableCell >
               Produto
-              {/* <RelatorioFilterProduto relatorio={relatorio}></RelatorioFilterProduto> */}
+              {/* <RelatorioFilterProduto actions={actions} ></RelatorioFilterProduto> */}
 
             </TableCell>
             <TableCell>
@@ -50,24 +45,36 @@ export default function RelatorioTable(props: { relatorio: RelatorioPorAgregador
             </TableCell>
 
             <TableCell align="center" >
-              <RelatorioFilterErrosBadge relatorio={relatorio}
-                handleFilterChange={handleFilterChange}></RelatorioFilterErrosBadge>
+              <RelatorioFilterErrosBadge actions={actions}></RelatorioFilterErrosBadge>
             </TableCell>
 
           </TableRow>
         </TableHead>
 
-       { rows.length > 0 ? (
+       { actions.rows.length > 0 ? (
           <TableBody>
-            {rows.map((row, i) => (
-              <RelatorioTableRow row={row} key={row.id}></RelatorioTableRow>
+            {actions.rows
+             .slice(actions.page * actions.rowsPerPage, actions.page * actions.rowsPerPage + actions.rowsPerPage)
+            .map((row, i) => (
+              <RelatorioTableRow row={row} key={row.id} actions={actions}></RelatorioTableRow>
             ))}
           </TableBody>
        ): <></>
        }
-
-
       </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 15, 25, 130]}
+        component="div"
+        count={actions.rows.length}
+        rowsPerPage={actions.rowsPerPage}
+        page={actions.page}
+        labelRowsPerPage={'Linhas por página: '}
+        onPageChange={actions.handleChangePage}
+        onRowsPerPageChange={actions.handleChangeRowsPerPage}
+      />
     </div>
   )
+
+  return <></>
 }

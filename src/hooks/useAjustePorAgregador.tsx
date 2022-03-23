@@ -11,18 +11,25 @@ export interface IUseAjuste {
   isUploading: boolean
   ajuste: AjusteMetas | undefined
   error: string
-  handleMainCheckbox: Function
-  handleGerarExcel: Function
-  handleZerar: Function
-  handleAtualizar: Function
-  handleGravar: Function
-  handleCalc: Function
-  handleToggleCheckBox: Function
-  handleInputPct: Function
-  handleInputValor: Function
-  handleSnackClose: Function
+  handleMainCheckbox: () => void
+  handleGerarExcel: () => void
+  handleZerar: () => void
+  handleAtualizar: () => void
+  handleGravar: (referencia: boolean) => void
+  handleCalc: () => void
+  handleToggleCheckBox: (row: AjustarProdutoRow) => void
+  handleInputPct: (row: AjustarProdutoRow, pct: number) => void
+  handleInputValor: (row: AjustarProdutoRow, valor: number) => void
+  handleSnackClose: (event: any, reason: any) => void
+  handleChangePage: (event: unknown, newPage: number) => void
+  handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
   rows: AjustarProdutoRow[]
-  snack: { open: Boolean, message: string, severity: AlertColor }
+  page: number
+  rowsPerPage: number
+  snack: { open: Boolean, message: string, severity: AlertColor}
+  setPage: Dispatch<SetStateAction<number>>
+  setRowsPerPage: Dispatch<SetStateAction<number>>
+
 }
 
 const orderRows = (rows: AjustarProdutoRow[]): AjustarProdutoRow[] => {
@@ -39,6 +46,8 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   const [snack, setSnack] = useState<{ open: Boolean, message: string, severity: AlertColor }>({ open: false, message: '', severity: 'success' });
   const [isUploading, setIsUploading] = useState(false);
   const [rows, setrows] = useState<AjustarProdutoRow[]>([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     if (ajuste) {
@@ -114,7 +123,6 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
             if (referencia){
               handleAtualizar()
             }
-
           }
         )
 
@@ -125,11 +133,20 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     }
   }
 
-  const handleSnackClose = (event: any, reason: any) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+
+  const handleSnackClose = (event: any, reason: any) => {
+    // if (reason === 'clickaway') {
+    //   return;
+    // }
     setSnack({ open: false, message: '', severity: 'success' })
   };
 
@@ -146,9 +163,17 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     handleInputPct,
     handleInputValor,
     handleSnackClose,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    page,
+    rowsPerPage,
     snack,
     ajuste,
     rows,
-    error }
+    error,
+    setPage,
+    setRowsPerPage
+
+  }
   return a
 }

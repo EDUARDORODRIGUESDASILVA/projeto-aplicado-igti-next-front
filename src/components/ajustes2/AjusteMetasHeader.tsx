@@ -16,7 +16,7 @@ export default function AjusteMetasHeader({actions}: { actions: IUseAjuste} ) {
       <>
         <Snackbar open={(actions.snack.open ? true : false)}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          autoHideDuration={1500} onClose={ ()=> actions.handleSnackClose}>
+          autoHideDuration={1500} onClose={actions.handleSnackClose}>
           <Alert severity={actions.snack.severity} sx={{ width: '100%' }}>
             {actions.snack.message}
           </Alert>

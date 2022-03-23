@@ -1,6 +1,7 @@
 import { Alert, AlertTitle, CircularProgress, Paper, Stack, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useRouter } from "next/router";
 import { useFetchRelatorioPorAgregador } from "../../hooks/useFetchRelatorioPorAgregador";
+import { useRelatorioPorAgregador } from "../../hooks/useRelatorioPorAgregador";
 import RelatorioHeader from "./RelatorioHeader";
 import RelatorioTable from "./RelatorioTable";
 
@@ -11,9 +12,9 @@ export default function Relatorio() {
   const unid = parseInt(unidadeId?.toString() || '0')
   const prod = parseInt(produtoId?.toString() || '0')
 
-  const { isLoading, relatorio, error, refetch } = useFetchRelatorioPorAgregador(unid, prod)
+  const actions = useRelatorioPorAgregador(unid, prod)
 
-  if (isLoading) {
+  if (actions.isLoading) {
     return <>
       <Stack
         direction="row"
@@ -26,23 +27,22 @@ export default function Relatorio() {
     </>
   }
 
-  if (error) {
+  if (actions.error) {
     return <>
       <Alert severity="warning">
         <AlertTitle>Falha ao consultar o relatório.</AlertTitle>
-        {error}
+        {actions.error}
       </Alert>
     </>
   }
 
-  if (relatorio) {
+  if (actions.relatorio) {
 
     return <>
-      <RelatorioHeader relatorio={relatorio} refetch={refetch}></RelatorioHeader>
-      <Paper sx={{ width: '100%' , mt: '6px' }}>
-        <TableContainer sx={{ maxHeight: '66vh' }}>
-        <RelatorioTable relatorio={relatorio}></RelatorioTable>
-        </TableContainer>
+      <RelatorioHeader actions={actions}></RelatorioHeader>
+       <Paper sx={{ width: '100%' , mt: '6px' }}>
+          <RelatorioTable actions={actions}></RelatorioTable>
+
       </Paper>
 
     </>

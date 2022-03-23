@@ -37,7 +37,7 @@ export class RelatorioPorAgregador implements IRelatorio {
     this.pfilter = {
       comErros: false,
       produtos: [],
-      unidades: [this.agregador]
+      unidades: []
     }
 
 

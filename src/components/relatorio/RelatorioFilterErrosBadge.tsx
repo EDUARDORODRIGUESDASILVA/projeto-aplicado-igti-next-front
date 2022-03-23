@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import { RelatorioPorAgregador, RelatorioPorAgregadorFilter } from '../../core/model/RelatorioPorAgregador';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useState } from 'react';
+import { IUseRelatorio } from '../../hooks/useRelatorioPorAgregador';
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   '& .MuiBadge-badge': {
     right: -3,
@@ -13,28 +14,33 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   },
 }));
 
-export default function RelatorioFilterErrosBadge(props:
-  { relatorio: RelatorioPorAgregador,
-    handleFilterChange: Function }) {
-  const relatorio = props.relatorio
-  const handleFilterChange = props.handleFilterChange
-  const [checked, setchecked] = useState(relatorio.filter.comErros);
-  const toggleChecked = () => {
-    const j: RelatorioPorAgregadorFilter = { comErros: false,
-      produtos: relatorio.filter.produtos,
-      unidades: []}
-    j.comErros = !relatorio.filter.comErros
+export default function RelatorioFilterErrosBadge({ actions }: { actions: IUseRelatorio }) {
 
-    if (!j.comErros) {
-      j.unidades =  relatorio.filter.unidades
+
+
+  const [checked, setchecked] = useState(false);
+
+  const toggleChecked = () => {
+    if(actions.relatorio) {
+      const j: RelatorioPorAgregadorFilter = {
+        comErros: false,
+        produtos: actions.relatorio.filter.produtos,
+        unidades: []
+      }
+      j.comErros = !checked
+
+      // if (!j.comErros) {
+      //   j.unidades = actions.relatorio.filter.unidades
+      // }
+      setchecked(j.comErros)
+      actions.handleFilterChange(j)
     }
-    setchecked(j.comErros)
-    handleFilterChange(j)
+
   }
-  if (relatorio)
+  if (actions.relatorio)
     return (
       <IconButton aria-label="cart" onClick={toggleChecked} color={checked ? 'primary' : 'default'}>
-        <StyledBadge badgeContent={relatorio.erros} color="error">
+        <StyledBadge badgeContent={actions.relatorio.erros} color="error">
           <ErrorOutlineIcon />
         </StyledBadge>
       </IconButton>

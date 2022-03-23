@@ -6,31 +6,25 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { RelatorioPorAgregador } from '../../core/model/RelatorioPorAgregador';
 import { IProduto } from '../../core/interfaces/IProduto';
+import { IUseRelatorio } from '../../hooks/useRelatorioPorAgregador';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-export default function RelatorioFilterProduto(props: { relatorio: RelatorioPorAgregador, handleFilterChange: Function}) {
-  const relatorio = props.relatorio
-  const produtos: IProduto[] = props.relatorio.produtos
+export default function RelatorioFilterProduto({ actions }: { actions: IUseRelatorio }) {
 
   const handleChange = (event: object, value: IProduto | IProduto[], reason: string) => {
     console.log({event, value, reason})
 
   }
-  // const toggleChecked = () => {
 
-  //   const f = relatorio.filter
-  //   f.produtos
-  //   handleFilterChange(f)
-  // }
-
+  if (actions.relatorio)
   return (
     <Autocomplete
       multiple
       id="checkboxes-tags-demo"
       size="small"
-      options={produtos}
+      options={actions.relatorio.produtos}
       disableCloseOnSelect
       getOptionLabel={(option) => option.codsidem}
       onChange={handleChange}
@@ -51,6 +45,8 @@ export default function RelatorioFilterProduto(props: { relatorio: RelatorioPorA
       )}
     />
   );
+
+  return <></>
 }
 
 

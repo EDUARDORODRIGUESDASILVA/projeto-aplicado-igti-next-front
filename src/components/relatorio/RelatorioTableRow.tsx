@@ -3,8 +3,9 @@ import Link from "next/link";
 import NumberTextFormat from "../../utils/NumberTextFormat";
 
 import { RelatorioPorAgregadorRow } from "../../core/model/RelatorioPorAgregadorRow";
-export default function RelatorioTableRow(props: { row: RelatorioPorAgregadorRow }) {
-  const row = props.row;
+import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
+
+export default function RelatorioTableRow( {row, actions}: { row: RelatorioPorAgregadorRow, actions: IUseRelatorio }) {
 
   const rowBackgroundColor = () => {
     if (row.erros > 0 || row.saldo !== 0)

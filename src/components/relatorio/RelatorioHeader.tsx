@@ -4,40 +4,38 @@ import Title from '../dashboard/Title';
 import { useRouter } from 'next/router'
 import { useAppSelector } from "../../store/hooks";
 import { selectUser } from '../../store/userSlice';
-import { RelatorioPorAgregador } from "../../core/model/RelatorioPorAgregador";
-import { RelatorioPorAgregadorExportaExcel } from "../../core/model/RelatorioPorAgregadorExportaExcel";
-export default function RelatorioHeader(props: { refetch: Function, relatorio: RelatorioPorAgregador}) {
-  const relatorio = props.relatorio
-  const agregador = props.relatorio.agregador
-  const refetch = props.refetch
+import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
+
+
+export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
   const router = useRouter()
   const user = useAppSelector(selectUser);
-  const progress = relatorio.progresso
+
 
   const handleAvatarClick = () => {
-    if (user?.unidadeId == agregador.sr && agregador.sr !== agregador.id) {
-      router.push(`/relatorio/${agregador.sr}`)
-    } else {
-      refetch({})
+    if (actions.relatorio){
+      if (user?.unidadeId == actions.relatorio.agregador.sr
+        && actions.relatorio.agregador.sr !== actions.relatorio.agregador.id) {
+        router.push(`/relatorio/${actions.relatorio.agregador.sr}`)
+      } else {
+        actions.handleAtualizar()
+      }
     }
   }
 
-  const handleExcelClick = () => {
-    const gerador: RelatorioPorAgregadorExportaExcel = new RelatorioPorAgregadorExportaExcel(relatorio)
-    gerador.gerarExcel()
-  }
 
-      return (
+  if(actions.relatorio) {
+    return (
       <Card sx={{ px: '2px' }}>
         <CardHeader
           avatar={
             <IconButton
-                onClick={handleAvatarClick}
+              onClick={handleAvatarClick}
             >
               <Avatar sx={{ bgcolor: red[500] }}
 
                 aria-label="recipe">
-                <small>{agregador.id}</small>
+                <small>{actions.relatorio.agregador.id}</small>
               </Avatar>
             </IconButton>
           }
@@ -45,7 +43,7 @@ export default function RelatorioHeader(props: { refetch: Function, relatorio: R
 
             <Button variant="text"
               sx={{ mr: 1 }}
-              onClick={handleExcelClick}
+              onClick={actions.handleExcelClick}
               disabled={false}
             >
               Excel
@@ -53,16 +51,20 @@ export default function RelatorioHeader(props: { refetch: Function, relatorio: R
 
             <Button variant="text"
 
-              onClick={() => { refetch({}) }}
+              onClick={() => { actions.handleAtualizar() }}
             >
               Atualizar
             </Button>
           </Box>}
           title={<Title>Relatório de ajustes por agregador</Title>}
-          subheader={agregador.nome}
-           />
-          <LinearProgress variant="determinate" value={progress} />
+          subheader={actions.relatorio.agregador.nome}
+        />
+        <LinearProgress variant="determinate" value={actions.relatorio?.progresso} />
       </Card>
     )
+  }
+
+  return <></>
+
 
 }

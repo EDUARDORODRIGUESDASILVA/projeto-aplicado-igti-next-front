@@ -1,9 +1,9 @@
 import { Alert, AlertTitle, Box, CircularProgress, Divider, Paper, Stack, TableContainer } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useAjustePorAgregador } from '../../hooks/useAjustePorAgregador'
-import { useFetchAjustePorAgregador } from '../../hooks/useFetchAjustePorAgregador'
 import  AjusteMetasHeader  from './AjusteMetasHeader'
 import AjusteMetasTable from './AjusteMetasTable'
+
 export default function AjusteMetas() {
   const router = useRouter()
   let { unidadeId, produtoid } = router.query
@@ -42,9 +42,7 @@ export default function AjusteMetas() {
       <Divider />
 
       <Paper sx={{ width: '100%', mt: '10px'  }}>
-        <TableContainer sx={{ maxHeight: '70vh' , marginTop: '2px' }}>
           <AjusteMetasTable actions={actions}></AjusteMetasTable>
-        </TableContainer>
       </Paper>
     </>
   )

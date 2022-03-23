@@ -86,7 +86,6 @@ export async function criarRelatorioPorAgregador(unidadeId: number, produtoId?: 
 
   const relatorio = new RelatorioPorAgregador(irelatorio)
 
-  console.log('ajustar filtro', produtoId)
   if (produtoId !== 0) {
     const f = relatorio.filter
     const produto = relatorio.produtos.find( p => p.id == produtoId)
