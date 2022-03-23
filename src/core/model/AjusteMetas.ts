@@ -3,13 +3,22 @@ import { IProduto } from "../interfaces/IProduto";
 import { IUnidade } from "../interfaces/IUnidade";
 import { AjustarProdutoRow } from "./AjustarProdutoRow";
 
+export interface IAjusteMetasFiltro {
+  sevs: number[]
+  unidades: IUnidade[]
+  cluster: string[]
+}
 export class AjusteMetas implements IAjustarProduto {
 
   private psaldo: number = 0
   private pmetaAjustada: number = 0
-  public rows: AjustarProdutoRow[] = []
+
+  private pallrows: AjustarProdutoRow[] = []
+  private prows: AjustarProdutoRow[] = []
 
   private checkbox: boolean
+
+  private pfilter: IAjusteMetasFiltro
   public qtdTotalizacoes: number = 0
   constructor(
     public unidade: IUnidade,
@@ -17,17 +26,38 @@ export class AjusteMetas implements IAjustarProduto {
     public metaReferencia: number,
     public readonly metaReferencia2: number,
     public trocas: number,
-    public erros: number = 0,
-
+    public erros: number = 0
   ) {
     this.checkbox = false
+    this.pfilter = {
+      sevs: [],
+      unidades: [],
+      cluster: []
+    }
   }
 
-  addRows(rows: AjustarProdutoRow[]) {
-    this.rows = rows
+  set rows(rows: AjustarProdutoRow[]) {
+    this.prows = rows
     this.rows.forEach(r => {
       r.parent = this
     })
+  }
+
+  get rows() {
+    return this.prows
+  }
+
+  addRows(rows: AjustarProdutoRow[]) {
+    this.pallrows = rows
+    this.rows = rows
+  }
+
+  get filter() {
+    return this.pfilter
+  }
+  set filter(f: IAjusteMetasFiltro) {
+    this.pfilter = f
+    this.filtrar(f)
   }
 
   totalizar() {
@@ -41,25 +71,40 @@ export class AjusteMetas implements IAjustarProduto {
     }
 
     // totalizar as linhas
-    this.rows.forEach( r => {
+    this.rows.forEach(r => {
       totalMetaAjustada += r.metaAjustada
       totalMetaRef += r.metaReferencia
-      // totalMetaReferencia2 =+ r.metaReferencia2
     })
 
     // a meta de referencia deve ser igual a meta das linhas
     if (this.metaReferencia !== totalMetaRef) {
       this.erros = 1
-     // throw new Error("O total deve bater com as linhas");
     }
 
-    // this.metaReferencia2 = totalMetaReferencia2
     this.metaReferencia = totalMetaRef
     this.metaAjustada = totalMetaAjustada
     this.psaldo = Math.trunc(((this.metaAjustada - (this.metaReferencia2 + this.trocas)) * 100)) / 100
     this.totalizarErros()
     this.calcularShare()
     this.qtdTotalizacoes++
+  }
+
+  private filtrar(f: IAjusteMetasFiltro) {
+
+    let rows: AjustarProdutoRow[] = [...this.pallrows]
+
+    if (f.cluster.length > 0) {
+      rows = rows.filter(r => f.cluster.includes(r.Unidade.cluster))
+    }
+
+    if (f.sevs.length > 0) {
+      rows = rows.filter(r => f.sevs.includes(r.Unidade.se))
+    }
+
+    if (f.unidades.length > 0 ) {
+      rows = rows.filter(r => f.unidades.map(un => un.id).includes(r.Unidade.id))
+    }
+    this.rows = rows
   }
 
   private totalizarErros() {
@@ -69,22 +114,17 @@ export class AjusteMetas implements IAjustarProduto {
     }
 
     this.erros = 0
-    this.rows.forEach (r =>  {
-
+    this.rows.forEach(r => {
       this.erros += r.erros > 0 ? 1 : 0
     })
 
-    if (this.psaldo > 0)  {
+    if (this.psaldo > 0) {
       this.erros++
     }
-
-
-
-
   }
 
   private calcularShare() {
-    this.rows.forEach( r => {
+    this.rows.forEach(r => {
       r.shareRef = (r.metaReferencia / this.metaReferencia) * 100
       r.shareAjustado = (r.metaAjustada / this.metaAjustada) * 100
     })
@@ -94,7 +134,7 @@ export class AjusteMetas implements IAjustarProduto {
   }
 
   set metaAjustada(meta) {
-    this.pmetaAjustada=meta
+    this.pmetaAjustada = meta
   }
 
   get saldo() {
@@ -117,7 +157,7 @@ export class AjusteMetas implements IAjustarProduto {
   sincronizarCheckbox() {
     let allChecked = true
     let NoneChecked = true
-    this.rows.forEach( r => {
+    this.rows.forEach(r => {
       if (r.checked) {
         NoneChecked = false
       } else {
@@ -131,8 +171,8 @@ export class AjusteMetas implements IAjustarProduto {
   distribuirProporcional() {
     let totalSelecionado = 0
     const saldo = this.saldo
-    this.rows.forEach( r => {
-      if(r.checked) {
+    this.rows.forEach(r => {
+      if (r.checked) {
         totalSelecionado += r.metaAjustada
       }
     })
@@ -147,11 +187,10 @@ export class AjusteMetas implements IAjustarProduto {
 
   }
   zerar() {
-    this.rows.forEach( r => {
+    this.rows.forEach(r => {
       r.zerar()
     })
 
     this.totalizar()
   }
-
 }

@@ -1,8 +1,9 @@
-import { Alert, AlertTitle, Box, CircularProgress, Divider, Paper, Stack, TableContainer } from '@mui/material'
+import { Alert, AlertTitle, Box, Card, CircularProgress, Divider, Paper, Stack, TableContainer } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useAjustePorAgregador } from '../../hooks/useAjustePorAgregador'
 import  AjusteMetasHeader  from './AjusteMetasHeader'
 import AjusteMetasTable from './AjusteMetasTable'
+import AjustesMetasFiltro from './AjustesMetasFiltro'
 
 export default function AjusteMetas() {
   const router = useRouter()
@@ -35,11 +36,18 @@ export default function AjusteMetas() {
   }
 
   if (actions.ajuste)
+
   return (
     <>
       <AjusteMetasHeader actions={actions}></AjusteMetasHeader>
 
       <Divider />
+
+      <Card sx={{ mt: '6px', pt: '2px' }}>
+        <AjustesMetasFiltro actions={actions}></AjustesMetasFiltro>
+      </Card>
+
+
 
       <Paper sx={{ width: '100%', mt: '10px'  }}>
           <AjusteMetasTable actions={actions}></AjusteMetasTable>

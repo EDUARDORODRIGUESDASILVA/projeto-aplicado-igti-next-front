@@ -15,13 +15,18 @@ export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
         <Table stickyHeader size="small">
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
+              <TableCell padding="checkbox" >
                 <Checkbox
                   color="primary"
                   checked={actions.ajuste.checked}
                   onChange={()=> {actions.handleMainCheckbox()}}
                   disabled={false} />
               </TableCell>
+                {actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
+                  <TableCell align="center" padding="none">
+                  SE
+              </TableCell>
+                ): <></>}
               <TableCell>
                 Unidade
               </TableCell>

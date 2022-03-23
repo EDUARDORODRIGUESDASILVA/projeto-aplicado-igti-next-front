@@ -1,4 +1,4 @@
-import { Checkbox, TableCell, TableRow, Typography } from "@mui/material";
+import { Button, Checkbox, TableCell, TableRow, Typography } from "@mui/material";
 import { AjustarProdutoRow } from "../../core/model/AjustarProdutoRow";
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import NumberInputFormat from "../../utils/NumberInputFormat";
@@ -19,13 +19,20 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         />
       </TableCell>
 
+      {actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
+        <TableCell padding="none" >
+          <Button size="small" color='secondary'>{row.Unidade.se}</Button>
+      </TableCell>
+    ):(<></>)}
       <TableCell  >
         <Typography variant="caption" display="block" gutterBottom>
           {row.Unidade.tipo} {row.Unidade.nome}
         </Typography>
       </TableCell>
-      <TableCell padding='none' align="center" sx={{ fontWeight: 'bold', color: 'purple' }}>
-        {row.Unidade.cluster}</TableCell>
+
+      <TableCell padding='none' align="center">
+        <Button size="small" color='secondary'>{row.Unidade.cluster}</Button>
+        </TableCell>
       <TableCell padding='none' align="right" >
         <NumberTextFormat value={row.metaReferencia} />
       </TableCell>

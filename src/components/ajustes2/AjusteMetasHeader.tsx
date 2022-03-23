@@ -59,6 +59,14 @@ export default function AjusteMetasHeader({actions}: { actions: IUseAjuste} ) {
 
             <Button variant="text"
               sx={{ mr: 1 }}
+              onClick={() => { }}
+              disabled={true}
+            >
+              Upload
+            </Button>
+
+            <Button variant="text"
+              sx={{ mr: 1 }}
              onClick={() => {actions.handleZerar()} }
               disabled={actions.isUploading}
             >

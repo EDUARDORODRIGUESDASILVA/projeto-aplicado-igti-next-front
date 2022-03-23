@@ -1,7 +1,8 @@
 import { AlertColor } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { AjusteMetasFiltroOption, getOptions } from "../components/ajustes2/AjusteMetasFiltroFunctions";
 import { AjustarProdutoRow } from "../core/model/AjustarProdutoRow";
-import { AjusteMetas } from "../core/model/AjusteMetas"
+import { AjusteMetas, IAjusteMetasFiltro } from "../core/model/AjusteMetas"
 import { AjusteMetasExportaExcel } from "../core/model/AjusteMetasExportaExcel";
 import { atualizarObjetivosLote } from "../services/ajustesService";
 import { useFetchAjustePorAgregador } from "./useFetchAjustePorAgregador"
@@ -17,6 +18,7 @@ export interface IUseAjuste {
   handleAtualizar: () => void
   handleGravar: (referencia: boolean) => void
   handleCalc: () => void
+  handleFiltro: (f: IAjusteMetasFiltro) => void
   handleToggleCheckBox: (row: AjustarProdutoRow) => void
   handleInputPct: (row: AjustarProdutoRow, pct: number) => void
   handleInputValor: (row: AjustarProdutoRow, valor: number) => void
@@ -27,6 +29,7 @@ export interface IUseAjuste {
   page: number
   rowsPerPage: number
   snack: { open: Boolean, message: string, severity: AlertColor}
+  filterOptions: AjusteMetasFiltroOption[]
   setPage: Dispatch<SetStateAction<number>>
   setRowsPerPage: Dispatch<SetStateAction<number>>
 
@@ -48,12 +51,14 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   const [rows, setrows] = useState<AjustarProdutoRow[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [filterOptions, setfilterOptions] = useState < AjusteMetasFiltroOption[] >([]);
 
   useEffect(() => {
     if (ajuste) {
       const r = orderRows(ajuste.rows)
       setrows(r)
-
+      const options: AjusteMetasFiltroOption[] = getOptions(r)
+      setfilterOptions(options)
     }
     return () => {
       setrows([])
@@ -89,6 +94,14 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
       ajuste.distribuirProporcional()
       const r = orderRows(ajuste.rows)
       setrows(r)
+    }
+  }
+
+  const handleFiltro = (f: IAjusteMetasFiltro) => {
+    if (ajuste) {
+      ajuste.filter = f
+      setrows([...ajuste.rows])
+      setPage(0);
     }
   }
 
@@ -164,6 +177,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     handleInputValor,
     handleSnackClose,
     handleChangePage,
+    handleFiltro,
     handleChangeRowsPerPage,
     page,
     rowsPerPage,
@@ -171,6 +185,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     ajuste,
     rows,
     error,
+    filterOptions,
     setPage,
     setRowsPerPage
 
