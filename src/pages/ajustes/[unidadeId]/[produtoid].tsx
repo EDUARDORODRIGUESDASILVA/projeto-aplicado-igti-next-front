@@ -1,5 +1,5 @@
 import Dashboard from "../../../components/dashboard/Dashboard";
-import AjusteMetas from "../../../components/ajustes2/AjusteMetas";
+import AjusteMetas from "../../../components/ajustes/AjusteMetas";
 
 export default function index() {
   return (
