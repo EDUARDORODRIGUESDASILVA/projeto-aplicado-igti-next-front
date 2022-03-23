@@ -130,7 +130,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   private verificaErros() {
     const erroPct = this.verificaTravaPercentual()
     const erroPiso = this.verificaPiso()
-    this.erros = erroPct + erroPiso
+    this.erros = (erroPct + erroPiso)  > 0 ? 1 : 0
   }
 
   private verificaTravaPercentual(): 0 | 1 {

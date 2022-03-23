@@ -185,20 +185,24 @@ export class AjusteMetas implements IAjustarProduto {
       }
     })
 
+    let qtdUnidades = 0
     this.rows.forEach(r => {
       if (r.checked) {
         const adicionar = (r.metaAjustada / totalSelecionado) * saldo * -1
         r.adicionarValor(adicionar)
-
+        qtdUnidades++
       }
     })
-    if(this.auxiliarTroca !==0) {
-      this.auxiliarTroca = 0
-    } else {
-      // garantir o arredondamento zero
-      if (this.saldo !== 0 && contagem > 0) {
-        this.distribuirProporcional(contagem - 1)
+    if(qtdUnidades > 0) {
+      if (this.auxiliarTroca !== 0) {
+        this.auxiliarTroca = 0
+      } else {
+        // garantir o arredondamento zero
+        if (this.saldo !== 0 && contagem > 0) {
+          this.distribuirProporcional(contagem - 1)
+        }
       }
+
     }
 
 

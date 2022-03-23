@@ -81,7 +81,8 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
       const produto = ajuste.produto.nome
       const unidade = ajuste.unidade.nome
       const nome = `${sidem} - ${produto} - ${unidade}`
-      AjusteMetasExportaExcel.gerarExcel(nome, ajuste)
+      const gerador = new AjusteMetasExportaExcel(ajuste)
+      gerador.gerarExcel(nome)
     }
   }
 
@@ -104,6 +105,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   const handleFiltro = (value: AjusteMetasFiltroOption[]) => {
     const filtro = getFiltro(value)
     if (ajuste) {
+      ajuste.checked = false
       setFilterValue(value);
       ajuste.filter = filtro
       setrows([...ajuste.rows])
