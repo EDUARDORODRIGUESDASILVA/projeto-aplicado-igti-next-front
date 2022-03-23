@@ -2,7 +2,7 @@ import { Autocomplete, Checkbox, TextField } from "@mui/material";
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { AjusteMetasFiltroOption, getFiltro } from "./AjusteMetasFiltroFunctions";
+import { AjusteMetasFiltroOption} from "../../core/model/AjusteMetasFiltroFunctions";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -10,9 +10,13 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 
 export default function AjustesMetasFiltro({ actions }: { actions: IUseAjuste }) {
+
+
   const handleChange = (event: object, value: AjusteMetasFiltroOption[], reason: string) => {
-    const filtro = getFiltro(value)
-    actions.handleFiltro(filtro)
+    if(value){
+      actions.handleFiltro(value)
+    }
+
   }
 
   return (
@@ -23,15 +27,20 @@ export default function AjustesMetasFiltro({ actions }: { actions: IUseAjuste })
       options={actions.filterOptions}
       groupBy={(option) => option.group}
       disabled={false}
+      value={actions.filterValue}
+      selectOnFocus
+      clearOnBlur
       disableCloseOnSelect
       onChange={handleChange}
       getOptionLabel={(option) => option.label}
       renderOption={(props, option, { selected }) => (
-        <li {...props}>
+        <li {...props}
+          style={{ height: '1.3rem' }}
+        >
           <Checkbox
             icon={icon}
             checkedIcon={checkedIcon}
-            style={{ marginRight: 8 }}
+            style={{ marginRight: 4, height: '1.3rem' }}
             checked={selected}
 
             disabled={false}

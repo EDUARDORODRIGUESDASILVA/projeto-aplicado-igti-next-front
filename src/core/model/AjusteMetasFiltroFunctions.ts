@@ -1,39 +1,12 @@
-import { IUnidade } from "../../core/interfaces/IUnidade"
-import { AjustarProdutoRow } from "../../core/model/AjustarProdutoRow"
-import { IAjusteMetasFiltro } from "../../core/model/AjusteMetas"
-import { IUseAjuste } from "../../hooks/useAjustePorAgregador"
-
+import { IUnidade } from "../interfaces/IUnidade"
+import { AjustarProdutoRow } from "./AjustarProdutoRow"
 export interface AjusteMetasFiltroOption {
   label: string
   group: 'Cluster' | 'SEV' | 'Unidades'
   item: string | number | IUnidade
 }
 
-export const getFiltro = (options: AjusteMetasFiltroOption[]): IAjusteMetasFiltro => {
-  const f: IAjusteMetasFiltro = {
-    sevs: [],
-    unidades: [],
-    cluster: []
-  }
 
-  options.forEach(op => {
-    switch (op.group) {
-      case 'Cluster':
-        if (typeof op.item === 'string')
-          f.cluster.push(op.item)
-        break
-      case 'SEV':
-        if (typeof op.item === 'number')
-          f.sevs.push(op.item)
-      case 'Unidades':
-        if (typeof op.item === 'object')
-          f.unidades.push(op.item)
-        break
-    }
-  })
-
-  return f
-}
 export const getOptions = (rows: AjustarProdutoRow[]): AjusteMetasFiltroOption[] => {
   let sevs: number[] = []
   let unidades: IUnidade[] = []

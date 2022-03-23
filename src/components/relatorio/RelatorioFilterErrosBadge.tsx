@@ -1,7 +1,7 @@
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
-import { RelatorioPorAgregador, RelatorioPorAgregadorFilter } from '../../core/model/RelatorioPorAgregador';
+import { RelatorioPorAgregadorFilter } from '../../core/model/RelatorioPorAgregador';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useState } from 'react';
 import { IUseRelatorio } from '../../hooks/useRelatorioPorAgregador';
@@ -39,7 +39,9 @@ export default function RelatorioFilterErrosBadge({ actions }: { actions: IUseRe
   }
   if (actions.relatorio)
     return (
-      <IconButton aria-label="cart" onClick={toggleChecked} color={checked ? 'primary' : 'default'}>
+      <IconButton aria-label="cart" onClick={toggleChecked}
+        disabled={actions.relatorio.erros === 0 && checked==false}
+      color={checked ? 'primary' : 'default'}>
         <StyledBadge badgeContent={actions.relatorio.erros} color="error">
           <ErrorOutlineIcon />
         </StyledBadge>

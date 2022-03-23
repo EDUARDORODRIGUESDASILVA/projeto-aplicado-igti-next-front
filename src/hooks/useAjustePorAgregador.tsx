@@ -1,6 +1,6 @@
 import { AlertColor } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { AjusteMetasFiltroOption, getOptions } from "../components/ajustes2/AjusteMetasFiltroFunctions";
+import { AjusteMetasFiltroOption, getOptions } from "../core/model/AjusteMetasFiltroFunctions";
 import { AjustarProdutoRow } from "../core/model/AjustarProdutoRow";
 import { AjusteMetas, IAjusteMetasFiltro } from "../core/model/AjusteMetas"
 import { AjusteMetasExportaExcel } from "../core/model/AjusteMetasExportaExcel";
@@ -18,7 +18,7 @@ export interface IUseAjuste {
   handleAtualizar: () => void
   handleGravar: (referencia: boolean) => void
   handleCalc: () => void
-  handleFiltro: (f: IAjusteMetasFiltro) => void
+  handleFiltro: (value: AjusteMetasFiltroOption[]) => void
   handleToggleCheckBox: (row: AjustarProdutoRow) => void
   handleInputPct: (row: AjustarProdutoRow, pct: number) => void
   handleInputValor: (row: AjustarProdutoRow, valor: number) => void
@@ -29,8 +29,10 @@ export interface IUseAjuste {
   page: number
   rowsPerPage: number
   snack: { open: Boolean, message: string, severity: AlertColor}
+  filterValue: AjusteMetasFiltroOption[]
   filterOptions: AjusteMetasFiltroOption[]
   setPage: Dispatch<SetStateAction<number>>
+  setFilterValue: Dispatch<SetStateAction<AjusteMetasFiltroOption[]>>
   setRowsPerPage: Dispatch<SetStateAction<number>>
 
 }
@@ -45,10 +47,12 @@ const orderRows = (rows: AjustarProdutoRow[]): AjustarProdutoRow[] => {
 
 export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUseAjuste => {
   const { isLoading, ajuste, error, refetch } = useFetchAjustePorAgregador(unidadeId, produtoId)
+  const [filterValue, setFilterValue] = useState<AjusteMetasFiltroOption[]>([]);
+  // const [inputValue, setInputValue] = useState('');
 
   const [snack, setSnack] = useState<{ open: Boolean, message: string, severity: AlertColor }>({ open: false, message: '', severity: 'success' });
   const [isUploading, setIsUploading] = useState(false);
-  const [rows, setrows] = useState<AjustarProdutoRow[]>([]);
+  const [rows, setrowsState] = useState<AjustarProdutoRow[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterOptions, setfilterOptions] = useState < AjusteMetasFiltroOption[] >([]);
@@ -65,6 +69,12 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     };
   }, [ajuste]);
 
+  const setrows = (rows: AjustarProdutoRow[]) => {
+    if(ajuste) {
+      ajuste.rows = rows
+      setrowsState(rows)
+    }
+  }
 
   const handleZerar = () => {
     if (ajuste) {
@@ -97,12 +107,40 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     }
   }
 
-  const handleFiltro = (f: IAjusteMetasFiltro) => {
+  const handleFiltro = (value: AjusteMetasFiltroOption[]) => {
+    const filtro = getFiltro(value)
     if (ajuste) {
-      ajuste.filter = f
+      setFilterValue(value);
+      ajuste.filter = filtro
       setrows([...ajuste.rows])
       setPage(0);
     }
+  }
+
+  const getFiltro = (options: AjusteMetasFiltroOption[]): IAjusteMetasFiltro => {
+    const f: IAjusteMetasFiltro = {
+      sevs: [],
+      unidades: [],
+      cluster: []
+    }
+    if (options.length > 0)
+    options.forEach(op => {
+      switch (op.group) {
+        case 'Cluster':
+          if (typeof op.item === 'string')
+            f.cluster.push(op.item)
+          break
+        case 'SEV':
+          if (typeof op.item === 'number')
+            f.sevs.push(op.item)
+        case 'Unidades':
+          if (typeof op.item === 'object')
+            f.unidades.push(op.item)
+          break
+      }
+    })
+
+    return f
   }
 
   const handleInputValor = (row: AjustarProdutoRow, valor: number) => {
@@ -163,6 +201,8 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     setSnack({ open: false, message: '', severity: 'success' })
   };
 
+
+
   const a: IUseAjuste = {
     isLoading,
     isUploading,
@@ -186,6 +226,8 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     rows,
     error,
     filterOptions,
+    filterValue,
+    setFilterValue,
     setPage,
     setRowsPerPage
 

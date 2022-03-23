@@ -63,25 +63,25 @@ export class AjusteMetas implements IAjustarProduto {
   totalizar() {
     let totalMetaAjustada = 0
     let totalMetaRef = 0
-    let totalMetaReferencia2 = 0
+    let totalMetaRef2 = 0
 
-    if (this.rows === undefined) {
+    if (this.pallrows === undefined) {
       this.erros = 1
       throw new Error("Sem linhas para totalizar");
     }
 
     // totalizar as linhas
-    this.rows.forEach(r => {
+    this.pallrows.forEach(r => {
       totalMetaAjustada += r.metaAjustada
       totalMetaRef += r.metaReferencia
+      totalMetaRef2 += r.metaReferencia
     })
 
     // a meta de referencia deve ser igual a meta das linhas
-    if (this.metaReferencia !== totalMetaRef) {
+    if (this.metaReferencia2 !== totalMetaRef2) {
       this.erros = 1
     }
 
-    this.metaReferencia = totalMetaRef
     this.metaAjustada = totalMetaAjustada
     this.psaldo = Math.trunc(((this.metaAjustada - (this.metaReferencia2 + this.trocas)) * 100)) / 100
     this.totalizarErros()
@@ -114,7 +114,7 @@ export class AjusteMetas implements IAjustarProduto {
     }
 
     this.erros = 0
-    this.rows.forEach(r => {
+    this.pallrows.forEach(r => {
       this.erros += r.erros > 0 ? 1 : 0
     })
 
@@ -124,7 +124,7 @@ export class AjusteMetas implements IAjustarProduto {
   }
 
   private calcularShare() {
-    this.rows.forEach(r => {
+    this.pallrows.forEach(r => {
       r.shareRef = (r.metaReferencia / this.metaReferencia) * 100
       r.shareAjustado = (r.metaAjustada / this.metaAjustada) * 100
     })
@@ -156,16 +156,12 @@ export class AjusteMetas implements IAjustarProduto {
   }
   sincronizarCheckbox() {
     let allChecked = true
-    let NoneChecked = true
     this.rows.forEach(r => {
-      if (r.checked) {
-        NoneChecked = false
-      } else {
+      if (!r.checked) {
         allChecked = false
       }
-
-      this.checkbox = allChecked
     })
+    this.checkbox = allChecked
   }
 
   distribuirProporcional() {
