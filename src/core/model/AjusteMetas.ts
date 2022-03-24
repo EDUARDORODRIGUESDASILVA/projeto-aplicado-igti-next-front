@@ -8,6 +8,11 @@ export interface IAjusteMetasFiltro {
   unidades: IUnidade[]
   cluster: string[]
 }
+export interface IAjusteImportadoExcel {
+  id: number,
+  ajustado: number
+}
+
 export class AjusteMetas implements IAjustarProduto {
 
   private psaldo: number = 0
@@ -171,6 +176,18 @@ export class AjusteMetas implements IAjustarProduto {
       }
     })
     this.checkbox = allChecked
+  }
+
+  atualizaObjetivosFromExcel(input: IAjusteImportadoExcel[]) {
+    if(input.length > 0) {
+      input.forEach ( i => {
+        const r = this.rows.find( j => j.id == i.id)
+        if (r) {
+          r.inputMetaAjustada = i.ajustado
+        }
+      })
+    }
+
   }
 
   distribuirProporcional(contagem?: number) {

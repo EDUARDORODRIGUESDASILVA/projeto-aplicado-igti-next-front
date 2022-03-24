@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useAppSelector } from "../../store/hooks";
 import { selectUser } from '../../store/userSlice';
 import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
+import RelatorioBaseCompleta from "./RelatorioBaseCompleta";
 
 
 export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
@@ -41,6 +42,8 @@ export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
           }
           action={<Box sx={{ mt: '13px' }}>
 
+            <RelatorioBaseCompleta actions={actions}></RelatorioBaseCompleta>
+
             <Button variant="text"
               sx={{ mr: 1 }}
               onClick={actions.handleExcelClick}
@@ -48,6 +51,7 @@ export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
             >
               Excel
             </Button>
+
 
             <Button variant="text"
 

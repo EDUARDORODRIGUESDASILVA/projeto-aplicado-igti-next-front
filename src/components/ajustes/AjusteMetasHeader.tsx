@@ -3,6 +3,7 @@ import Title from '../dashboard/Title';
 import { red } from '@mui/material/colors';
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import { useRouter } from "next/router";
+import AjustesUploadButton from "./AjustesUploadButton";
 
 export default function AjusteMetasHeader({actions}: { actions: IUseAjuste} ) {
   const router = useRouter()
@@ -40,7 +41,8 @@ export default function AjusteMetasHeader({actions}: { actions: IUseAjuste} ) {
             {
               actions.ajuste.unidade.tipo == 'SR' ? (<Button variant="text"
                 sx={{ mr: 1 }}
-                disabled={actions.ajuste.saldo !== 0 || actions.ajuste.auxiliarTroca !== 0 || actions.isUploading}
+                // actions.ajuste.saldo !== 0
+                disabled={ actions.ajuste.auxiliarTroca !== 0 || actions.isUploading}
                 onClick={() => { actions.handleGravar(true); }}
 
               >
@@ -57,13 +59,10 @@ export default function AjusteMetasHeader({actions}: { actions: IUseAjuste} ) {
               Excel
             </Button>
 
-            <Button variant="text"
-              sx={{ mr: 1 }}
-              onClick={() => { }}
-              disabled={true}
-            >
-              Upload
-            </Button>
+
+            <AjustesUploadButton actions={actions}>
+            </AjustesUploadButton>
+
 
             <Button variant="text"
               sx={{ mr: 1 }}

@@ -62,6 +62,20 @@ export class AjustarProdutoRow implements IRowAjustar {
     }
   }
 
+  set inputMetaAjustada(metaAjustada: number) {
+    this.ivalor = 0
+    this.ipct = 0
+
+
+    const novoValor = metaAjustada - this.metaReferencia2 - this.trocas
+
+    this.inputValor = novoValor
+    if (!(this.metaAjustada == metaAjustada)) {
+      console.log('meta não bate', this.metaAjustada, metaAjustada, )
+      throw new Error("Meta ajustada calculada incorreta");
+    }
+  }
+
   get inputPct(): number {
     return this.ipct
   }
@@ -117,6 +131,11 @@ export class AjustarProdutoRow implements IRowAjustar {
   }
 
   private calcPctChange() {
+
+    if (this.metaAjustada == 0) {
+      this.ppctChange = 0
+      return
+    }
 
     this.ppctChange = ((this.metaAjustada / this.metaReferencia) - 1) * 100
     this.ppctChange = Math.trunc(this.ppctChange * 100) / 100

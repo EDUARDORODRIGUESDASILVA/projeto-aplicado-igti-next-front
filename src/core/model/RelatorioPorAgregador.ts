@@ -92,10 +92,8 @@ export class RelatorioPorAgregador implements IRelatorio {
         this.pfilteredrows = this.prows
       }
 
-      console.log('filter', this.filter)
       if (this.filter.produtos.length > 0) {
         const ids = this.filter.produtos.map ( r => r.id)
-        console.log(ids)
         this.pfilteredrows = this.prows.filter (
           r=> ids.includes(r.produto.id)
         )

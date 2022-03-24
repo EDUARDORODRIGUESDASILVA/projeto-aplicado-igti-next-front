@@ -6,6 +6,7 @@ import { AjusteMetas, IAjusteMetasFiltro } from "../core/model/AjusteMetas"
 import { AjusteMetasExportaExcel } from "../core/model/AjusteMetasExportaExcel";
 import { atualizarObjetivosLote } from "../services/ajustesService";
 import { useFetchAjustePorAgregador } from "./useFetchAjustePorAgregador"
+import { AjusteMetasImportaExcel } from "../core/model/AjusteMetasImportaExcel";
 
 export interface IUseAjuste {
   isLoading: boolean
@@ -26,6 +27,7 @@ export interface IUseAjuste {
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
   handleInputAuxiliarTroca: (valor: number) => void
+  handleImportarExcel: (arquivo: File) => void
   rows: AjustarProdutoRow[]
   page: number
   rowsPerPage: number
@@ -83,6 +85,25 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
       const nome = `${sidem} - ${produto} - ${unidade}`
       const gerador = new AjusteMetasExportaExcel(ajuste)
       gerador.gerarExcel(nome)
+    }
+  }
+
+  const handleImportarExcel = async (arquivo: File) => {
+    if (ajuste) {
+      const leitor = new AjusteMetasImportaExcel(ajuste)
+      try {
+        const res = await leitor.importarExcel(arquivo)
+        if (res == true) {
+          const r = orderRows(ajuste.rows)
+          setSnack({ open: true, message: 'Arquivo importado com sucesso!', severity: 'success' })
+          setrows(r)
+
+        }
+
+      } catch (error) {
+        console.log(error)
+        setSnack({ open: true, message: 'Arquivo com layout incorreto! ' + error, severity: 'error' })
+      }
     }
   }
 
@@ -215,6 +236,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     isUploading,
     handleAtualizar,
     handleGerarExcel,
+    handleImportarExcel,
     handleZerar,
     handleGravar,
     handleMainCheckbox,
