@@ -60,8 +60,7 @@ export default function AjusteMetasHeader({actions}: { actions: IUseAjuste} ) {
             </Button>
 
 
-            <AjustesUploadButton actions={actions}>
-            </AjustesUploadButton>
+            <AjustesUploadButton actions={actions}/>
 
 
             <Button variant="text"
