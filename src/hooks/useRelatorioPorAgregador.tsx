@@ -11,6 +11,7 @@ export interface IUseRelatorio {
   error: string
   page: number
   rowsPerPage: number
+  produtoId: number
   handleAtualizar: () => void
   handleExcelClick: () => void
   handleFilterChange: (filter: RelatorioPorAgregadorFilter) => void
@@ -21,7 +22,6 @@ export interface IUseRelatorio {
 }
 export const useRelatorioPorAgregador = (unidadeId: number, produtoId: number) => {
   const { isLoading, relatorio, error, refetch } = useFetchRelatorioPorAgregador(unidadeId, produtoId)
-
   const [rows, setrows] = useState<RelatorioPorAgregadorRow[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -50,6 +50,9 @@ export const useRelatorioPorAgregador = (unidadeId: number, produtoId: number) =
     }
   }
 
+
+
+
   const handleFilterChange = (filter: RelatorioPorAgregadorFilter) => {
     if(relatorio) {
       relatorio.filter = filter;
@@ -66,12 +69,10 @@ export const useRelatorioPorAgregador = (unidadeId: number, produtoId: number) =
     setPage(0);
   };
 
-
-
-
   const a: IUseRelatorio = {
     isLoading,
     relatorio,
+    produtoId,
     error,
     rows,
     page,
@@ -83,8 +84,6 @@ export const useRelatorioPorAgregador = (unidadeId: number, produtoId: number) =
     handleChangeRowsPerPage,
     setPage,
     setRowsPerPage
-
-
   }
   return a
 }

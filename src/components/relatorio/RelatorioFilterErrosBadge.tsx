@@ -28,6 +28,7 @@ export default function RelatorioFilterErrosBadge({ actions }: { actions: IUseRe
       j.comErros = !checked
       setchecked(j.comErros)
       actions.handleFilterChange(j)
+      actions.setPage(0)
     }
 
   }

@@ -1,5 +1,6 @@
 import { AjusteMetas } from './AjusteMetas'
 import XlsxPopulate from 'xlsx-populate'
+import { AjustarProdutoRow } from './AjustarProdutoRow'
 
 enum CoresExcel {
   'COR_FUNDO_CABECALHO' = '1f4e78',
@@ -10,46 +11,22 @@ enum CoresExcel {
 
 export class AjusteMetasExportaExcel {
   public gerando: boolean
-  constructor( private ajustes: AjusteMetas) {
+  constructor() {
     this.gerando = false
   }
-  gerarExcel(nome: string) {
-    const arquivo = `${nome}.xlsx`
 
-    XlsxPopulate.fromBlankAsync().then((workbook: XlsxPopulate.Workbook ) => {
-      this.geraWorkbook(workbook)
-      workbook.outputAsync()
-        .then((blob: any) => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          document.body.appendChild(a);
-          a.href = url;
-          a.download = arquivo;
-          a.click();
-          window.URL.revokeObjectURL(url);
-          document.body.removeChild(a);
-        }
-        )
-        .catch((err: any) => {
-          alert(err.message || err);
-          throw err;
-        });
-    })
-  }
-
-  private geraWorkbook(workbook: XlsxPopulate.Workbook): XlsxPopulate.Workbook {
+  private geraWorkbook(workbook: XlsxPopulate.Workbook, planame: string, titulo: string, rows: AjustarProdutoRow[]): XlsxPopulate.Workbook {
 
     const plan = workbook.sheet('Sheet1');
-    plan.name(this.ajustes.produto.codsidem + '_' + this.ajustes.unidade.id);
+    plan.name(planame);
 
-    const titlerow = plan.range('A1:P1');
+    const titlerow = plan.range('A1:Q1');
     titlerow.style('horizontalAlignment', 'center');
     titlerow.style('fill', CoresExcel.COR_FUNDO_CABECALHO); // light gray
     titlerow.style('fontColor', CoresExcel.COR_TEXTO_CABECALHO); // dark gray
     titlerow.style('bold', true)
 
-    const titulo = this.ajustes.produto.codsidem + '  -  ' + this.ajustes.produto.nome + '  -  ' + this.ajustes.unidade.nome
-    const title = plan.range('A1:P1');
+    const title = plan.range('A1:Q1');
     title.merged(true);
     title.style('horizontalAlignment', 'center');
     title.style('fill', CoresExcel.COR_FUNDO_CABECALHO); // light gray
@@ -62,11 +39,11 @@ export class AjusteMetasExportaExcel {
 
     let coluna = 0
     let linha = 2
-    const nomescolunas = plan.range('A2:P2');
+    const nomescolunas = plan.range('A2:Q2');
     nomescolunas.style('fill', CoresExcel.COR_FUNDO_COLUNAS);
     nomescolunas.style('fontColor', CoresExcel.COR_TEXTO_COLUNAS);
     nomescolunas.style('bold', true)
-    const colunasf = workbook.sheet(0).range('A2:P2');
+    const colunasf = workbook.sheet(0).range('A2:Q2');
     colunasf.autoFilter();
     plan.freezePanes(4, 2);
 
@@ -91,6 +68,9 @@ export class AjusteMetasExportaExcel {
 
     plan.cell(linha, ++coluna).value('Produto').style('horizontalAlignment', 'center');
     plan.column(coluna).width(42).width(40).style('bold', true).style('fontColor', '2F75B5')
+
+    plan.cell(linha, ++coluna).value('Trava').style('horizontalAlignment', 'center');
+    plan.column(coluna).width(9).style('horizontalAlignment', 'center').style('bold', true)
 
     plan.cell(linha, ++coluna).value('Inicial').style('horizontalAlignment', 'center');
     plan.column(coluna).width(15).style('numberFormat', '#,##0.00;[Red]-#,##0.00');
@@ -122,7 +102,7 @@ export class AjusteMetasExportaExcel {
     nomescolunas.style('fontColor', CoresExcel.COR_TEXTO_COLUNAS);
     linha++
 
-    this.ajustes.rows.forEach (r => {
+    rows.forEach(r => {
 
       let coluna = 0
 
@@ -153,6 +133,9 @@ export class AjusteMetasExportaExcel {
       const produto = plan.cell(linha, ++coluna)
       produto.value(r.Produto.nome)
 
+      const trava = plan.cell(linha, ++coluna)
+      trava.value(r.trava)
+
       const referencia = plan.cell(linha, ++coluna)
       referencia.value(r.metaReferencia)
 
@@ -164,7 +147,7 @@ export class AjusteMetasExportaExcel {
 
       const ajustada = plan.cell(linha, ++coluna)
       ajustada.value(r.metaAjustada)
-      if (this.ajustes.rows.length <  130) {
+      if (rows.length < 130) {
         ajustada.style('fill', 'FFF2CC')
       }
 
@@ -190,4 +173,25 @@ export class AjusteMetasExportaExcel {
     return workbook
 
   }
+
+  private export(blob: any, arquivo: string): void {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.href = url;
+    a.download = arquivo;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }
+
+   async gerarExcel(nome: string, planame: string, titulo: string, rows: AjustarProdutoRow[] ) {
+    const arquivo = `${nome}.xlsx`
+    const workbook = await XlsxPopulate.fromBlankAsync()
+    this.geraWorkbook(workbook,planame, titulo, rows)
+    const blob = await workbook.outputAsync()
+    this.export(blob, arquivo)
+  }
+
+
 }

@@ -68,8 +68,6 @@ export class RelatorioPorAgregadorExportaExcel {
     colunasf.autoFilter();
     plan.freezePanes(4, 2);
 
-
-
     plan.cell(linha, ++coluna).value('CGC').style('horizontalAlignment', 'center');
     plan.column(coluna).width(9).style('bold', true).style('horizontalAlignment', 'center')
 
@@ -118,11 +116,6 @@ export class RelatorioPorAgregadorExportaExcel {
         plan.range(address).style('bold', true).style('fill', 'FFEBEE')
       }
 
-      if (r.erros == 0 && r.qtdlinhas == r.gravado) {
-        const address = `A${linha}:K${linha}`
-        plan.range(address).style('bold', true).style('fill', 'E2EFDA')
-      }
-
       const cgc = workbook.sheet(0).cell(linha, coluna++)
       cgc.value(r.unidade.id)
 
@@ -160,6 +153,10 @@ export class RelatorioPorAgregadorExportaExcel {
 
       const gravadas = workbook.sheet(0).cell(linha, coluna++)
       gravadas.value(r.gravado + '/' + r.qtdlinhas)
+
+      if (r.erros == 0 && r.qtdlinhas == r.gravado) {
+        gravadas.style('bold', true).style('fill', 'E2EFDA')
+      }
 
       linha++
 

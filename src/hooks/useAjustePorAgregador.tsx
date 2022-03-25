@@ -82,9 +82,12 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
       const sidem = ajuste.produto.codsidem
       const produto = ajuste.produto.nome
       const unidade = ajuste.unidade.nome
+
+      const gerador = new AjusteMetasExportaExcel()
       const nome = `${sidem} - ${produto} - ${unidade}`
-      const gerador = new AjusteMetasExportaExcel(ajuste)
-      gerador.gerarExcel(nome)
+      const titulo = ajuste.produto.codsidem + '  -  ' + ajuste.produto.nome + '  -  ' + ajuste.unidade.nome
+      const planame = ajuste.produto.codsidem + '_' + ajuste.unidade.id
+      gerador.gerarExcel(nome, planame, titulo,ajuste.rows)
     }
   }
 

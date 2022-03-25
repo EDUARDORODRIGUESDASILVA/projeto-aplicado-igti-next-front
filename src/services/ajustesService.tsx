@@ -2,6 +2,7 @@ import instance from './axiosService';
 import { IAjustarProduto } from '../core/interfaces/ajustar-objetivos/IAjustarProduto';
 import { AjustarProdutoRow } from '../core/model/ajustar-objetivos/AjustarProdutoRow';
 import { AjusteMetas } from '../core/model/ajustar-objetivos/AjusteMetas';
+import { IRowAjustar } from '../core/interfaces/ajustar-objetivos/IRowAjustar';
 
 export async function fetchAjustesAgregador(unidadeId: number, produtoId: number): Promise<IAjustarProduto> {
   try {
@@ -26,7 +27,7 @@ export async function criarAjustePorAgregador(unidadeId: number, produtoId: numb
   const rows: AjustarProdutoRow[] = []
 
   fetched.rows.forEach(
-    r=> rows.push (new AjustarProdutoRow(r))
+    r => rows.push(new AjustarProdutoRow(r))
   )
 
   const ajuste: AjusteMetas = new AjusteMetas(
@@ -39,20 +40,19 @@ export async function criarAjustePorAgregador(unidadeId: number, produtoId: numb
   ajuste.addRows(rows)
   ajuste.totalizar()
   return ajuste
-
-
 }
 
-interface IUpdateObjetivosLote  {
+interface IUpdateObjetivosLote {
   id: number,
   metaAjustada: number
 }
 
-export async function atualizarObjetivosLote (unidadeId: number, produtoId: number, ajuste: AjusteMetas, gravaReferencia: boolean): Promise<Boolean> {
+export async function atualizarObjetivosLote(unidadeId: number, produtoId: number,
+   ajuste: AjusteMetas, gravaReferencia: boolean): Promise<Boolean> {
   try {
     const lote: IUpdateObjetivosLote[] = []
 
-    ajuste.rows.forEach ( r => {
+    ajuste.rows.forEach(r => {
       const l: any = { id: r.id, metaAjustada: r.metaAjustada }
       if (gravaReferencia) {
         l.metaReferencia2 = r.metaAjustada
@@ -70,4 +70,99 @@ export async function atualizarObjetivosLote (unidadeId: number, produtoId: numb
   } catch (error: any) {
     throw new Error('Falha ao atualizar objetivos');
   }
+}
+
+export interface IFetchBaseCompletaQuery {
+  sr?: number,
+  se?: number,
+  vinc?: number
+  produtoId?: number
+}
+export async function fetchBaseCompleta(query: IFetchBaseCompletaQuery): Promise<AjustarProdutoRow[]> {
+  try {
+
+    let squery = ""
+
+    if (query.vinc) {
+      squery = `?vinc=${query.vinc}`
+    }
+
+    if (query.sr) {
+      squery = `?sr=${query.sr}`
+    }
+
+    if (query.se) {
+      squery = `?se=${query.se}`
+    }
+
+     if (query.produtoId) {
+      squery += `&produtoId=${query.produtoId}`
+    }
+
+
+    const resp = await instance.get(`/objetivo${squery}`)
+    console.log(resp.status)
+    if (resp.status !== 200) {
+      throw new Error(resp.statusText + ' | ' + resp.data.msg);
+    }
+
+    const ajustes: IRowAjustar[] = resp.data
+    return baseCompletaCalcula(ajustes)
+
+  } catch (error: any) {
+    throw new Error('Falha ao buscar ajuste');
+  }
+}
+
+function baseCompletaCalcula(ajustes: IRowAjustar[]): AjustarProdutoRow[] {
+  const rows: AjustarProdutoRow[] = []
+
+  ajustes.forEach(
+    r => rows.push(new AjustarProdutoRow(r))
+  )
+
+  rows.forEach( r => {
+    const totalRef = rows.map( j => j.Produto.id == r.Produto.id ? j.metaReferencia : 0).reduce( (p, c) => p + c, 0)
+    const totalAjustado = rows.map( j => j.Produto.id == r.Produto.id ? j.metaAjustada : 0).reduce( (p, c) => p + c, 0)
+    r.shareRef = (r.metaReferencia / totalRef) * 100
+    r.shareAjustado = (r.metaAjustada / totalAjustado) * 100
+  })
+
+  rows.sort( (a: AjustarProdutoRow, b: AjustarProdutoRow) => {
+    if (a.erros > b.erros) {
+      return -1
+    }
+    if (a.erros < b.erros) {
+      return 1
+    }
+
+    if (a.Produto.codsidem < b.Produto.codsidem) {
+      return -1
+    }
+
+    if (a.Produto.codsidem > b.Produto.codsidem) {
+      return 1
+    }
+
+    if (a.metaAjustada > b.metaAjustada) {
+      return -1
+    }
+
+    if (a.metaAjustada < b.metaAjustada) {
+      return 1
+    }
+
+    if (a.Unidade.nome < b.Unidade.nome) {
+      return -1
+    }
+
+     if (a.Unidade.nome > b.Unidade.nome) {
+      return 1
+    }
+
+    return 0
+  })
+
+  return rows
+
 }
