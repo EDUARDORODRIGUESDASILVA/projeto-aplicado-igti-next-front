@@ -41,8 +41,7 @@ export default function AjusteMetasHeader({actions}: { actions: IUseAjuste} ) {
             {
               actions.ajuste.unidade.tipo == 'SR' ? (<Button variant="text"
                 sx={{ mr: 1 }}
-                // actions.ajuste.saldo !== 0
-                disabled={ actions.ajuste.auxiliarTroca !== 0 || actions.isUploading}
+                disabled={actions.ajuste.saldo !== 0 || actions.ajuste.auxiliarTroca !== 0 || actions.isUploading}
                 onClick={() => { actions.handleGravar(true); }}
 
               >

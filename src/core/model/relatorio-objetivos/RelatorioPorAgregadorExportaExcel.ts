@@ -1,4 +1,3 @@
-import { AjusteMetas } from './AjusteMetas'
 import XlsxPopulate from 'xlsx-populate'
 import { RelatorioPorAgregador } from './RelatorioPorAgregador'
 

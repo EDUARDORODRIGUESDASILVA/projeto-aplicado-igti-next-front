@@ -1,6 +1,6 @@
-import { IAjustarProduto } from "../interfaces/ajustar-objetivos/IAjustarProduto";
-import { IProduto } from "../interfaces/IProduto";
-import { IUnidade } from "../interfaces/IUnidade";
+import { IAjustarProduto } from "../../interfaces/ajustar-objetivos/IAjustarProduto";
+import { IProduto } from "../../interfaces/IProduto";
+import { IUnidade } from "../../interfaces/IUnidade";
 import { AjustarProdutoRow } from "./AjustarProdutoRow";
 
 export interface IAjusteMetasFiltro {

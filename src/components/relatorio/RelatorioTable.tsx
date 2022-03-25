@@ -1,9 +1,6 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
-import { useState } from "react";
-import { RelatorioPorAgregador, RelatorioPorAgregadorFilter } from "../../core/model/RelatorioPorAgregador";
 import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
 import RelatorioFilterErrosBadge from "./RelatorioFilterErrosBadge";
-import RelatorioFilterProduto from "./RelatorioFilterProduto";
 import RelatorioTableRow from "./RelatorioTableRow";
 
 export default function RelatorioTable({ actions }: { actions: IUseRelatorio }) {

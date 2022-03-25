@@ -1,10 +1,10 @@
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
-import { RelatorioPorAgregadorFilter } from '../../core/model/RelatorioPorAgregador';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useState } from 'react';
 import { IUseRelatorio } from '../../hooks/useRelatorioPorAgregador';
+import { RelatorioPorAgregadorFilter } from '../../core/model/relatorio-objetivos/RelatorioPorAgregador';
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   '& .MuiBadge-badge': {
     right: -3,

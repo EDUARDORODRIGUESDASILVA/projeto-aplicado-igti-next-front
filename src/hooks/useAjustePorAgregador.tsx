@@ -1,12 +1,12 @@
 import { AlertColor } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { AjusteMetasFiltroOption, getOptions } from "../core/model/AjusteMetasFiltroFunctions";
-import { AjustarProdutoRow } from "../core/model/AjustarProdutoRow";
-import { AjusteMetas, IAjusteMetasFiltro } from "../core/model/AjusteMetas"
-import { AjusteMetasExportaExcel } from "../core/model/AjusteMetasExportaExcel";
+import { AjustarProdutoRow } from "../core/model/ajustar-objetivos/AjustarProdutoRow";
+import { AjusteMetas, IAjusteMetasFiltro } from "../core/model/ajustar-objetivos/AjusteMetas";
+import { AjusteMetasExportaExcel } from "../core/model/ajustar-objetivos/AjusteMetasExportaExcel";
+import { AjusteMetasFiltroOption, getOptions } from "../core/model/ajustar-objetivos/AjusteMetasFiltroFunctions";
+import { AjusteMetasImportaExcel } from "../core/model/ajustar-objetivos/AjusteMetasImportaExcel";
 import { atualizarObjetivosLote } from "../services/ajustesService";
-import { useFetchAjustePorAgregador } from "./useFetchAjustePorAgregador"
-import { AjusteMetasImportaExcel } from "../core/model/AjusteMetasImportaExcel";
+import { useFetchAjustePorAgregador } from "./useFetchAjustePorAgregador";
 
 export interface IUseAjuste {
   isLoading: boolean

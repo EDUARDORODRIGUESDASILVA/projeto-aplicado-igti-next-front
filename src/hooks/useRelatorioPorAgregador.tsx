@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { RelatorioPorAgregador, RelatorioPorAgregadorFilter } from "../core/model/RelatorioPorAgregador"
-import { RelatorioPorAgregadorExportaExcel } from "../core/model/RelatorioPorAgregadorExportaExcel"
-import { RelatorioPorAgregadorRow } from "../core/model/RelatorioPorAgregadorRow"
+import { RelatorioPorAgregador, RelatorioPorAgregadorFilter } from "../core/model/relatorio-objetivos/RelatorioPorAgregador"
+import { RelatorioPorAgregadorExportaExcel } from "../core/model/relatorio-objetivos/RelatorioPorAgregadorExportaExcel"
+import { RelatorioPorAgregadorRow } from "../core/model/relatorio-objetivos/RelatorioPorAgregadorRow"
 import { useFetchRelatorioPorAgregador } from "./useFetchRelatorioPorAgregador"
 
 export interface IUseRelatorio {

@@ -1,6 +1,6 @@
-import { IProduto } from "../interfaces/IProduto";
-import { IUnidade } from "../interfaces/IUnidade";
-import { IRelatorio } from "../interfaces/relatorio-objetivos/IRelatorio";
+import { IProduto } from "../../interfaces/IProduto";
+import { IUnidade } from "../../interfaces/IUnidade";
+import { IRelatorio } from "../../interfaces/relatorio-objetivos/IRelatorio";
 import { RelatorioPorAgregadorRow } from "./RelatorioPorAgregadorRow";
 
 export interface RelatorioPorAgregadorFilter {

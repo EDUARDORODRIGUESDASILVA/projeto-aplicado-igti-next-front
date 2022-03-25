@@ -1,9 +1,8 @@
 import { Button, TableCell, TableRow, Tooltip } from "@mui/material";
 import Link from "next/link";
 import NumberTextFormat from "../../utils/NumberTextFormat";
-
-import { RelatorioPorAgregadorRow } from "../../core/model/RelatorioPorAgregadorRow";
 import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
+import { RelatorioPorAgregadorRow } from "../../core/model/relatorio-objetivos/RelatorioPorAgregadorRow";
 
 export default function RelatorioTableRow( {row, actions}: { row: RelatorioPorAgregadorRow, actions: IUseRelatorio }) {
 

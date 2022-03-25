@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { RelatorioPorAgregador } from '../core/model/RelatorioPorAgregador';
+import { RelatorioPorAgregador } from '../core/model/relatorio-objetivos/RelatorioPorAgregador';
 import { criarRelatorioPorAgregador } from '../services/relatorioService';
 
 export const useFetchRelatorioPorAgregador = (unidadeId: number, produtoId: number) => {

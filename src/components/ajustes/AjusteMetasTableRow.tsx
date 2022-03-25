@@ -1,5 +1,5 @@
 import { Button, Checkbox, TableCell, TableRow, Typography } from "@mui/material";
-import { AjustarProdutoRow } from "../../core/model/AjustarProdutoRow";
+import { AjustarProdutoRow } from "../../core/model/ajustar-objetivos/AjustarProdutoRow";
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import NumberInputFormat from "../../utils/NumberInputFormat";
 import NumberTextFormat from "../../utils/NumberTextFormat";

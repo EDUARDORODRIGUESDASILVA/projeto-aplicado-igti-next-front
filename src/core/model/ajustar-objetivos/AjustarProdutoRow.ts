@@ -1,8 +1,9 @@
-import { IRowAjustar } from "../interfaces/ajustar-objetivos/IRowAjustar";
-import { IProduto } from "../interfaces/IProduto";
-import { IUnidade } from "../interfaces/IUnidade";
-import { IUser } from "../interfaces/IUser";
-import { AjusteMetas } from "./AjusteMetas";
+import { IRowAjustar } from "../../interfaces/ajustar-objetivos/IRowAjustar"
+import { IProduto } from "../../interfaces/IProduto"
+import { IUnidade } from "../../interfaces/IUnidade"
+import { IUser } from "../../interfaces/IUser"
+import { AjusteMetas } from "./AjusteMetas"
+
 
 export class AjustarProdutoRow implements IRowAjustar {
   private pshareRef: number = 0

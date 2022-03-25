@@ -4,7 +4,7 @@ import { IProduto } from '../core/interfaces/IProduto';
 import { IUnidade } from '../core/interfaces/IUnidade';
 import { IRelatorio } from '../core/interfaces/relatorio-objetivos/IRelatorio';
 import { IRelatorioRow } from '../core/interfaces/relatorio-objetivos/IRelatorioRow';
-import { RelatorioPorAgregador } from '../core/model/RelatorioPorAgregador';
+import { RelatorioPorAgregador } from '../core/model/relatorio-objetivos/RelatorioPorAgregador';
 import instance from './axiosService';
 
 interface IRelatorioInputRow {

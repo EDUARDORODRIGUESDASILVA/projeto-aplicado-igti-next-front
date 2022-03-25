@@ -1,6 +1,6 @@
-import { IProduto } from "../interfaces/IProduto";
-import { IUnidade } from "../interfaces/IUnidade";
-import { IRelatorioRow } from "../interfaces/relatorio-objetivos/IRelatorioRow";
+import { IProduto } from "../../interfaces/IProduto";
+import { IUnidade } from "../../interfaces/IUnidade";
+import { IRelatorioRow } from "../../interfaces/relatorio-objetivos/IRelatorioRow";
 
 export class RelatorioPorAgregadorRow implements IRelatorioRow {
   id: number;

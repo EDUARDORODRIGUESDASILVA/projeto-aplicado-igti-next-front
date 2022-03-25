@@ -1,7 +1,7 @@
-import { AjusteMetas } from '../core/model/AjusteMetas';
-import { AjustarProdutoRow } from '../core/model/AjustarProdutoRow';
 import instance from './axiosService';
 import { IAjustarProduto } from '../core/interfaces/ajustar-objetivos/IAjustarProduto';
+import { AjustarProdutoRow } from '../core/model/ajustar-objetivos/AjustarProdutoRow';
+import { AjusteMetas } from '../core/model/ajustar-objetivos/AjusteMetas';
 
 export async function fetchAjustesAgregador(unidadeId: number, produtoId: number): Promise<IAjustarProduto> {
   try {

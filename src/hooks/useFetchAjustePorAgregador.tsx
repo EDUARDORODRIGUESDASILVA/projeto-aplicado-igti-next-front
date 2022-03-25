@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AjusteMetas } from '../core/model/AjusteMetas';
+import { AjusteMetas } from '../core/model/ajustar-objetivos/AjusteMetas';
 import {criarAjustePorAgregador} from '../services/ajustesService'
 
 export const useFetchAjustePorAgregador = (unidadeId: number, produtoId: number) => {

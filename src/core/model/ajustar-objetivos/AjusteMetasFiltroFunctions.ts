@@ -1,4 +1,4 @@
-import { IUnidade } from "../interfaces/IUnidade"
+import { IUnidade } from "../../interfaces/IUnidade"
 import { AjustarProdutoRow } from "./AjustarProdutoRow"
 export interface AjusteMetasFiltroOption {
   label: string

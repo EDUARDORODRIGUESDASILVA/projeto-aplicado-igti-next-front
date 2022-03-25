@@ -2,7 +2,7 @@ import { Autocomplete, Checkbox, TextField } from "@mui/material";
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { AjusteMetasFiltroOption} from "../../core/model/AjusteMetasFiltroFunctions";
+import { AjusteMetasFiltroOption } from "../../core/model/ajustar-objetivos/AjusteMetasFiltroFunctions";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
