@@ -44,8 +44,9 @@ export const useRelatorioPorAgregador = (unidadeId: number, produtoId: number) =
 
   const handleExcelClick = () => {
     if (relatorio) {
+      const nome = 'RelatorioAjustes_' + relatorio.agregador.nome
       const gerador: RelatorioPorAgregadorExportaExcel = new RelatorioPorAgregadorExportaExcel(relatorio)
-      gerador.gerarExcel()
+      gerador.gerarExcel(nome)
     }
   }
 

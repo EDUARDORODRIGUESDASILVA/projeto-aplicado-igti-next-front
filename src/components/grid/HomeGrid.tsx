@@ -9,8 +9,8 @@ export default function HomeGrid() {
       <Box
         sx={{
           bgcolor: 'background.paper',
-          pt: 8,
-          pb: 6,
+          pt: 5,
+          pb: 5,
         }}
       >
         <Container maxWidth="lg">
@@ -26,7 +26,6 @@ export default function HomeGrid() {
           <Box sx={{ml: 'auto', mr: 'auto', maxWidth:'580px', maxHeight:'400px'}}>
             <Image src={Logo}  alt="me" width="600" height='400' layout='responsive'/>
           </Box>
-
 
           <Typography variant="h5" sx={{mt: '10px'}} align="center" color="text.secondary" paragraph>
           Bem vindo!

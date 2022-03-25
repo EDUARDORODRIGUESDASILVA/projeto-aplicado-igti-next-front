@@ -87,10 +87,10 @@ export class AjusteMetasExportaExcel {
     plan.column(coluna).width(14).style('bold', true).style('fontColor', '57257C')
 
     plan.cell(linha, ++coluna).value('SIDEM').style('horizontalAlignment', 'center');
-    plan.column(coluna).width(15).style('bold', true)
+    plan.column(coluna).width(14).style('bold', true).style('fontColor', '808080')
 
     plan.cell(linha, ++coluna).value('Produto').style('horizontalAlignment', 'center');
-    plan.column(coluna).width(42).hidden(true)
+    plan.column(coluna).width(42).width(40).style('bold', true).style('fontColor', '2F75B5')
 
     plan.cell(linha, ++coluna).value('Inicial').style('horizontalAlignment', 'center');
     plan.column(coluna).width(15).style('numberFormat', '#,##0.00;[Red]-#,##0.00');
@@ -112,7 +112,6 @@ export class AjusteMetasExportaExcel {
 
     plan.cell(linha, ++coluna).value('Final').style('horizontalAlignment', 'center');
     plan.column(coluna).width(9).style('bold', true).style('numberFormat', '#,##0.0000;[Red]-#,##0.0000');
-
 
     plan.cell(linha, ++coluna).value('Erros').style('horizontalAlignment', 'center');
     plan.column(coluna).width(8).style('bold', true)
@@ -169,7 +168,6 @@ export class AjusteMetasExportaExcel {
         ajustada.style('fill', 'FFF2CC')
       }
 
-
       const pctchange = plan.cell(linha, ++coluna)
       pctchange.value(r.pctChange)
 
@@ -178,7 +176,6 @@ export class AjusteMetasExportaExcel {
 
       const shareAjustado = plan.cell(linha, ++coluna)
       shareAjustado.value(r.shareAjustado)
-
 
       const erros = plan.cell(linha, ++coluna)
       erros.value(r.erros)
