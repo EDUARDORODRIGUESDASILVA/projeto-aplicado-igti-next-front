@@ -30,39 +30,37 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
       sx={{ backgroundColor: rowBackgroundColor() }}
     >
 
-      <TableCell  colSpan={1}  padding='none'>
-            <Link href={`/relatorio/${row.unidade.id}`} passHref>
-              <Tooltip title={row.unidade.nome} placement="right">
-                <Button color="secondary" size="small">{row.unidade.id}</Button>
-              </Tooltip>
-            </Link>
-            <Link href={`/relatorio/${row.unidade.id}/${row.produto.id}`}>
-              <Button size="small">{row.produto.nome}</Button></Link>
-
-
+      <TableCell colSpan={1} padding='none'>
+        <Link href={`/relatorio/${row.unidade.id}`} passHref>
+          <Tooltip title={row.unidade.nome} placement="right">
+            <Button color="secondary" size="small">{row.unidade.id}</Button>
+          </Tooltip>
+        </Link>
+        <Link href={`/relatorio/${row.unidade.id}/${row.produto.id}`}>
+          <Button size="small">{row.produto.nome}</Button></Link>
       </TableCell>
-      <TableCell  padding='none'>
-         <Stack direction="row" spacing={0}>
-                 {row.unidade.tipo!=='SR' ? (
+      <TableCell padding='none'>
+        <Stack direction="row" spacing={0}>
+          {row.unidade.tipo !== 'SR' ? (
             <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
               <Button size="small" color='secondary'>Ajustar</Button>
 
             </Link>
-             ): <></>}
-              { row.unidade.tipo=='SR' ? (
-                <>
+          ) : <></>}
+          {row.unidade.tipo == 'SR' ? (
+            <>
 
 
-                <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
-              <Button size="small" color='secondary'>Agência</Button>
-            </Link>
+              <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
+                <Button size="small" color='secondary'>Agência</Button>
+              </Link>
 
-             <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
-              <Button size="small" disabled={true} color='secondary'>SEV</Button>
-            </Link>
+              <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
+                <Button size="small" disabled={true} color='secondary'>SEV</Button>
+              </Link>
             </>
-            ): (<></>)}
-          </Stack>
+          ) : (<></>)}
+        </Stack>
 
 
       </TableCell>
@@ -83,7 +81,7 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
 
 
       <TableCell align="right"
-        sx={{fontWeight: 'bold'}}
+        sx={{ fontWeight: 'bold' }}
       >
 
         <NumberTextFormat value={row.metaAjustada} />

@@ -22,14 +22,10 @@ export default function RelatorioBaseCompleta({actions}: {actions: IUseRelatorio
           <>
                   <CircularProgress color="info" size="15px" />
                   Gerando base completa...
-
           </>
-
         ): (<>Exportar base completa</>)
         }
-
     </Button>
-
   )
   }
 

@@ -23,17 +23,21 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
 
       {actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
         <TableCell padding="none" >
-          <Button size="small" color='secondary'>{row.Unidade.se}</Button>
+          <Button size="small"
+            onClick={() => actions.handleToogleSEV(row.Unidade.se)}
+          color='secondary'>{row.Unidade.se}</Button>
       </TableCell>
     ):(<></>)}
       <TableCell  >
-        <Typography variant="caption" display="block" gutterBottom>
+        <Typography variant="caption" display="block" >
           {row.Unidade.tipo} {row.Unidade.nome}
         </Typography>
       </TableCell>
 
       <TableCell padding='none' align="center">
-        <Button size="small" color='secondary'>{row.Unidade.cluster}</Button>
+        <Button size="small"
+         onClick={() => actions.handleToogleCluster(row.Unidade.cluster)}
+        color='secondary'>{row.Unidade.cluster}</Button>
         </TableCell>
       <TableCell padding='none' align="right" >
         <NumberTextFormat value={row.metaReferencia} />

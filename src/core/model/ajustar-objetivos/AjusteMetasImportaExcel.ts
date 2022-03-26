@@ -25,10 +25,10 @@ export class AjusteMetasImportaExcel {
     const sheet = workbook.activeSheet();
 
     const verificaId = sheet.cell("A2").value() == 'id';
-    const verificaAjustada = sheet.cell("K2").value() == 'Ajustada';
+    const verificaAjustada = sheet.cell("L2").value() == 'Ajustada';
 
     if (!(verificaId && verificaAjustada)) {
-      throw new Error("Formato inválido! Célula A2 deve ser igual a 'id' e K2 deve ser igual 'Ajustada'");
+      throw new Error("Formato inválido!");
 
     }
 
@@ -36,7 +36,7 @@ export class AjusteMetasImportaExcel {
     let acabou = false
     while ( acabou === false) {
        const id = sheet.cell(`A${linha}`).value()
-       const ajustado = sheet.cell(`K${linha}`).value()
+       const ajustado = sheet.cell(`L${linha}`).value()
 
       if (typeof (id) == 'undefined'){
         acabou = true

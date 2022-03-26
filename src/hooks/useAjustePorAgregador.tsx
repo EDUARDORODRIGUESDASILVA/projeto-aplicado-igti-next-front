@@ -21,6 +21,8 @@ export interface IUseAjuste {
   handleCalc: () => void
   handleFiltro: (value: AjusteMetasFiltroOption[]) => void
   handleToggleCheckBox: (row: AjustarProdutoRow) => void
+  handleToogleCluster: (cluster: string) => void
+  handleToogleSEV: (sev: number) => void
   handleInputPct: (row: AjustarProdutoRow, pct: number) => void
   handleInputValor: (row: AjustarProdutoRow, valor: number) => void
   handleSnackClose: (event: any, reason: any) => void
@@ -137,6 +139,36 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     }
   }
 
+  const handleToogleCluster = (cluster: string) => {
+    if(ajuste) {
+
+      let value =filterValue.filter( fv => fv.group == 'Cluster' && fv.label==cluster)
+      if (value.length > 0) {
+        value = filterValue.filter(fv => fv.label != cluster)
+      } else {
+
+        value = filterOptions.filter(fv => fv.group == 'Cluster' && fv.label == cluster)
+        filterValue.push(...value)
+      }
+      handleFiltro(value)
+    }
+  }
+
+    const handleToogleSEV = (sev: number) => {
+      if (ajuste) {
+
+        let value = filterValue.filter(fv => fv.group == 'SEV' && fv.label == sev.toString())
+        if (value.length > 0) {
+          value = filterValue.filter(fv => fv.label != sev.toString())
+        } else {
+
+          value = filterOptions.filter(fv => fv.group == 'SEV' && fv.label == sev.toString())
+          filterValue.push(...value)
+        }
+        handleFiltro(value)
+      }
+  }
+
   const getFiltro = (options: AjusteMetasFiltroOption[]): IAjusteMetasFiltro => {
     const f: IAjusteMetasFiltro = {
       sevs: [],
@@ -245,6 +277,8 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     handleMainCheckbox,
     handleCalc,
     handleToggleCheckBox,
+    handleToogleCluster,
+    handleToogleSEV,
     handleInputPct,
     handleInputValor,
     handleInputAuxiliarTroca,

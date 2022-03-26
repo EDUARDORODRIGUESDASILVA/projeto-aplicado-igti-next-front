@@ -12,8 +12,6 @@ export default function AjustesUploadButton({ actions }: { actions: IUseAjuste }
   }
   return (
     <>
-
-
       <label htmlFor="contained-button-file">
         <Input accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="contained-button-file" onChange={handleChange} type="file" />
         <Button  component="span">
@@ -21,6 +19,5 @@ export default function AjustesUploadButton({ actions }: { actions: IUseAjuste }
         </Button>
       </label>
     </>
-
   )
 }
