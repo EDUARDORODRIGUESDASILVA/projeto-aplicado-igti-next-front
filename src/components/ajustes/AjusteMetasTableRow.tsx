@@ -8,6 +8,8 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
 
   return (
     <TableRow style={{ height: 18 }}
+      hover={true}
+      selected={row.checked}
       sx={{ backgroundColor: row.erros > 0 ? "#ffebee" : "" }}
     >
       <TableCell padding="checkbox">

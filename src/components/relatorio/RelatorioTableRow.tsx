@@ -26,6 +26,7 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
 
   return (
     <TableRow
+      hover={true}
       sx={{ backgroundColor: rowBackgroundColor() }}
     >
 
