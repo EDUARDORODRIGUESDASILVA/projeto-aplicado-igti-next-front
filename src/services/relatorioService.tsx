@@ -12,9 +12,9 @@ interface IRelatorioInputRow {
   metaAjustada: number,
   metaReferencia2: number
   trocas: number,
-  erros: number,
-  gravado: number,
-  qtdlinhas: number
+  erros: number | string,
+  gravado: number | string,
+  qtdlinhas: number | string,
   produtoId: number,
   'Unidade.sr'?: number,
   'Unidade.vinc'?: number,
@@ -66,9 +66,9 @@ export async function criarRelatorioPorAgregador(unidadeId: number, produtoId?: 
         metaReferencia2: r.metaReferencia2,
         trocas: r.trocas,
         metaAjustada: r.metaAjustada,
-        erros: r.erros,
-        qtdlinhas: r.qtdlinhas,
-        gravado: r.gravado
+        erros: parseInt(r.erros.toString()),
+        qtdlinhas: parseInt(r.qtdlinhas.toString()),
+        gravado: parseInt(r.gravado.toString())
       }
       rows.push(row)
     }

@@ -1,4 +1,3 @@
-import { AjusteMetas } from './AjusteMetas'
 import XlsxPopulate from 'xlsx-populate'
 import { AjustarProdutoRow } from './AjustarProdutoRow'
 
@@ -24,13 +23,13 @@ export class AjusteMetasExportaExcel {
     const plan = workbook.sheet('Sheet1');
     plan.name(planame);
 
-    const titlerow = plan.range('A1:Q1');
+    const titlerow = plan.range('A1:S1');
     titlerow.style('horizontalAlignment', 'center');
     titlerow.style('fill', CoresExcel.COR_FUNDO_CABECALHO); // light gray
     titlerow.style('fontColor', CoresExcel.COR_TEXTO_CABECALHO); // dark gray
     titlerow.style('bold', true)
 
-    const title = plan.range('A1:Q1');
+    const title = plan.range('A1:S1');
     title.merged(true);
     title.style('horizontalAlignment', 'center');
     title.style('fill', CoresExcel.COR_FUNDO_CABECALHO); // light gray
@@ -43,11 +42,11 @@ export class AjusteMetasExportaExcel {
 
     let coluna = 0
     let linha = 2
-    const nomescolunas = plan.range('A2:Q2');
+    const nomescolunas = plan.range('A2:S2');
     nomescolunas.style('fill', CoresExcel.COR_FUNDO_COLUNAS);
     nomescolunas.style('fontColor', CoresExcel.COR_TEXTO_COLUNAS);
     nomescolunas.style('bold', true)
-    const colunasf = workbook.sheet(0).range('A2:Q2');
+    const colunasf = workbook.sheet(0).range('A2:S2');
     colunasf.autoFilter();
     plan.freezePanes(4, 2);
 
@@ -98,6 +97,12 @@ export class AjusteMetasExportaExcel {
     plan.column(coluna).width(9).style('bold', true).style('numberFormat', '#,##0.0000;[Red]-#,##0.0000');
 
     plan.cell(linha, ++coluna).value('Erros').style('horizontalAlignment', 'center');
+    plan.column(coluna).width(8).style('bold', true)
+
+    plan.cell(linha, ++coluna).value('Gravados').style('horizontalAlignment', 'center');
+    plan.column(coluna).width(8).style('bold', true)
+
+    plan.cell(linha, ++coluna).value('Status').style('horizontalAlignment', 'center');
     plan.column(coluna).width(8).style('bold', true)
 
     plan.cell(linha, ++coluna).value('Responsável').style('horizontalAlignment', 'center');
@@ -165,6 +170,12 @@ export class AjusteMetasExportaExcel {
 
       const erros = plan.cell(linha, ++coluna)
       erros.value(r.erros)
+
+      const gravado = plan.cell(linha, ++coluna)
+      gravado.value(r.gravado)
+
+      const ativo = plan.cell(linha, ++coluna)
+      ativo.value(r.ativo)
 
       const responsavel = plan.cell(linha, ++coluna)
       responsavel.value(r.userId + ' - ' + r.Usuario.nome)

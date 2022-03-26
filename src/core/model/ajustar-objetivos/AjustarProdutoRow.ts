@@ -4,6 +4,12 @@ import { IUnidade } from "../../interfaces/IUnidade"
 import { IUser } from "../../interfaces/IUser"
 import { AjusteMetas } from "./AjusteMetas"
 
+export enum SituacaoAtivo {
+  Fechado = 0,
+  Ativo = 1,
+  ApenasSR = 2,
+  ApenasSEV = 3
+}
 
 export class AjustarProdutoRow implements IRowAjustar {
   private pshareRef: number = 0
@@ -24,6 +30,8 @@ export class AjustarProdutoRow implements IRowAjustar {
   public trocas: number
   public trava: string
   public erros: number
+  public gravado: number
+  public ativo: SituacaoAtivo
   public user: IUser
   private ipct: number
   private ivalor: number
@@ -45,6 +53,8 @@ export class AjustarProdutoRow implements IRowAjustar {
     this.trava = r.trava
     this.erros = r.erros
     this.user = r.user
+    this.gravado = r.gravado
+    this.ativo = r.ativo
 
     this.ipct = 0
     this.ivalor = this.metaAjustada - (this.metaReferencia2 + this.trocas)
@@ -152,7 +162,6 @@ export class AjustarProdutoRow implements IRowAjustar {
   }
   private verificaErros() {
     const erroPct = this.verificaTravaPercentual()
-    // const erroPct = 0
     const erroPiso = this.verificaPiso()
     this.erros = (erroPct + erroPiso)  > 0 ? 1 : 0
   }

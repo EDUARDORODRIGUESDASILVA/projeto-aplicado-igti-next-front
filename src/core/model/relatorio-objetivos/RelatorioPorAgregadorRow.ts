@@ -34,7 +34,7 @@ export class RelatorioPorAgregadorRow implements IRelatorioRow {
   }
 
   get erros() {
-    return this.perros  + (this.saldo !== 0 ? 1 : 0)
+    return (this.perros > 0 || this.saldo !== 0 ? 1 : 0)
   }
 
   set erros(erros: number) {

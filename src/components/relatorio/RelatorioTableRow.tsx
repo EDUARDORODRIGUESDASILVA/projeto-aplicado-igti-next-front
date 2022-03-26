@@ -53,9 +53,9 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
                 <Button size="small" color='secondary'>Ajustar</Button>
               </Link>
 
-              <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
+              {/* <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
                 <Button size="small" disabled={true} color='secondary'>SEV</Button>
-              </Link>
+              </Link> */}
             </>
           ) : (<></>)}
         </Stack>

@@ -43,7 +43,10 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                   <>
                     <Button variant="text"
                       sx={{ mr: 1 }}
-                      disabled={actions.ajuste.saldo !== 0 || actions.ajuste.auxiliarTroca !== 0 || actions.isUploading}
+                      disabled={actions.ajuste.saldo !== 0
+                        || actions.ajuste.auxiliarTroca !== 0
+                        || actions.isActive == 0
+                        || actions.isUploading}
                       onClick={() => { actions.handleGravar(true); }}
 
                     >
@@ -87,7 +90,7 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
               <Button variant="text"
                 sx={{ mr: 1 }}
                 onClick={() => { actions.handleZerar() }}
-                disabled={actions.isUploading}
+                disabled={actions.isUploading || actions.isActive == 0}
               >
                 Zerar
               </Button>
@@ -102,7 +105,9 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
               <Button variant="contained" sx={{ ml: 1, width: '100px' }}
                 onClick={() => { actions.handleGravar(false); }}
                 disabled={actions.ajuste.erros > 0 || actions.ajuste.saldo !== 0
-                  || actions.ajuste.auxiliarTroca !== 0 || actions.isUploading}
+                  || actions.ajuste.auxiliarTroca !== 0
+                  || actions.isActive == 0
+                  || actions.isUploading}
                 color="success">
                 {actions.isUploading ? (
                   <small>

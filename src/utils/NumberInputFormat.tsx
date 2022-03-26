@@ -1,6 +1,6 @@
 import { Input, styled } from "@mui/material";
 import NumberFormat from "react-number-format";
-import { AjustarProdutoRow } from "../core/model/ajustar-objetivos/AjustarProdutoRow";
+import { AjustarProdutoRow, SituacaoAtivo } from "../core/model/ajustar-objetivos/AjustarProdutoRow";
 const PcInput = styled(Input)(({ theme }) => ({
   "label + &": {
     margin: theme.spacing(0),
@@ -20,6 +20,8 @@ export default function NumberInputFormat(props: {
   const handleInputChanges = props.handleInputChanges;
   const value = props.value;
   const row = props.row;
+  const fechado = row?.ativo === SituacaoAtivo.Fechado
+
   return (
     <>
       <NumberFormat
@@ -41,6 +43,7 @@ export default function NumberInputFormat(props: {
         displayType="input"
         allowNegative={true}
         decimalScale={2}
+        disabled={fechado}
         allowEmptyFormatting={false}
         suffix=""
         isNumericString={false}

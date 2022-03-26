@@ -53,6 +53,7 @@ export const useRelatorioPorAgregador = (unidadeId: number, produtoId: number) =
     if(relatorio) {
       relatorio.filter = filter;
       setrows(relatorio.rows)
+      setPage(0);
     }
   }
 

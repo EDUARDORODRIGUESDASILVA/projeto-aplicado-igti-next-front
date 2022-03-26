@@ -63,7 +63,7 @@ export class RelatorioPorAgregador implements IRelatorio {
         && r.produto.id == l.produto.id)
         .map(l => l.erros)
         .reduce((p, c) => p + c, 0)
-      r.erros = errosFilhos
+      r.erros = r.erros +  errosFilhos > 0 ? 1: 0
       erros += (r.erros > 0 || errosFilhos > 0 || r.saldo !== 0 ? 1 : 0)
     })
 

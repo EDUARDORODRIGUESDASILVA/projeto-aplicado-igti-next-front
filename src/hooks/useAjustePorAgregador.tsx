@@ -1,6 +1,6 @@
 import { AlertColor } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { AjustarProdutoRow } from "../core/model/ajustar-objetivos/AjustarProdutoRow";
+import { AjustarProdutoRow, SituacaoAtivo } from "../core/model/ajustar-objetivos/AjustarProdutoRow";
 import { AjusteMetas, IAjusteMetasFiltro } from "../core/model/ajustar-objetivos/AjusteMetas";
 import { AjusteMetasExportaExcel } from "../core/model/ajustar-objetivos/AjusteMetasExportaExcel";
 import { AjusteMetasFiltroOption, getOptions } from "../core/model/ajustar-objetivos/AjusteMetasFiltroFunctions";
@@ -11,6 +11,7 @@ import { useFetchAjustePorAgregador } from "./useFetchAjustePorAgregador";
 export interface IUseAjuste {
   isLoading: boolean
   isUploading: boolean
+  isActive: SituacaoAtivo
   ajuste: AjusteMetas | undefined
   error: string
   handleMainCheckbox: () => void
@@ -51,10 +52,13 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterOptions, setfilterOptions] = useState < AjusteMetasFiltroOption[] >([]);
-
+  const [isActive, setIsActive] = useState<SituacaoAtivo>(SituacaoAtivo.Fechado);
   useEffect(() => {
     if (ajuste) {
       const r = orderRows(ajuste.rows)
+      const isActive = verificaAtivo(r)
+      setIsActive(isActive)
+
       setrows(r)
       const options: AjusteMetasFiltroOption[] = getOptions(r)
       setfilterOptions(options)
@@ -64,6 +68,31 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     };
   }, [ajuste]);
 
+  const verificaAtivo = (rows: AjustarProdutoRow[]): SituacaoAtivo => {
+
+    if (ajuste && ajuste.rows.length > 0){
+      const t = rows.map(r => r.ativo).reduce((p, n) => Math.max(p, n))
+
+        if (t == SituacaoAtivo.ApenasSR && ajuste.unidade.tipo == 'SR' ) {
+          setSnack({ open: true, message: 'Produto aberto para ajustes - SR', severity: 'success' })
+          return SituacaoAtivo.Ativo
+        }
+
+        if (t == SituacaoAtivo.ApenasSEV && ajuste.unidade.tipo == 'SEV') {
+          setSnack({ open: true, message: 'Produto aberto para ajustes - SEV', severity: 'success' })
+          return SituacaoAtivo.Ativo
+        }
+
+      if (t == SituacaoAtivo.Ativo) {
+        setSnack({ open: true, message: 'Produto aberto para ajustes', severity: 'success' })
+        return SituacaoAtivo.Ativo
+      }
+    }
+
+    setSnack({ open: true, message: 'Produto fechado! ' + error, severity: 'error' })
+    return SituacaoAtivo.Fechado
+
+  }
   const setrows = (rows: AjustarProdutoRow[]) => {
     if(ajuste) {
       ajuste.rows = rows
@@ -269,6 +298,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   const a: IUseAjuste = {
     isLoading,
     isUploading,
+    isActive,
     handleAtualizar,
     handleGerarExcel,
     handleImportarExcel,

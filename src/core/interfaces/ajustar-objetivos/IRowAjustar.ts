@@ -17,5 +17,7 @@ export interface IRowAjustar {
   trocas: number
   trava: string
   erros: number
+  gravado: number
+  ativo: number
   user: IUser
 }

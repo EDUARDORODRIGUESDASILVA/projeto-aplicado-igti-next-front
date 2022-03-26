@@ -60,7 +60,8 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         <NumberInputFormat
           value={row.inputValor}
           handleInputChanges={actions.handleInputValor}
-          row={row}        ></NumberInputFormat>
+          row={row}
+          ></NumberInputFormat>
       </TableCell>
 
       <TableCell align="right" padding='none'

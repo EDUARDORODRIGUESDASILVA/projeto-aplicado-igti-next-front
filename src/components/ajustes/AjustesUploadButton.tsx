@@ -14,7 +14,9 @@ export default function AjustesUploadButton({ actions }: { actions: IUseAjuste }
     <>
       <label htmlFor="contained-button-file">
         <Input accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="contained-button-file" onChange={handleChange} type="file" />
-        <Button  component="span">
+        <Button
+          disabled={ actions.isActive == 0}
+        component="span">
           Upload
         </Button>
       </label>
