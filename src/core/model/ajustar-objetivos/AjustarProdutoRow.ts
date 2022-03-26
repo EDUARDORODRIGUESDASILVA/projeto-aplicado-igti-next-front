@@ -152,6 +152,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   }
   private verificaErros() {
     const erroPct = this.verificaTravaPercentual()
+    // const erroPct = 0
     const erroPiso = this.verificaPiso()
     this.erros = (erroPct + erroPiso)  > 0 ? 1 : 0
   }
@@ -173,8 +174,15 @@ export class AjustarProdutoRow implements IRowAjustar {
     if (this.metaAjustada == 0 && this.metaReferencia == 0) {
       return 0
     }
-    const metaMaxima = this.metaReferencia * (1 + travaPct)
-    const metaMinima = this.metaReferencia * (1 - travaPct)
+
+    if (this.metaAjustada == this.metaReferencia) {
+       return 0
+    }
+
+    const sign = (this.metaReferencia ? this.metaReferencia / Math.abs(this.metaReferencia) : 0)
+    const metaMaxima = this.metaReferencia * (1 + (sign * travaPct))
+    const metaMinima = this.metaReferencia * (1 - (sign * travaPct))
+
 
     if (this.metaAjustada > metaMaxima) {
       return 1
@@ -191,7 +199,9 @@ export class AjustarProdutoRow implements IRowAjustar {
       return 0
     }
 
-    if (this.metaAjustada < this.metaMinima) {
+    if (Math.trunc(this.metaAjustada * 100)/100
+        < Math.trunc(this.metaMinima * 100)/100
+        && this.metaMinima !== 0) {
       return 1
     }
     return 0

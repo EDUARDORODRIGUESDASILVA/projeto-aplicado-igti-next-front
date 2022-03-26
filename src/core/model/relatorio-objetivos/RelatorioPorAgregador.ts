@@ -43,8 +43,12 @@ export class RelatorioPorAgregador implements IRelatorio {
     }
 
 
-    this.filterRows()
+    this.sortRows()
     this.totalizar()
+    this.sortRows()
+    this.filterRows()
+
+
 
   }
 

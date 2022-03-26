@@ -16,10 +16,9 @@ interface IRelatorioInputRow {
   gravado: number,
   qtdlinhas: number
   produtoId: number,
-  Unidade: {
-    sr?: number
-    vinc?: number
-  }
+  'Unidade.sr'?: number,
+  'Unidade.vinc'?: number,
+
 }
 interface IRelatorioInput {
   agregador: IUnidade
@@ -53,7 +52,7 @@ export async function criarRelatorioPorAgregador(unidadeId: number, produtoId?: 
   const rows: IRelatorioRow[] = []
   let i = 0;
   dados.rows.forEach( r => {
-    const unidadeId = r.Unidade.sr || r.Unidade.vinc
+    const unidadeId = r['Unidade.sr'] || r['Unidade.vinc']
     const unidade =  unidades.find( u=> u.id == unidadeId)
 
     const produtoId = r.produtoId

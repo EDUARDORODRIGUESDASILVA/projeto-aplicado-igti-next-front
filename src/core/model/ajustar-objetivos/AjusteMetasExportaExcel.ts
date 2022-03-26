@@ -15,7 +15,11 @@ export class AjusteMetasExportaExcel {
     this.gerando = false
   }
 
-  private geraWorkbook(workbook: XlsxPopulate.Workbook, planame: string, titulo: string, rows: AjustarProdutoRow[]): XlsxPopulate.Workbook {
+  private geraWorkbook(workbook: XlsxPopulate.Workbook, planame: string,
+    titulo: string, rows: AjustarProdutoRow[]): XlsxPopulate.Workbook {
+
+    const myIds = rows.map(r => r.Produto.id)
+    let unique= new Set(myIds)
 
     const plan = workbook.sheet('Sheet1');
     plan.name(planame);
@@ -67,7 +71,7 @@ export class AjusteMetasExportaExcel {
     plan.column(coluna).width(14).style('bold', true).style('fontColor', '808080')
 
     plan.cell(linha, ++coluna).value('Produto').style('horizontalAlignment', 'center');
-    plan.column(coluna).width(42).width(40).style('bold', true).style('fontColor', '2F75B5')
+    plan.column(coluna).width(40).hidden(unique.size == 1).style('bold', true).style('fontColor', '2F75B5')
 
     plan.cell(linha, ++coluna).value('Trava').style('horizontalAlignment', 'center');
     plan.column(coluna).width(9).style('horizontalAlignment', 'center').style('bold', true)
@@ -96,8 +100,8 @@ export class AjusteMetasExportaExcel {
     plan.cell(linha, ++coluna).value('Erros').style('horizontalAlignment', 'center');
     plan.column(coluna).width(8).style('bold', true)
 
-    plan.cell(linha, ++coluna).value('Matr.')
-    plan.column(coluna).width(9).style('fontColor', '7B7B7B')
+    plan.cell(linha, ++coluna).value('Responsável').style('horizontalAlignment', 'center');
+    plan.column(coluna).width(40).style('fontColor', '7B7B7B')
 
     nomescolunas.style('fontColor', CoresExcel.COR_TEXTO_COLUNAS);
     linha++
@@ -110,7 +114,6 @@ export class AjusteMetasExportaExcel {
         const address = `A${linha}:M${linha}`
         plan.range(address).style('bold', true).style('fill', 'FFEBEE')
       }
-
 
       const id = plan.cell(linha, ++coluna)
       id.value(r.id)
@@ -164,14 +167,10 @@ export class AjusteMetasExportaExcel {
       erros.value(r.erros)
 
       const responsavel = plan.cell(linha, ++coluna)
-      responsavel.value(r.userId)
-
+      responsavel.value(r.userId + ' - ' + r.Usuario.nome)
       linha++
-
     })
-
     return workbook
-
   }
 
   private export(blob: any, arquivo: string): void {

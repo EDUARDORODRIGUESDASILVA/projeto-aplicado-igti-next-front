@@ -124,8 +124,8 @@ function baseCompletaCalcula(ajustes: IRowAjustar[]): AjustarProdutoRow[] {
   rows.forEach( r => {
     const totalRef = rows.map( j => j.Produto.id == r.Produto.id ? j.metaReferencia : 0).reduce( (p, c) => p + c, 0)
     const totalAjustado = rows.map( j => j.Produto.id == r.Produto.id ? j.metaAjustada : 0).reduce( (p, c) => p + c, 0)
-    r.shareRef = (r.metaReferencia / totalRef) * 100
-    r.shareAjustado = (r.metaAjustada / totalAjustado) * 100
+    r.shareRef = (r.metaReferencia / (totalRef ? totalRef : 1)) * 100
+    r.shareAjustado = (r.metaAjustada / (totalAjustado ? totalAjustado: 1)) * 100
   })
 
   rows.sort( (a: AjustarProdutoRow, b: AjustarProdutoRow) => {
