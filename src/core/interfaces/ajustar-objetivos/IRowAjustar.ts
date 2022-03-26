@@ -3,12 +3,13 @@ import { IUnidade } from "../IUnidade"
 import { IUser } from "../IUser"
 
 export interface IRowAjustar {
-  id: number,
-  unidadeId: number,
-  produtoId: number,
-  userId: string,
+  id: number
+  unidadeId: number
+  produtoId: number
+  userId: string
   Produto: IProduto
   Unidade: IUnidade
+  Usuario: IUser
   metaReferencia: number
   metaReferencia2: number
   metaAjustada: number

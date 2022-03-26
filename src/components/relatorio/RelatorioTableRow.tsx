@@ -49,10 +49,8 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
           ) : <></>}
           {row.unidade.tipo == 'SR' ? (
             <>
-
-
               <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
-                <Button size="small" color='secondary'>Agência</Button>
+                <Button size="small" color='secondary'>Ajustar</Button>
               </Link>
 
               <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>

@@ -1,4 +1,4 @@
-import { Button, Checkbox, TableCell, TableRow, Typography } from "@mui/material";
+import { Button, Checkbox, TableCell, TableRow, Tooltip, Typography } from "@mui/material";
 import { AjustarProdutoRow } from "../../core/model/ajustar-objetivos/AjustarProdutoRow";
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import NumberInputFormat from "../../utils/NumberInputFormat";
@@ -87,7 +87,9 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
       <TableCell align="right"
         sx={{ fontWeight: 'italic', color: 'gray' }}
       >
+        <Tooltip title={row.Usuario.nome} placement="left">
         <small>{row.userId}</small>
+        </Tooltip>
       </TableCell>
    </TableRow>
   )

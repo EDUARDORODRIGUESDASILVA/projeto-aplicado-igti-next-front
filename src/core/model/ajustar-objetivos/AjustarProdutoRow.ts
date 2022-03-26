@@ -16,6 +16,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   public produtoId: number
   public Produto: IProduto
   public Unidade: IUnidade
+  public Usuario: IUser
   public metaReferencia: number
   public metaReferencia2: number
   public metaAjustada: number
@@ -35,6 +36,7 @@ export class AjustarProdutoRow implements IRowAjustar {
     this.userId = r.userId
     this.Produto = r.Produto
     this.Unidade = r.Unidade
+    this.Usuario = r.Usuario
     this.metaReferencia = r.metaReferencia
     this.metaReferencia2 = r.metaReferencia2
     this.metaAjustada = r.metaAjustada
@@ -50,6 +52,7 @@ export class AjustarProdutoRow implements IRowAjustar {
     this.calcPctChange()
     this.linhaSelecionada = false;
   }
+
 
   get inputValor(): number {
     return this.ivalor
