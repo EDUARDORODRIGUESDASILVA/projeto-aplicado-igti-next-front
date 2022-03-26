@@ -37,9 +37,8 @@ export default function RelatorioFilterProduto({ actions }: { actions: IUseRelat
           {option.nome}
         </li>
       )}
-      style={{ width: 400 }}
       renderInput={(params) => (
-        <TextField {...params} label="Produtos" placeholder="Produtos" />
+        <TextField {...params} placeholder="Pesquisar" />
       )}
     />
   );

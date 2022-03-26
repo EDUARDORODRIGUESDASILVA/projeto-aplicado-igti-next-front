@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { IProduto } from '../core/interfaces/IProduto';
 import { IUnidade } from '../core/interfaces/IUnidade';
 import { AjusteMetasExportaExcel } from '../core/model/ajustar-objetivos/AjusteMetasExportaExcel';
 import { fetchBaseCompleta, IFetchBaseCompletaQuery } from '../services/ajustesService';
@@ -38,7 +37,6 @@ export const useBaseCompletaPorAgregador = () => {
   }
 
     const handleExcelBaseCompleta = async (agregador: IUnidade, produtoId?: number) => {
-    console.log('started', produtoId)
     const base = await fetchRelatorio(agregador, produtoId)
     if (base) {
       setisLoading(true)

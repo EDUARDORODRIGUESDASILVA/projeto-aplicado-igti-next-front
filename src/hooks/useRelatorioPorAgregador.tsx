@@ -39,7 +39,6 @@ export const useRelatorioPorAgregador = (unidadeId: number, produtoId: number) =
 
   const handleAtualizar = () => {
     refetch({})
-
   }
 
   const handleExcelClick = () => {
@@ -49,9 +48,6 @@ export const useRelatorioPorAgregador = (unidadeId: number, produtoId: number) =
       gerador.gerarExcel(nome)
     }
   }
-
-
-
 
   const handleFilterChange = (filter: RelatorioPorAgregadorFilter) => {
     if(relatorio) {

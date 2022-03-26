@@ -10,17 +10,12 @@ export const useFetchLoggedUser = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     async function fetchUser() {
-
       try {
-
         if (!user) {
-          console.log('update user')
-          setisLoading(true)
+         setisLoading(true)
           const user = await fetchLoggedUser()
           dispatch(login(user))
-
         }
-
       } catch (error: any) {
         dispatch(logout())
         seterror(new Error('Não foi possível autenticar o usuário!'))

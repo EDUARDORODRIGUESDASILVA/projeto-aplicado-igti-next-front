@@ -23,7 +23,8 @@ export default function RelatorioFilterErrosBadge({ actions }: { actions: IUseRe
       const j: RelatorioPorAgregadorFilter = {
         comErros: false,
         produtos: actions.relatorio.filter.produtos,
-        unidades: []
+        unidades: [],
+        textSearch: ''
       }
       j.comErros = !checked
       setchecked(j.comErros)

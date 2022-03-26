@@ -19,6 +19,7 @@ export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
         && actions.relatorio.agregador.sr !== actions.relatorio.agregador.id) {
         router.push(`/relatorio/${actions.relatorio.agregador.sr}`)
       } else {
+        router.push(`/relatorio/${actions.relatorio.agregador.id}`)
         actions.handleAtualizar()
       }
     }

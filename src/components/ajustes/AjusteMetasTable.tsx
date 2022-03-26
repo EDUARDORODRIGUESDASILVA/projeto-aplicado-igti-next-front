@@ -86,10 +86,12 @@ export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
             </TableRow>
               {showAuxiliarInput ? (
              <TableRow>
-                <TableCell align="center" colSpan={7} padding='none'>
+                <TableCell style={{ top: 71}} align="center"
+                colSpan={(actions.ajuste.unidade.tipo == 'SR' ? 7 :6) }
+                padding='none'>
 
                 </TableCell>
-                <TableCell padding='none' colSpan={2}>
+                <TableCell  style={{ top: 71}}  padding='none' colSpan={2}>
                   <NumberInputFormat
                     value={actions.ajuste.auxiliarTroca}
                     handleInputChanges={ (_row: undefined, value: number)=> {
@@ -97,7 +99,7 @@ export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
                     }}
                     ></NumberInputFormat>
                 </TableCell>
-                <TableCell align="left" colSpan={5} padding='none'>
+                <TableCell style={{ top: 71}}  align="left" colSpan={5} padding='none'>
 
                 </TableCell>
 

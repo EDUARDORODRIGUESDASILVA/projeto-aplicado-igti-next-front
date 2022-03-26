@@ -7,6 +7,7 @@ export interface RelatorioPorAgregadorFilter {
   comErros: boolean
   produtos: IProduto[]
   unidades: IUnidade[]
+  textSearch: string
 }
 export class RelatorioPorAgregador implements IRelatorio {
   id: number;
@@ -37,7 +38,8 @@ export class RelatorioPorAgregador implements IRelatorio {
     this.pfilter = {
       comErros: false,
       produtos: [],
-      unidades: []
+      unidades: [],
+      textSearch: ''
     }
 
 
@@ -104,6 +106,26 @@ export class RelatorioPorAgregador implements IRelatorio {
         this.pfilteredrows = this.pfilteredrows.filter(
           r => ids.includes(r.unidade.id)
         )
+      }
+
+      console.log(this.filter.textSearch)
+      if (this.filter.textSearch !== '' && this.filter.textSearch.length >= 2) {
+        const filtro = this.filter.textSearch.toUpperCase()
+        this.pfilteredrows =  this.prows.filter( r => {
+          if (r.produto.nome.toUpperCase().includes(filtro))
+            return true
+          if (r.produto.codsidem.toUpperCase().includes(filtro))
+            return true
+          if (r.produto.bloco.toUpperCase().includes(filtro))
+            return true
+          if (r.unidade.nome.toUpperCase().includes(filtro))
+            return true
+          if (r.unidade.cluster.toUpperCase().includes(filtro))
+            return true
+          if (r.unidade.se.toString().toUpperCase().includes(filtro))
+            return true
+          return false
+        })
       }
     }
     this.sortRows()

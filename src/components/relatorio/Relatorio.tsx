@@ -1,6 +1,5 @@
-import { Alert, AlertTitle, CircularProgress, Paper, Stack, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Alert, AlertTitle, Card, CircularProgress, Divider, Paper, Stack, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useRouter } from "next/router";
-import { useFetchRelatorioPorAgregador } from "../../hooks/useFetchRelatorioPorAgregador";
 import { useRelatorioPorAgregador } from "../../hooks/useRelatorioPorAgregador";
 import RelatorioHeader from "./RelatorioHeader";
 import RelatorioTable from "./RelatorioTable";
@@ -8,10 +7,9 @@ import RelatorioTable from "./RelatorioTable";
 export default function Relatorio() {
   const router = useRouter()
   let { unidadeId } = router.query
-  let { produtoId} = router.query
+  let { produtoId } = router.query
   const unid = parseInt(unidadeId?.toString() || '0')
   const prod = parseInt(produtoId?.toString() || '0')
-
   const actions = useRelatorioPorAgregador(unid, prod)
 
   if (actions.isLoading) {
@@ -20,7 +18,6 @@ export default function Relatorio() {
         direction="row"
         justifyContent="center"
         alignItems="center"
-        spacing={2}
       >
         <CircularProgress color="secondary" />
       </Stack>
@@ -37,14 +34,11 @@ export default function Relatorio() {
   }
 
   if (actions.relatorio) {
-
     return <>
       <RelatorioHeader actions={actions}></RelatorioHeader>
-       <Paper sx={{ width: '100%' , mt: '6px' }}>
-          <RelatorioTable actions={actions}></RelatorioTable>
-
+      <Paper sx={{ width: '100%', mt: '6px' }}>
+        <RelatorioTable actions={actions}></RelatorioTable>
       </Paper>
-
     </>
   }
 
