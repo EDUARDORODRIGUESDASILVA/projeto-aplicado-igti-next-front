@@ -9,13 +9,18 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
   const [backgroundColor, setbackgroundColor] = useState('');
   useEffect(() => {
 
-    const backgroundColor =  row.erros > 0 ? '#ffebee' : ''
-    setbackgroundColor(backgroundColor)
+    if (row.erros){
+      const backgroundColor =  row.erros > 0 ? '#ffebee' : ''
+      setbackgroundColor(backgroundColor)
+    }
+
+
   }, [row.erros]);
   return (
     <TableRow style={{ height: 18 }}
       hover={true && row.erros===0}
-      selected={row.checked}
+      selected={row.checked || (row.id === actions.selectedRow?.id && row.erros === 0) }
+      onClick={() => actions.setSelectedRow(row)}
       sx={{ backgroundColor:backgroundColor}}
     >
       <TableCell padding="checkbox">
@@ -34,7 +39,9 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
           color='secondary'>{row.Unidade.se}</Button>
       </TableCell>
     ):(<></>)}
-      <TableCell padding='none'  >
+      <TableCell padding='none'
+        sx={{ minWidth: '270px', maxWidth: '270px'}}
+      >
         <Typography variant="caption" display="block" >
           {row.Unidade.nome}
 
@@ -49,7 +56,13 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
       <TableCell padding='none' align="right" >
         <NumberTextFormat value={row.metaReferencia} />
       </TableCell>
-      <TableCell padding='checkbox' align="right" >
+      <TableCell padding='checkbox' align="right" sx={{
+        paddingLeft: '13px',
+        fontWeight: row.erroPiso ? 'bold' : '',
+        color: (row.erroPiso ? 'red' : '')
+      }}
+
+      >
         <NumberTextFormat value={row.metaMinima} />
       </TableCell>
       <TableCell padding='none' align="center"
@@ -77,7 +90,10 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         <NumberTextFormat value={row.metaAjustada} />
       </TableCell>
 
-      <TableCell padding='none' sx={{ paddingLeft: '13px' }} align="right">
+      <TableCell padding='none' sx={{ paddingLeft: '13px',
+             fontWeight: row.erroTrava ? 'bold': '',
+             color: (row.erroTrava ?  'red' : '')
+      }}     align="right">
         <NumberTextFormat value={row.pctChange} />%
       </TableCell>
 

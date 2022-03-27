@@ -36,6 +36,9 @@ export class AjustarProdutoRow implements IRowAjustar {
   private ipct: number
   private ivalor: number
 
+  public erroPiso: boolean
+  public erroTrava: boolean
+
   private linhaSelecionada: boolean
   constructor(r: IRowAjustar) {
     this.id = r.id
@@ -58,6 +61,9 @@ export class AjustarProdutoRow implements IRowAjustar {
 
     this.ipct = 0
     this.ivalor = this.metaAjustada - (this.metaReferencia2 + this.trocas)
+
+    this.erroPiso = false
+    this.erroTrava = false
     this.verificaErros()
     this.calcPctChange()
     this.linhaSelecionada = false;
@@ -146,7 +152,7 @@ export class AjustarProdutoRow implements IRowAjustar {
 
   private calcPctChange() {
 
-    if (this.metaAjustada == 0) {
+    if (this.metaAjustada == 0 || this.metaReferencia) {
       this.ppctChange = 0
       return
     }
@@ -161,9 +167,16 @@ export class AjustarProdutoRow implements IRowAjustar {
     }
   }
   private verificaErros() {
+    this.erroPiso = false
+    this.erroTrava = false
+
     const erroPct = this.verificaTravaPercentual()
     const erroPiso = this.verificaPiso()
     this.erros = (erroPct + erroPiso)  > 0 ? 1 : 0
+
+    this.erroPiso = erroPiso ? true : false
+    this.erroTrava = erroPct ? true: false
+
   }
 
   private verificaTravaPercentual(): 0 | 1 {
