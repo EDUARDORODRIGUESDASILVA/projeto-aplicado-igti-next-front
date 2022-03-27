@@ -44,14 +44,15 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                   <>
                     <Button variant="text"
                       sx={{ mr: 1 }}
-                      disabled={actions.ajuste.saldo !== 0
-                        || actions.ajuste.auxiliarTroca !== 0
+                      disabled={
+                        // actions.ajuste.saldo !== 0 ||  -- temporiamente desabilitado para testes
+                         actions.ajuste.auxiliarTroca !== 0
                         || actions.isActive == 0
                         || actions.isUploading}
                       onClick={() => { actions.handleGravar(true); }}
 
                     >
-                      Grava Referência
+                      Gravar Referência
                     </Button>
 
                     <Button variant="text"
@@ -70,7 +71,7 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                 sx={{ mr: 1 }}
                 disabled={true}
               >
-                Trocas
+                Negociações
               </Button>
 
 

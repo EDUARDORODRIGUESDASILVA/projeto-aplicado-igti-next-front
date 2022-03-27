@@ -14,7 +14,6 @@ export class RelatorioPorAgregadorRow implements IRelatorioRow {
   gravado: number;
   qtdlinhas: number;
 
-
   constructor(row: IRelatorioRow) {
       this.id = row.id
       this.unidade = row.unidade
@@ -26,10 +25,12 @@ export class RelatorioPorAgregadorRow implements IRelatorioRow {
       this.perros = row.erros
       this.gravado = row.gravado
       this.qtdlinhas = row.qtdlinhas
-
   }
 
   get saldo() {
+    if (this.unidade.tipo=='SR') {
+      return Math.trunc((this.metaAjustada - this.metaReferencia) * 100) / 100
+    }
     return Math.trunc( (this.metaAjustada - this.metaReferencia2)  * 100) / 100
   }
 
@@ -41,8 +42,4 @@ export class RelatorioPorAgregadorRow implements IRelatorioRow {
     this.perros = erros
 
   }
-
-
-
-
 }

@@ -36,26 +36,27 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
             <Button color="secondary" size="small">{row.unidade.id}</Button>
           </Tooltip>
         </Link>
+        {row.unidade.tipo == 'SR' ? (
         <Link href={`/relatorio/${row.unidade.id}/${row.produto.id}`}>
-          <Button size="small">{row.produto.nome}</Button></Link>
+          <Button size="small">{row.produto.nome}</Button>
+          </Link>
+        ):<>
+            <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
+              <Button size="small">{row.produto.nome}</Button>
+            </Link>
+        </>
+      }
       </TableCell>
       <TableCell padding='none'>
         <Stack direction="row" spacing={0}>
-          {row.unidade.tipo !== 'SR' ? (
-            <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
-              <Button size="small" color='secondary'>Ajustar</Button>
-
-            </Link>
-          ) : <></>}
           {row.unidade.tipo == 'SR' ? (
             <>
               <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
-                <Button size="small" color='secondary'>Ajustar</Button>
+                <Button size="small" color='secondary'>Agência</Button>
               </Link>
-
-              {/* <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
+               <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
                 <Button size="small" disabled={true} color='secondary'>SEV</Button>
-              </Link> */}
+              </Link>
             </>
           ) : (<></>)}
         </Stack>
@@ -63,31 +64,53 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
 
       </TableCell>
 
-      <TableCell align="right">
+      <TableCell align="right" sx={{
+        color: (row.metaReferencia2 < 0 ? 'red' : '')
+      }}
+
+      >
 
         <NumberTextFormat value={row.metaReferencia} />
       </TableCell>
 
-      <TableCell align="right" >
+      <TableCell align="right" sx={{
+        color: (row.metaReferencia2 < 0 ? 'red' : '')
+      }}
+
+      >
 
         <NumberTextFormat value={row.metaReferencia2} />
       </TableCell>
 
-      <TableCell align="right" >
+      <TableCell align="right"
+        sx={{
+          fontWeight: (row.trocas !== 0 ? 'bold': ''),
+          color: (row.trocas < 0 ? 'red' : '')
+        }}
+
+      >
         <NumberTextFormat value={row.trocas} />
       </TableCell>
 
 
       <TableCell align="right"
-        sx={{ fontWeight: 'bold' }}
+        sx={{
+        fontWeight: 'bold',
+        color: (row.metaAjustada < 0 ? 'red' : '')
+      }}
       >
 
         <NumberTextFormat value={row.metaAjustada} />
       </TableCell>
 
-      <TableCell align="right" >
+      <TableCell align="right" sx={{
+        paddingLeft: '13px',
+        fontWeight: (row.saldo !== 0 ? 'bold' : ''),
+        color: (row.saldo !== 0 ? 'red' : '')
+      }}
+>
 
-        <NumberTextFormat value={row.metaAjustada - row.metaReferencia2} />
+        <NumberTextFormat value={row.saldo} />
       </TableCell>
 
       <TableCell padding="none" align="center" sx={{ backgroundColor: cellBackgroundColor() }} >

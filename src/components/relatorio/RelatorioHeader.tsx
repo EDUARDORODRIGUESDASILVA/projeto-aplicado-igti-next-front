@@ -43,6 +43,14 @@ export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
           }
           action={<Box sx={{ mt: '13px' }}>
 
+            <Button variant="text"
+              sx={{ mr: 1 }}
+              onClick={actions.handleExcelClick}
+              disabled={true}
+            >
+              Negociações
+            </Button>
+
             <RelatorioBaseCompleta actions={actions}></RelatorioBaseCompleta>
 
             <Button variant="text"

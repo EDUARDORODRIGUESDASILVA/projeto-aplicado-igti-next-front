@@ -39,7 +39,7 @@ export default function SideNav() {
           <ListItemIcon>
               <SwapHorizIcon />
           </ListItemIcon>
-          <ListItemText primary="Trocas" />
+          <ListItemText primary="Negociações" />
         </ListItemButton>
 
           <ListItemButton

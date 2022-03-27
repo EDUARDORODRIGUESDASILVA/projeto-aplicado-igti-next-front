@@ -26,7 +26,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             </TableCell>
           ) : <></>}
 
-          <TableCell>
+          <TableCell align="center">
             <AjusteMetasTableSortLabel
               actions={actions}
               options={{
@@ -39,8 +39,18 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             ></AjusteMetasTableSortLabel>
           </TableCell>
 
-          <TableCell >
+          <TableCell align="center" >
             Cluster
+            <AjusteMetasTableSortLabel
+              actions={actions}
+              options={{
+                chave: 'Cluster',
+                label: 'Cluster',
+                enabled: false,
+                fisrtSort: 'desc'
+              }
+              }
+            ></AjusteMetasTableSortLabel>
           </TableCell>
 
           <TableCell align="right">
@@ -48,7 +58,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
               actions={actions}
               options={{
                 chave: 'Referencia',
-                label: 'Referencia',
+                label: 'Referência',
                 enabled: true,
                 fisrtSort: 'desc'
               }
@@ -57,7 +67,17 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
           </TableCell>
 
           <TableCell align="center" >
-            Mínima
+
+            <AjusteMetasTableSortLabel
+              actions={actions}
+              options={{
+                chave: 'Minima',
+                label: 'Mínima',
+                enabled: true,
+                fisrtSort: 'desc'
+              }
+              }
+            ></AjusteMetasTableSortLabel>
           </TableCell>
 
           <TableCell align="center">

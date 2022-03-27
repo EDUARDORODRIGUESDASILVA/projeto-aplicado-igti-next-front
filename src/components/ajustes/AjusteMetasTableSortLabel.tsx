@@ -6,7 +6,7 @@ import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 type Order = 'asc' | 'desc';
 
 
-type IAjusteMetasSortKey = 'Ajustada' | 'Referencia' | 'Cluster' | 'Unidade'
+type IAjusteMetasSortKey = 'Ajustada' | 'Referencia' | 'Cluster' | 'Minima' | 'Unidade'
 export interface IAjusteMetasSortOptions {
   chave: IAjusteMetasSortKey,
   label: React.ReactFragment,

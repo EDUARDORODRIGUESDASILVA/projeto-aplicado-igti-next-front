@@ -152,7 +152,7 @@ export class AjustarProdutoRow implements IRowAjustar {
 
   private calcPctChange() {
 
-    if (this.metaAjustada == 0 || this.metaReferencia) {
+    if (this.metaAjustada == 0 || this.metaReferencia == 0) {
       this.ppctChange = 0
       return
     }

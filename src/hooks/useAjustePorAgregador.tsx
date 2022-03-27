@@ -147,12 +147,20 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
         return (a.unidadeId < b.unidadeId ? order : (a.unidadeId > b.unidadeId? -order: 0))
       }
 
+      if (field === 'Cluster') {
+        return (a.Unidade.cluster < b.Unidade.cluster ? order : (a.Unidade.cluster > b.Unidade.cluster ? -order : 0))
+      }
+
       if (field === 'Ajustada') {
         return (a.metaAjustada < b.metaAjustada ? order : (a.metaAjustada > b.metaAjustada ? -order : 0))
       }
 
       if (field === 'Referencia'){
         return (a.metaReferencia < b.metaReferencia ? order : (a.metaReferencia > b.metaReferencia ? -order : 0))
+      }
+
+      if (field === 'Minima') {
+        return (a.metaMinima < b.metaMinima ? order : (a.metaMinima > b.metaMinima ? -order : 0))
       }
 
       return 0

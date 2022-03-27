@@ -28,7 +28,7 @@ export default function RelatorioTable({ actions }: { actions: IUseRelatorio }) 
                 </TableCell>
 
                  <TableCell align="center">
-                  Trocas
+                  Negociações
                 </TableCell>
 
                 <TableCell align="center"

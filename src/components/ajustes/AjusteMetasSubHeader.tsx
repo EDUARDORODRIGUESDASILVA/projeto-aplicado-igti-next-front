@@ -8,8 +8,8 @@ export default function AjusteMetasSubHeader({ actions }: { actions: IUseAjuste 
     return (
     <div>
         <span>{actions.ajuste.unidade.nome}</span>
+        <span>   |   {actions.ajuste.produto.codsidem}   </span>
 
-        {actions.ajuste.erros}
         {actions.ajuste.erros !== 0 ? (
           <Chip color="error" size="small" label={erroString}
            variant="outlined" sx={{marginLeft: '15px'}}/>
