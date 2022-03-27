@@ -62,9 +62,9 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   const [selectedRow, setSelectedRow] = useState <AjustarProdutoRow>();
   useEffect(() => {
     if (ajuste) {
-     const isActive = verificaAtivo(ajuste.rows)
-      setIsActive(isActive)
       const r = orderRows(ajuste.rows, sortOptions)
+      const isActive = verificaAtivo(ajuste.rows)
+      setIsActive(isActive)
       setrows(r)
       const options: AjusteMetasFiltroOption[] = getOptions(r)
       setfilterOptions(options)
@@ -108,12 +108,10 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
 
   const handleZerar = () => {
     if (ajuste) {
-      ajuste?.zerar()
+      ajuste.zerar()
       const r = orderRows(ajuste.rows, sortOptions)
       setrows(r)
-      //const r = ajuste.rows
-
-    }
+       }
   }
 
   const handleGerarExcel = () => {
@@ -140,18 +138,10 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   }
 
   const orderRows = (rows: AjustarProdutoRow[], options: IAjusteMetasSortSelected ): AjustarProdutoRow[] => {
-    console.log(options, rows,)
     const order = options.sortOrder == 'asc' ? -1 : 1
-    //let order = -1
     const field = options.chave
 
-    const newrows = rows.sort((a: AjustarProdutoRow, b: AjustarProdutoRow) => {
-     return  order * (a.unidadeId - b.unidadeId)
-    }).splice(0, 9999)
-
-
-
-    const sortedRows = newrows.sort((a: AjustarProdutoRow, b: AjustarProdutoRow) => {
+    const sortedRows = rows.sort((a: AjustarProdutoRow, b: AjustarProdutoRow) => {
 
       if (field === 'Unidade'){
         return (a.unidadeId < b.unidadeId ? order : (a.unidadeId > b.unidadeId? -order: 0))
@@ -165,14 +155,12 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
         return (a.metaReferencia < b.metaReferencia ? order : (a.metaReferencia > b.metaReferencia ? -order : 0))
       }
 
-
       return 0
 
     }).slice( 0, 9999)
     console.log(field, options.sortOrder, order, sortedRows)
 
     return sortedRows
-
   }
 
   const handleImportarExcel = async (arquivo: File) => {
@@ -207,7 +195,8 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   const handleCalc = () => {
     if (ajuste) {
       ajuste.distribuirProporcional()
-      setrows(orderRows(rows, sortOptions))
+      const r = orderRows(ajuste.rows, sortOptions)
+      setrows(r)
     }
   }
 
@@ -318,7 +307,6 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
             }
           }
         )
-
       } catch (error) {
         setIsUploading(false)
         setSnack({ open: true, message: 'Falha ao gravar!', severity: 'error' })
@@ -341,8 +329,6 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     // }
     setSnack({ open: false, message: '', severity: 'success' })
   };
-
-
 
   const a: IUseAjuste = {
     isLoading,
