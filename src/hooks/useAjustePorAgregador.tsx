@@ -1,5 +1,6 @@
 import { AlertColor } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { IAjusteMetasSortSelected } from "../components/ajustes/AjusteMetasTableSortLabel";
 import { AjustarProdutoRow, SituacaoAtivo } from "../core/model/ajustar-objetivos/AjustarProdutoRow";
 import { AjusteMetas, IAjusteMetasFiltro } from "../core/model/ajustar-objetivos/AjusteMetas";
 import { AjusteMetasExportaExcel } from "../core/model/ajustar-objetivos/AjusteMetasExportaExcel";
@@ -24,6 +25,7 @@ export interface IUseAjuste {
   handleToggleCheckBox: (row: AjustarProdutoRow) => void
   handleToogleCluster: (cluster: string) => void
   handleToogleSEV: (sev: number) => void
+  handleSortChange:(sort: IAjusteMetasSortSelected) => void
   handleInputPct: (row: AjustarProdutoRow, pct: number) => void
   handleInputValor: (row: AjustarProdutoRow, valor: number) => void
   handleSnackClose: (event: any, reason: any) => void
@@ -32,11 +34,14 @@ export interface IUseAjuste {
   handleInputAuxiliarTroca: (valor: number) => void
   handleImportarExcel: (arquivo: File) => void
   rows: AjustarProdutoRow[]
+  sortOptions: IAjusteMetasSortSelected
   page: number
   rowsPerPage: number
   snack: { open: Boolean, message: string, severity: AlertColor}
   filterValue: AjusteMetasFiltroOption[]
   filterOptions: AjusteMetasFiltroOption[]
+  selectedRow: AjustarProdutoRow | undefined
+  setSelectedRow: Dispatch<SetStateAction<AjustarProdutoRow | undefined>>
   setPage: Dispatch<SetStateAction<number>>
   setFilterValue: Dispatch<SetStateAction<AjusteMetasFiltroOption[]>>
   setRowsPerPage: Dispatch<SetStateAction<number>>
@@ -53,12 +58,13 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterOptions, setfilterOptions] = useState < AjusteMetasFiltroOption[] >([]);
   const [isActive, setIsActive] = useState<SituacaoAtivo>(SituacaoAtivo.Fechado);
+  const [sortOptions, setsortOptions] = useState <IAjusteMetasSortSelected>( {chave: 'Ajustada', sortOrder: 'desc'});
+  const [selectedRow, setSelectedRow] = useState <AjustarProdutoRow>();
   useEffect(() => {
     if (ajuste) {
-      const r = orderRows(ajuste.rows)
-      const isActive = verificaAtivo(r)
+     const isActive = verificaAtivo(ajuste.rows)
       setIsActive(isActive)
-
+      const r = orderRows(ajuste.rows, sortOptions)
       setrows(r)
       const options: AjusteMetasFiltroOption[] = getOptions(r)
       setfilterOptions(options)
@@ -94,17 +100,19 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
 
   }
   const setrows = (rows: AjustarProdutoRow[]) => {
-    if(ajuste) {
+       if(ajuste) {
       ajuste.rows = rows
-      setrowsState(rows)
+      setrowsState([...rows])
     }
   }
 
   const handleZerar = () => {
     if (ajuste) {
       ajuste?.zerar()
-      const r = orderRows(ajuste.rows)
+      const r = orderRows(ajuste.rows, sortOptions)
       setrows(r)
+      //const r = ajuste.rows
+
     }
   }
 
@@ -122,13 +130,59 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     }
   }
 
+  const handleSortChange = (sortOptions: IAjusteMetasSortSelected) => {
+    if (ajuste) {
+
+      const rows = ajuste.rows
+      setrows(orderRows(rows, sortOptions))
+      setsortOptions(sortOptions)
+    }
+  }
+
+  const orderRows = (rows: AjustarProdutoRow[], options: IAjusteMetasSortSelected ): AjustarProdutoRow[] => {
+    console.log(options, rows,)
+    const order = options.sortOrder == 'asc' ? -1 : 1
+    //let order = -1
+    const field = options.chave
+
+    const newrows = rows.sort((a: AjustarProdutoRow, b: AjustarProdutoRow) => {
+     return  order * (a.unidadeId - b.unidadeId)
+    }).splice(0, 9999)
+
+
+
+    const sortedRows = newrows.sort((a: AjustarProdutoRow, b: AjustarProdutoRow) => {
+
+      if (field === 'Unidade'){
+        return (a.unidadeId < b.unidadeId ? order : (a.unidadeId > b.unidadeId? -order: 0))
+      }
+
+      if (field === 'Ajustada') {
+        return (a.metaAjustada < b.metaAjustada ? order : (a.metaAjustada > b.metaAjustada ? -order : 0))
+      }
+
+      if (field === 'Referencia'){
+        return (a.metaReferencia < b.metaReferencia ? order : (a.metaReferencia > b.metaReferencia ? -order : 0))
+      }
+
+
+      return 0
+
+    }).slice( 0, 9999)
+    console.log(field, options.sortOrder, order, sortedRows)
+
+    return sortedRows
+
+  }
+
   const handleImportarExcel = async (arquivo: File) => {
     if (ajuste) {
       const leitor = new AjusteMetasImportaExcel(ajuste)
       try {
         const res = await leitor.importarExcel(arquivo)
         if (res == true) {
-          const r = orderRows(ajuste.rows)
+          const r = orderRows(ajuste.rows, sortOptions)
+          //const r= ajuste.rows
           setSnack({ open: true, message: 'Arquivo importado com sucesso!', severity: 'success' })
           setrows(r)
 
@@ -144,7 +198,8 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   const handleMainCheckbox = () => {
     if (ajuste) {
       ajuste.toggleCheckbox()
-      const r = orderRows(ajuste.rows)
+      const r = orderRows(ajuste.rows, sortOptions)
+      //const r = ajuste.rows
       setrows(r)
     }
   }
@@ -152,8 +207,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
   const handleCalc = () => {
     if (ajuste) {
       ajuste.distribuirProporcional()
-      const r = orderRows(ajuste.rows)
-      setrows(r)
+      setrows(orderRows(rows, sortOptions))
     }
   }
 
@@ -288,12 +342,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     setSnack({ open: false, message: '', severity: 'success' })
   };
 
-  const orderRows = (rows: AjustarProdutoRow[]): AjustarProdutoRow[] => {
-    const o = rows.sort((a: AjustarProdutoRow, b: AjustarProdutoRow) => {
-      return b.metaAjustada - a.metaAjustada
-    })
-    return rows.slice(0, 150)
-  }
+
 
   const a: IUseAjuste = {
     isLoading,
@@ -302,6 +351,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     handleAtualizar,
     handleGerarExcel,
     handleImportarExcel,
+    handleSortChange,
     handleZerar,
     handleGravar,
     handleMainCheckbox,
@@ -317,6 +367,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     handleFiltro,
     handleChangeRowsPerPage,
     page,
+    sortOptions,
     rowsPerPage,
     snack,
     ajuste,
@@ -324,6 +375,8 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     error,
     filterOptions,
     filterValue,
+    selectedRow,
+    setSelectedRow,
     setFilterValue,
     setPage,
     setRowsPerPage

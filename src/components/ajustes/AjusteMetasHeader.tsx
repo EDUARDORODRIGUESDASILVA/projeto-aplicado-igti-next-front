@@ -4,6 +4,7 @@ import { red } from '@mui/material/colors';
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import { useRouter } from "next/router";
 import AjustesUploadButton from "./AjustesUploadButton";
+import AjusteMetasSubHeader from "./AjusteMetasSubHeader";
 
 export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) {
   const router = useRouter()
@@ -120,8 +121,13 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
               </Button>
 
             </Box>}
-            title={<Title>{actions.ajuste.produto.codsidem} {actions.ajuste.produto.nome}</Title>}
-            subheader={actions.ajuste.unidade.nome}
+            title={
+            <>
+            <Title>{actions.ajuste.produto.nome}</Title>
+            </>
+
+        }
+            subheader={<AjusteMetasSubHeader actions={actions}></AjusteMetasSubHeader>}
           />
           {actions.isUploading ? (
             <LinearProgress />

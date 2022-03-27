@@ -30,7 +30,7 @@ export default function AjusteMetas() {
     return <>
       <Alert severity="warning">
         <AlertTitle>Ajuste indisponível.</AlertTitle>
-        Infelizmente um erro ocorreu. {actions.error}
+        {actions.error}
       </Alert>
     </>
   }

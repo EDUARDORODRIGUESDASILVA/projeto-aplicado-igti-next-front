@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import NumberFormat from "react-number-format"
 
 export default function NumberTextFormat({value}:{value: number}) {

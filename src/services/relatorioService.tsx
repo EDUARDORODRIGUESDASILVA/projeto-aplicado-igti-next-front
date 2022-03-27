@@ -80,7 +80,6 @@ export async function criarRelatorioPorAgregador(unidadeId: number, produtoId?: 
     unidades,
     produtos,
     rows
-
   }
 
   const relatorio = new RelatorioPorAgregador(irelatorio)
@@ -92,7 +91,6 @@ export async function criarRelatorioPorAgregador(unidadeId: number, produtoId?: 
       f.produtos = [produto]
       relatorio.filter = f
     }
-
   }
   return Promise.resolve(relatorio)
 }

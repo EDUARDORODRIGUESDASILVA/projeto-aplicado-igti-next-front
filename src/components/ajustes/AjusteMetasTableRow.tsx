@@ -1,16 +1,22 @@
 import { Button, Checkbox, TableCell, TableRow, Tooltip, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { AjustarProdutoRow } from "../../core/model/ajustar-objetivos/AjustarProdutoRow";
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import NumberInputFormat from "../../utils/NumberInputFormat";
 import NumberTextFormat from "../../utils/NumberTextFormat";
 
 export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdutoRow, actions: IUseAjuste }) {
+  const [backgroundColor, setbackgroundColor] = useState('');
+  useEffect(() => {
 
+    const backgroundColor =  row.erros > 0 ? '#ffebee' : ''
+    setbackgroundColor(backgroundColor)
+  }, [row.erros]);
   return (
     <TableRow style={{ height: 18 }}
-      hover={true}
+      hover={true && row.erros===0}
       selected={row.checked}
-      sx={{ backgroundColor: row.erros > 0 ? "#ffebee" : "" }}
+      sx={{ backgroundColor:backgroundColor}}
     >
       <TableCell padding="checkbox">
         <Checkbox
@@ -28,9 +34,10 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
           color='secondary'>{row.Unidade.se}</Button>
       </TableCell>
     ):(<></>)}
-      <TableCell  >
+      <TableCell padding='none'  >
         <Typography variant="caption" display="block" >
-          {row.Unidade.tipo} {row.Unidade.nome}
+          {row.Unidade.nome}
+
         </Typography>
       </TableCell>
 
@@ -42,7 +49,7 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
       <TableCell padding='none' align="right" >
         <NumberTextFormat value={row.metaReferencia} />
       </TableCell>
-      <TableCell padding='none' align="right" >
+      <TableCell padding='checkbox' align="right" >
         <NumberTextFormat value={row.metaMinima} />
       </TableCell>
       <TableCell padding='none' align="center"
@@ -80,12 +87,12 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         <NumberTextFormat value={row.shareRef} />
       </TableCell>
 
-      <TableCell align="right"
+      <TableCell padding='none'  align="right"
         sx={{ fontWeight: 'bold', color: 'gray' }}
       >
         <NumberTextFormat value={row.shareAjustado} />
       </TableCell>
-      <TableCell align="right"
+      <TableCell  align="right"
         sx={{ fontWeight: 'italic', color: 'gray' }}
       >
         <Tooltip title={row.Usuario.nome} placement="left">
