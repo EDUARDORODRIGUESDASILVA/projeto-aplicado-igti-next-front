@@ -66,7 +66,8 @@ export class RelatorioPorAgregador implements IRelatorio {
         .map(l => l.erros)
         .reduce((p, c) => p + c, 0)
       r.erros = r.erros +  errosFilhos > 0 ? 1: 0
-      erros += (r.erros > 0 || errosFilhos > 0 || r.saldo !== 0 ? 1 : 0)
+      erros += (r.erros > 0 || errosFilhos > 0 || Math.abs(r.saldo) > 0.02 ? 1 : 0)
+
     })
 
     if (qtdLinhas == 0) {

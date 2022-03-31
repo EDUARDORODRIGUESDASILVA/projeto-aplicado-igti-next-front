@@ -1,4 +1,5 @@
 import { Button, Checkbox, TableCell, TableRow, Tooltip, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { AjustarProdutoRow } from "../../core/model/ajustar-objetivos/AjustarProdutoRow";
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import NumberInputFormat from "../../utils/NumberInputFormat";
@@ -6,12 +7,23 @@ import NumberTextFormat from "../../utils/NumberTextFormat";
 
 export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdutoRow, actions: IUseAjuste }) {
 
+  const [backgroundColor, setbackgroundColor] = useState('');
+  useEffect(() => {
+
+    if (row.erros) {
+      const backgroundColor = row.erros > 0 ? '#ffebee' : ''
+      setbackgroundColor(backgroundColor)
+    }
+
+
+  }, [row.erros]);
+
   return (
     <TableRow style={{ height: 18 }}
       hover={true && row.erros===0}
       selected={row.checked || (row.id === actions.selectedRow?.id && row.erros === 0) }
       onClick={() => actions.setSelectedRow(row)}
-      sx={{ backgroundColor: row.erros > 0 ? '#ffebee' : '' }}
+      sx={{ backgroundColor: backgroundColor }}
     >
       <TableCell padding="checkbox" sx={{ paddingRight: '0px', paddingLeft: '0px', marginLeft: '0px' }}>
         <Checkbox
@@ -24,11 +36,8 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
 
 
       <TableCell padding='none'
-        sx={{ minWidth: '300px', maxWidth: '300px'}}
-
+        sx={{ minWidth: '270px', maxWidth: '270px'}}
       >
-
-
         <Typography variant="caption" display="block" >
           {actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
             <Button size="small" sx={{paddingRight: '0px', paddingLeft: '0px', marginLeft: '0px'}}

@@ -67,6 +67,9 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                 ) : <></>
               }
 
+              {
+                actions.ajuste.unidade.tipo == 'SEV' ? (
+
               <Button variant="text"
                 sx={{ mr: 1 }}
                 disabled={true}
@@ -74,6 +77,8 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                 Negociações
               </Button>
 
+                ): <></>
+            }
 
 
 

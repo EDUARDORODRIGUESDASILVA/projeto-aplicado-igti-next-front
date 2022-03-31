@@ -152,8 +152,6 @@ export class AjusteMetas implements IAjustarProduto {
   }
 
   get saldo() {
-    if (Math.abs(Math.trunc(this.psaldo * 100) / 100)<0.15)
-      return 0
     return Math.trunc(this.psaldo * 100)/100
   }
 

@@ -29,13 +29,13 @@ export class RelatorioPorAgregadorRow implements IRelatorioRow {
 
   get saldo() {
     if (this.unidade.tipo=='SR') {
-      return Math.trunc((this.metaAjustada - this.metaReferencia) * 100) / 100
+      return (Math.trunc(this.metaAjustada * 100) / 100) - (Math.trunc(this.metaReferencia * 100) / 100)
     }
-    return Math.trunc( (this.metaAjustada - this.metaReferencia2)  * 100) / 100
+    return (Math.trunc(this.metaAjustada * 100) / 100) - (Math.trunc(this.metaReferencia2 * 100) / 100)
   }
 
   get erros() {
-    return (this.perros > 0 || this.saldo !== 0 ? 1 : 0)
+    return (this.perros > 0 || Math.abs(this.saldo) > 0.02 ? 1 : 0)
   }
 
   set erros(erros: number) {

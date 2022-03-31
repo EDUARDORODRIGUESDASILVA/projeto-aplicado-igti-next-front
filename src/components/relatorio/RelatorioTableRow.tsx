@@ -7,7 +7,7 @@ import { RelatorioPorAgregadorRow } from "../../core/model/relatorio-objetivos/R
 export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorAgregadorRow, actions: IUseRelatorio }) {
 
   const rowBackgroundColor = () => {
-    if (row.erros > 0 || row.saldo !== 0)
+    if (row.erros > 0 || Math.abs(row.saldo) > 0.015)
       return '#ffebee'
 
     // if (row.gravado  === row.qtdlinhas)
@@ -16,7 +16,7 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
   }
 
   const cellBackgroundColor = () => {
-    if (row.erros > 0 || row.saldo !== 0)
+    if (row.erros > 0 || Math.abs(row.saldo) > 0.015)
       return '#ffebee'
 
     if (row.gravado === row.qtdlinhas)
