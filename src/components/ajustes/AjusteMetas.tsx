@@ -43,7 +43,7 @@ export default function AjusteMetas() {
       <AjusteMetasHeader actions={actions}></AjusteMetasHeader>
       <Divider />
       <Card sx={{ mt: '6px', pt: '2px' }}>
-        <AjustesMetasFiltro actions={actions}></AjustesMetasFiltro>
+         <AjustesMetasFiltro actions={actions}></AjustesMetasFiltro>
       </Card>
       <Paper sx={{ width: '100%', mt: '10px'  }}>
           <AjusteMetasTable actions={actions}></AjusteMetasTable>

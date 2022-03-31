@@ -1,29 +1,19 @@
 import { Button, Checkbox, TableCell, TableRow, Tooltip, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 import { AjustarProdutoRow } from "../../core/model/ajustar-objetivos/AjustarProdutoRow";
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import NumberInputFormat from "../../utils/NumberInputFormat";
 import NumberTextFormat from "../../utils/NumberTextFormat";
 
 export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdutoRow, actions: IUseAjuste }) {
-  const [backgroundColor, setbackgroundColor] = useState('');
-  useEffect(() => {
 
-    if (row.erros){
-      const backgroundColor =  row.erros > 0 ? '#ffebee' : ''
-      setbackgroundColor(backgroundColor)
-    }
-
-
-  }, [row.erros]);
   return (
     <TableRow style={{ height: 18 }}
       hover={true && row.erros===0}
       selected={row.checked || (row.id === actions.selectedRow?.id && row.erros === 0) }
       onClick={() => actions.setSelectedRow(row)}
-      sx={{ backgroundColor:backgroundColor}}
+      sx={{ backgroundColor: row.erros > 0 ? '#ffebee' : '' }}
     >
-      <TableCell padding="checkbox">
+      <TableCell padding="checkbox" sx={{ paddingRight: '0px', paddingLeft: '0px', marginLeft: '0px' }}>
         <Checkbox
           disabled={false}
           checked={row.checked}
@@ -32,17 +22,20 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         />
       </TableCell>
 
-      {actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
-        <TableCell padding="none" >
-          <Button size="small"
-            onClick={() => actions.handleToogleSEV(row.Unidade.se)}
-          color='secondary'>{row.Unidade.se}</Button>
-      </TableCell>
-    ):(<></>)}
+
       <TableCell padding='none'
-        sx={{ minWidth: '270px', maxWidth: '270px'}}
+        sx={{ minWidth: '300px', maxWidth: '300px'}}
+
       >
+
+
         <Typography variant="caption" display="block" >
+          {actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
+            <Button size="small" sx={{paddingRight: '0px', paddingLeft: '0px', marginLeft: '0px'}}
+              onClick={() => actions.handleToogleSEV(row.Unidade.se)}
+              color='secondary'>{row.Unidade.se}</Button>
+
+          ) : (<></>)}
           {row.Unidade.nome}
 
         </Typography>
@@ -57,7 +50,7 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         <NumberTextFormat value={row.metaReferencia} />
       </TableCell>
       <TableCell padding='checkbox' align="right" sx={{
-        paddingLeft: '13px',
+        paddingLeft: '2px',
         fontWeight: row.erroPiso ? 'bold' : '',
         color: (row.erroPiso ? 'red' : '')
       }}
@@ -109,7 +102,7 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         <NumberTextFormat value={row.shareAjustado} />
       </TableCell>
       <TableCell  align="right"
-        sx={{ fontWeight: 'italic', color: 'gray' }}
+        sx={{ paddingLeft: '5px', fontWeight: 'italic', color: 'gray' }}
       >
         <Tooltip title={row.Usuario.nome} placement="left">
         <small>{row.userId}</small>

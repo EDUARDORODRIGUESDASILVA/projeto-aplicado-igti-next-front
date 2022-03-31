@@ -13,18 +13,13 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox" >
+          <TableCell padding="checkbox" sx={{ paddingRight: '0px', paddingLeft: '0px', marginLeft: '0px' }} >
             <Checkbox
               color="primary"
               checked={actions.ajuste.checked}
               onChange={() => { actions.handleMainCheckbox() }}
               disabled={false} />
           </TableCell>
-          {actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
-            <TableCell align="center" padding="none">
-              SE
-            </TableCell>
-          ) : <></>}
 
           <TableCell align="center">
             <AjusteMetasTableSortLabel
@@ -39,7 +34,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             ></AjusteMetasTableSortLabel>
           </TableCell>
 
-          <TableCell align="center" >
+          <TableCell padding='none' align="center" >
             Cluster
             <AjusteMetasTableSortLabel
               actions={actions}
@@ -53,7 +48,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             ></AjusteMetasTableSortLabel>
           </TableCell>
 
-          <TableCell align="right">
+          <TableCell padding='none' align="right">
             <AjusteMetasTableSortLabel
               actions={actions}
               options={{
@@ -66,7 +61,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             ></AjusteMetasTableSortLabel>
           </TableCell>
 
-          <TableCell align="center" >
+          <TableCell align="right" >
 
             <AjusteMetasTableSortLabel
               actions={actions}
@@ -80,7 +75,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             ></AjusteMetasTableSortLabel>
           </TableCell>
 
-          <TableCell align="center">
+          <TableCell padding='none' align="center">
             Trava
           </TableCell>
 

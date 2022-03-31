@@ -97,7 +97,7 @@ export class AjusteMetas implements IAjustarProduto {
     }
 
     this.metaAjustada = totalMetaAjustada
-    this.psaldo = Math.trunc(((this.metaAjustada - (this.metaReferencia2 + this.trocas + this.pauxiliarTroca)) * 100)) / 100
+    this.psaldo = (this.metaAjustada - (this.metaReferencia2 + this.trocas + this.pauxiliarTroca))
     this.totalizarErros()
     this.calcularShare()
     this.qtdTotalizacoes++
@@ -132,9 +132,9 @@ export class AjusteMetas implements IAjustarProduto {
       this.erros += r.erros > 0 ? 1 : 0
     })
 
-    if (this.psaldo > 0) {
-      this.erros++
-    }
+    // if (this.saldo > 0) {
+    //   this.erros++
+    // }
   }
 
   private calcularShare() {
@@ -152,7 +152,9 @@ export class AjusteMetas implements IAjustarProduto {
   }
 
   get saldo() {
-    return this.psaldo
+    if (Math.abs(Math.trunc(this.psaldo * 100) / 100)<0.15)
+      return 0
+    return Math.trunc(this.psaldo * 100)/100
   }
 
   get checked() {
@@ -192,10 +194,12 @@ export class AjusteMetas implements IAjustarProduto {
 
   distribuirProporcional(contagem?: number) {
     if (typeof(contagem)=='undefined') {
-      contagem = 3
+      contagem = 10
     }
     let totalSelecionado = 0
-    const saldo = this.saldo
+    this.totalizar()
+    const saldo = this.psaldo
+    console.log('recalcula', contagem, saldo)
     this.rows.forEach(r => {
       if (r.checked) {
         totalSelecionado += r.metaAjustada
@@ -205,7 +209,7 @@ export class AjusteMetas implements IAjustarProduto {
     let qtdUnidades = 0
     this.rows.forEach(r => {
       if (r.checked) {
-        const adicionar = (r.metaAjustada / totalSelecionado) * saldo * -1
+        const adicionar = (r.metaAjustada / totalSelecionado) * (saldo * -1)
         r.adicionarValor(adicionar)
         qtdUnidades++
       }
@@ -215,7 +219,10 @@ export class AjusteMetas implements IAjustarProduto {
         this.auxiliarTroca = 0
       } else {
         // garantir o arredondamento zero
-        if (this.saldo !== 0 && contagem > 0) {
+        this.totalizar()
+        const saldo = this.psaldo
+        console.log('recalcula', contagem, saldo)
+        if ( saldo !== 0 && contagem > 0) {
           this.distribuirProporcional(contagem - 1)
         }
       }

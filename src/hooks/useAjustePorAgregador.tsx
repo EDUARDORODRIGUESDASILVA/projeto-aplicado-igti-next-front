@@ -166,7 +166,6 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
       return 0
 
     }).slice( 0, 9999)
-    console.log(field, options.sortOrder, order, sortedRows)
 
     return sortedRows
   }
