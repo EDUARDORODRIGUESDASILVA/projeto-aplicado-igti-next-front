@@ -19,7 +19,7 @@ export default function SideNav() {
       <List>
           <ListItemButton
             selected={router.pathname == '/relatorio'}
-            component="a" onClick={() => router.push('/relatorio/?un=2625')} >
+            component="a" onClick={() => router.push('/relatorio/2625')} >
             <ListItemIcon>
               <AppRegistrationIcon />
             </ListItemIcon>
