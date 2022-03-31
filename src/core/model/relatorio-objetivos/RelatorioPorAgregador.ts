@@ -56,9 +56,11 @@ export class RelatorioPorAgregador implements IRelatorio {
     let qtdLinhas = 0
     let gravadas = 0
     let erros = 0
+
     this.prows.forEach(r => {
       qtdLinhas += r.qtdlinhas
       gravadas += r.gravado
+      // verificar se há erros em alguma unidade vinculada
       const errosFilhos = this.prows.filter(l => r.unidade.id == l.unidade.sr
         && r.produto.id == l.produto.id)
         .map(l => l.erros)
@@ -69,12 +71,12 @@ export class RelatorioPorAgregador implements IRelatorio {
 
     if (qtdLinhas == 0) {
       this.progresso = 0
-    } else {
-
+    }
+    else {
       const progress = (gravadas / qtdLinhas) * 100
       this.progresso = Math.trunc(progress * 100) / 100
-
     }
+
     this.erros = erros
     this.qtdlinhas = qtdLinhas
     this.gravadas = gravadas
@@ -150,7 +152,6 @@ export class RelatorioPorAgregador implements IRelatorio {
       if (r1.unidade.nivel - r2.unidade.nivel) {
         return r1.unidade.nivel - r2.unidade.nivel
       }
-
 
       if (r2.erros - r1.erros) {
         return r2.erros - r1.erros

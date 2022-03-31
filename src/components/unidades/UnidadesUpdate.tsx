@@ -71,7 +71,7 @@ export default function UnidadeUpdate() {
         (result) => {
           alert(result['message'])
           if (result['status'] === 'ok') {
-            router.push('/unidades')
+            router.push('/unidades/')
           }
         }
       )

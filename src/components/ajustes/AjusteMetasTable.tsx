@@ -1,8 +1,8 @@
 import { Table, TableBody, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
-import AjusteMetasTableRow from './AjusteMetasTableRow'
 
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import AjusteMetasTableHeader from "./AjusteMetasTableHeader";
+import AjusteMetasTableRow from './AjusteMetasTableRow'
 
 export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
   if (actions.ajuste) {

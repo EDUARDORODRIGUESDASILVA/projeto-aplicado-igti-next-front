@@ -10,7 +10,7 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
   const router = useRouter()
 
   const handleAvatarClick = () => {
-    router.push(`/relatorio/${actions.ajuste?.unidade.id}`)
+    router.push(`/relatorio/?un=${actions.ajuste?.unidade.id}`)
   }
 
   if (actions.ajuste) {

@@ -1,5 +1,4 @@
 import { Button, CircularProgress } from "@mui/material";
-import { IUnidade } from "../../core/interfaces/IUnidade";
 import { useBaseCompletaPorAgregador } from "../../hooks/useBaseCompletaPorAgregador";
 import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
 

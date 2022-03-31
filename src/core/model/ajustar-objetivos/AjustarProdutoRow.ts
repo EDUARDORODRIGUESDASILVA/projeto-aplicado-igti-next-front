@@ -180,37 +180,29 @@ export class AjustarProdutoRow implements IRowAjustar {
   }
 
   private verificaTravaPercentual(): 0 | 1 {
+    
     if (this.trava === 'Livre') {
       return 0
     }
 
     let travaPct: number = 0
-
    if (typeof (this.trava) == 'string' && this.trava.endsWith('%')) {
     const strava = this.trava.replace('%','')
      travaPct = parseFloat(strava)/100
     } else {
+      // regra não prevista. bloquear a interface para evitar erros e correção
       return 1
     }
 
-    if (this.metaAjustada == 0 && this.metaReferencia == 0) {
+    if (this.metaAjustada == 0 && this.metaReferencia == 0 || this.metaAjustada == this.metaReferencia) {
       return 0
-    }
-
-    if (this.metaAjustada == this.metaReferencia) {
-       return 0
     }
 
     const sign = (this.metaReferencia ? this.metaReferencia / Math.abs(this.metaReferencia) : 0)
     const metaMaxima = this.metaReferencia * (1 + (sign * travaPct))
     const metaMinima = this.metaReferencia * (1 - (sign * travaPct))
 
-
-    if (this.metaAjustada > metaMaxima) {
-      return 1
-    }
-
-    if (this.metaAjustada < metaMinima) {
+    if (this.metaAjustada > metaMaxima || this.metaAjustada < metaMinima) {
       return 1
     }
     return 0

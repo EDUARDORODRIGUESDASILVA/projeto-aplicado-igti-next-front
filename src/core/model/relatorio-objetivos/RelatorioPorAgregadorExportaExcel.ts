@@ -7,7 +7,6 @@ enum CoresExcel {
   'COR_FUNDO_COLUNAS' = '333f4f',
   'COR_TEXTO_COLUNAS' = 'edf0f2'
 }
-
 export class RelatorioPorAgregadorExportaExcel {
   constructor(private relatorio: RelatorioPorAgregador) { }
 
@@ -57,7 +56,6 @@ export class RelatorioPorAgregadorExportaExcel {
     title.style('fontSize', 11);
     title.value(titulo);
 
-
     let coluna = 0
     let linha = 2
     const nomescolunas = plan.range('A2:K2');
@@ -73,7 +71,6 @@ export class RelatorioPorAgregadorExportaExcel {
 
     plan.cell(linha, ++coluna).value('Agregador').style('horizontalAlignment', 'center');
     plan.column(coluna).width(40).style('fontColor', '757171')
-
 
     plan.cell(linha, ++coluna).value('Bloco').style('horizontalAlignment', 'center');
     plan.column(coluna).width(20).style('bold', true).style('fontColor', '57257C')
@@ -92,7 +89,6 @@ export class RelatorioPorAgregadorExportaExcel {
 
     plan.cell(linha, ++coluna).value('Ajustada').style('horizontalAlignment', 'center');
     plan.column(coluna).width(16).style('bold', true).style('numberFormat', '#,##0.00;[Red]-#,##0.00')
-
 
     plan.cell(linha, ++coluna).value('Saldo').style('horizontalAlignment', 'center');
     plan.column(coluna).width(15).style('bold', true).style('numberFormat', '#,##0.00;[Red]-#,##0.00');
@@ -146,7 +142,6 @@ export class RelatorioPorAgregadorExportaExcel {
 
       const saldo = workbook.sheet(0).cell(linha, coluna++)
       saldo.value(r.saldo)
-
 
       const erros = workbook.sheet(0).cell(linha, coluna++)
       erros.value(r.erros)

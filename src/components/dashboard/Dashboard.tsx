@@ -85,7 +85,6 @@ function DashboardContent({ children }: LayoutProps) {
   };
   const router = useRouter()
   return (
-
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
@@ -107,7 +106,6 @@ function DashboardContent({ children }: LayoutProps) {
             >
               <MenuIcon />
             </IconButton>
-
 
             <Typography
               component="h1"
@@ -172,16 +170,7 @@ interface LayoutProps {
 export default function Dashboard({ children }: LayoutProps) {
   const {user, isLoading, error} = useFetchLoggedUser()
 
-  // if (error) {
-  //   <>
-  //     <Alert severity="error">This is an error alert — check it out!</Alert>
-  //     <Alert severity="warning">This is a warning alert — check it out!</Alert>
-  //     <Alert severity="info">This is an info alert — check it out!</Alert>
-  //     <Alert severity="success">This is a success alert — check it out!</Alert>
-  //   </>
-  // }
-
-  if (!user) {
+   if (!user) {
     return <DashboardContent>
       <SignIn isloading={isLoading} error={error} ></SignIn>
     </DashboardContent>

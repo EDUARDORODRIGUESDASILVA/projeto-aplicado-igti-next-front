@@ -7,11 +7,12 @@ import AjustesMetasFiltro from './AjustesMetasFiltro'
 
 export default function AjusteMetas() {
   const router = useRouter()
-  let { unidadeId, produtoid } = router.query
-  const unid = parseInt(unidadeId?.toString() || '0')
-  const prod = parseInt(produtoid?.toString() || '0')
+  let { un, prod } = router.query
 
-  const actions = useAjustePorAgregador(unid, prod)
+  const unid = parseInt(un?.toString() || '0')
+  const pr = parseInt(prod?.toString() || '0')
+
+  const actions = useAjustePorAgregador(unid, pr)
 
   if (actions.isLoading) {
     return <>

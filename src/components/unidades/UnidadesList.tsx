@@ -64,7 +64,7 @@ export default function UnidadesList() {
 
   const UpdateUser = (id: number) => {
 
-    router.push('/unidades/' + id)
+    router.push('/unidades/?un=' + id)
    // window.location = '/update/' + id
   }
 

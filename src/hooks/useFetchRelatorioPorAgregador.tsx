@@ -17,16 +17,13 @@ export const useFetchRelatorioPorAgregador = (unidadeId: number, produtoId: numb
         setisLoading(false)
 
       } catch (error) {
-        console.log(error)
         seterror('Não foi possível baixar o ajuste')
         setisLoading(false)
       }
-
     }
     if (unidadeId ) {
       fetchRelatorio()
     }
-
   }, [unidadeId, produtoId, shouldRefetch]);
 
   return { isLoading, relatorio, error, refetch }

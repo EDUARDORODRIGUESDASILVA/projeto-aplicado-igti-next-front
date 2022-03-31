@@ -1,9 +1,10 @@
 import { Box, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
-import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
 import RelatorioFilterErrosBadge from "./RelatorioFilterErrosBadge";
 import RelatorioTableRow from "./RelatorioTableRow";
 import RelatorioTextFilter from "./RelatorioTextFilter";
 import SearchIcon from '@mui/icons-material/Search';
+
+import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
 
 export default function RelatorioTable({ actions }: { actions: IUseRelatorio }) {
 

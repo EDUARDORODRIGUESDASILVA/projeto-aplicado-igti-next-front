@@ -6,11 +6,11 @@ import RelatorioTable from "./RelatorioTable";
 
 export default function Relatorio() {
   const router = useRouter()
-  let { unidadeId } = router.query
-  let { produtoId } = router.query
-  const unid = parseInt(unidadeId?.toString() || '0')
-  const prod = parseInt(produtoId?.toString() || '0')
-  const actions = useRelatorioPorAgregador(unid, prod)
+  let { un } = router.query
+  let { prod } = router.query
+  const unid = parseInt(un?.toString() || '0')
+  const pr = parseInt(prod?.toString() || '0')
+  const actions = useRelatorioPorAgregador(unid, pr)
 
   if (actions.isLoading) {
     return <>
