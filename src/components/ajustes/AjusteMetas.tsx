@@ -7,13 +7,13 @@ import AjustesMetasFiltro from './AjustesMetasFiltro'
 
 export default function AjusteMetas() {
   const router = useRouter()
-  let { un, prod } = router.query
+  let { un, prod, tipo } = router.query
 
   const unid = parseInt(un?.toString() || '0')
   const pr = parseInt(prod?.toString() || '0')
 
-  const actions = useAjustePorAgregador(unid, pr)
-
+  const actions = useAjustePorAgregador(tipo !== 'SE' ? 'AG' : 'SE', unid, pr)
+  console.log(actions)
   if (actions.isLoading) {
     return <>
       <Stack
@@ -51,5 +51,5 @@ export default function AjusteMetas() {
     </>
   )
 
-  return <></>
+  return <>TESTE</>
 }

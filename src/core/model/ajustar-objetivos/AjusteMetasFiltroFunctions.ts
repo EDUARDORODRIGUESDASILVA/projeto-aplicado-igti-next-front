@@ -2,8 +2,8 @@ import { IUnidade } from "../../interfaces/IUnidade"
 import { AjustarProdutoRow } from "./AjustarProdutoRow"
 export interface AjusteMetasFiltroOption {
   label: string
-  group: 'Cluster' | 'SEV' | 'Unidades'
-  item: string | number | IUnidade
+  group: 'Cluster' | 'SEV' | 'Unidades' | 'Erros'
+  item: string | number | IUnidade | boolean
 }
 
 
@@ -34,6 +34,15 @@ export const getOptions = (rows: AjustarProdutoRow[]): AjusteMetasFiltroOption[]
   clusters = clusters.sort((a, b) => a < b ? -1 : (a > b ? 1 : 0))
 
   const options: AjusteMetasFiltroOption[] = []
+
+  const o: AjusteMetasFiltroOption = {
+    label: 'Unidades com erros',
+    group: 'Erros',
+    item: true
+  }
+  options.push(o)
+
+
   clusters.forEach(cluster => {
     const o: AjusteMetasFiltroOption = {
       label: cluster,
@@ -62,6 +71,8 @@ export const getOptions = (rows: AjustarProdutoRow[]): AjusteMetasFiltroOption[]
     }
     options.push(o)
   })
+
+
 
 
 

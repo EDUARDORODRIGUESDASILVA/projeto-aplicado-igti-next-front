@@ -1,5 +1,5 @@
 export interface IUser {
-  matricula: number
+  matricula: string
   nome: string,
   funcao: string
   unidadeId: number

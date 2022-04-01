@@ -24,6 +24,7 @@ export interface IUseAjuste {
   handleFiltro: (value: AjusteMetasFiltroOption[]) => void
   handleToggleCheckBox: (row: AjustarProdutoRow) => void
   handleToogleCluster: (cluster: string) => void
+  handleToogleErros: () => void
   handleToogleSEV: (sev: number) => void
   handleSortChange:(sort: IAjusteMetasSortSelected) => void
   handleInputPct: (row: AjustarProdutoRow, pct: number) => void
@@ -48,8 +49,8 @@ export interface IUseAjuste {
 
 }
 
-export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUseAjuste => {
-  const { isLoading, ajuste, error, refetch } = useFetchAjustePorAgregador(unidadeId, produtoId)
+export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, produtoId: number): IUseAjuste => {
+  const { isLoading, ajuste, error, refetch } = useFetchAjustePorAgregador(tipo, unidadeId, produtoId)
   const [filterValue, setFilterValue] = useState<AjusteMetasFiltroOption[]>([]);
   const [snack, setSnack] = useState<{ open: Boolean, message: string, severity: AlertColor }>({ open: false, message: '', severity: 'success' });
   const [isUploading, setIsUploading] = useState(false);
@@ -233,6 +234,22 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     }
   }
 
+  const handleToogleErros = () => {
+    if (ajuste) {
+
+      let value = filterValue.filter(fv => fv.group == 'Erros' )
+      if (value.length > 0) {
+        value = filterValue.filter(fv => fv.group !== 'Erros')
+      } else {
+
+        value = filterOptions.filter(fv => fv.group == 'Erros' )
+        filterValue.push(...value)
+      }
+      handleFiltro(value)
+    }
+
+  }
+
     const handleToogleSEV = (sev: number) => {
       if (ajuste) {
 
@@ -252,7 +269,8 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     const f: IAjusteMetasFiltro = {
       sevs: [],
       unidades: [],
-      cluster: []
+      cluster: [],
+      erros: false
     }
     if (options.length > 0)
     options.forEach(op => {
@@ -268,6 +286,8 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
           if (typeof op.item === 'object')
             f.unidades.push(op.item)
           break
+        case 'Erros' :
+            f.erros = true
       }
     })
 
@@ -300,15 +320,18 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     refetch({})
   }
 
-  const handleGravar =  (referencia: boolean) => {
+  const handleGravar =  async (referencia: boolean) => {
     if(ajuste) {
       try {
         setIsUploading(true)
-        atualizarObjetivosLote(unidadeId, produtoId, ajuste, referencia).then(
-          () => {
+         await  atualizarObjetivosLote(unidadeId, produtoId, ajuste, referencia).then(
+          (user) => {
             setSnack({ open: true, message: 'Gravado com sucesso!', severity: 'success' })
             setIsUploading(false)
             handleGerarExcel()
+            ajuste.updateUser(user)
+            setrows([...rows])
+
             if (referencia){
               handleAtualizar()
             }
@@ -351,6 +374,7 @@ export const useAjustePorAgregador = (unidadeId: number, produtoId: number): IUs
     handleCalc,
     handleToggleCheckBox,
     handleToogleCluster,
+    handleToogleErros,
     handleToogleSEV,
     handleInputPct,
     handleInputValor,

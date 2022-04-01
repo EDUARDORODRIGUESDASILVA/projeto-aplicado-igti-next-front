@@ -41,7 +41,7 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
           <Button size="small">{row.produto.nome}</Button>
           </Link>
         ):<>
-            <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
+            <Link href={`/ajustes/AG/${row.unidade.id}/${row.produto.id}`}>
               <Button size="small">{row.produto.nome}</Button>
             </Link>
         </>
@@ -51,11 +51,11 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
         <Stack direction="row" spacing={0}>
           {row.unidade.tipo == 'SR' ? (
             <>
-              <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
+              <Link href={`/ajustes/AG/${row.unidade.id}/${row.produto.id}`}>
                 <Button size="small" color='secondary'>Agência</Button>
               </Link>
-               <Link href={`/ajustes/${row.unidade.id}/${row.produto.id}`}>
-                <Button size="small" disabled={true} color='secondary'>SEV</Button>
+               <Link href={`/ajustes/SE/${row.unidade.id}/${row.produto.id}`}>
+                <Button size="small" disabled={false} color='secondary'>SEV</Button>
               </Link>
             </>
           ) : (<></>)}

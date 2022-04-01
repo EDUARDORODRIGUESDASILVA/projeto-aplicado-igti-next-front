@@ -3,10 +3,11 @@ import { IAjustarProduto } from '../core/interfaces/ajustar-objetivos/IAjustarPr
 import { AjustarProdutoRow } from '../core/model/ajustar-objetivos/AjustarProdutoRow';
 import { AjusteMetas } from '../core/model/ajustar-objetivos/AjusteMetas';
 import { IRowAjustar } from '../core/interfaces/ajustar-objetivos/IRowAjustar';
+import { IUser } from '../core/interfaces/IUser';
 
-export async function fetchAjustesAgregador(unidadeId: number, produtoId: number): Promise<IAjustarProduto> {
+export async function fetchAjustesAgregador(tipo: 'AG' | 'SE', unidadeId: number, produtoId: number): Promise<IAjustarProduto> {
   try {
-    const resp = await instance.get(`/objetivo/ajustar/${unidadeId}/${produtoId}`)
+    const resp = await instance.get(`/objetivo/ajustar/${tipo}/${unidadeId}/${produtoId}`)
 
     if (resp.status !== 200) {
       throw new Error(resp.statusText + ' | ' + resp.data.msg);
@@ -21,8 +22,8 @@ export async function fetchAjustesAgregador(unidadeId: number, produtoId: number
   }
 }
 
-export async function criarAjustePorAgregador(unidadeId: number, produtoId: number): Promise<AjusteMetas> {
-  const fetched: IAjustarProduto = await fetchAjustesAgregador(unidadeId, produtoId)
+export async function criarAjustePorAgregador(tipo: 'AG' | 'SE',unidadeId: number, produtoId: number): Promise<AjusteMetas> {
+  const fetched: IAjustarProduto = await fetchAjustesAgregador(tipo, unidadeId, produtoId)
 
   const rows: AjustarProdutoRow[] = []
 
@@ -48,7 +49,7 @@ interface IUpdateObjetivosLote {
 }
 
 export async function atualizarObjetivosLote(unidadeId: number, produtoId: number,
-   ajuste: AjusteMetas, gravaReferencia: boolean): Promise<Boolean> {
+   ajuste: AjusteMetas, gravaReferencia: boolean): Promise<IUser> {
   try {
     const lote: IUpdateObjetivosLote[] = []
 
@@ -64,8 +65,8 @@ export async function atualizarObjetivosLote(unidadeId: number, produtoId: numbe
     if (resp.status !== 200) {
       throw new Error(resp.statusText + ' | ' + resp.data.msg);
     }
-
-    return Promise.resolve(true)
+    const user = resp.data
+    return Promise.resolve(user)
 
   } catch (error: any) {
     throw new Error('Falha ao atualizar objetivos');

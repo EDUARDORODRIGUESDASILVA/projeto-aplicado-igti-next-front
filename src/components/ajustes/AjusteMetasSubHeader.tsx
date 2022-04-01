@@ -11,7 +11,9 @@ export default function AjusteMetasSubHeader({ actions }: { actions: IUseAjuste 
         <span>   |   {actions.ajuste.produto.codsidem}   </span>
 
         {actions.ajuste.erros !== 0 ? (
-          <Chip color="error" size="small" label={erroString}
+          <Chip color="error"
+            onClick={actions.handleToogleErros}
+          size="small" label={erroString}
            variant="outlined" sx={{marginLeft: '15px'}}/>
         ): (<></>) }
 

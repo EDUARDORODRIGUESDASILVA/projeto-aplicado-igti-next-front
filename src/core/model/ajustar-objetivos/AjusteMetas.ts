@@ -1,12 +1,14 @@
 import { IAjustarProduto } from "../../interfaces/ajustar-objetivos/IAjustarProduto";
 import { IProduto } from "../../interfaces/IProduto";
 import { IUnidade } from "../../interfaces/IUnidade";
+import { IUser } from "../../interfaces/IUser";
 import { AjustarProdutoRow } from "./AjustarProdutoRow";
 
 export interface IAjusteMetasFiltro {
   sevs: number[]
   unidades: IUnidade[]
   cluster: string[]
+  erros: boolean
 }
 export interface IAjusteImportadoExcel {
   id: number,
@@ -39,7 +41,8 @@ export class AjusteMetas implements IAjustarProduto {
     this.pfilter = {
       sevs: [],
       unidades: [],
-      cluster: []
+      cluster: [],
+      erros: false
     }
   }
 
@@ -107,6 +110,10 @@ export class AjusteMetas implements IAjustarProduto {
 
     let rows: AjustarProdutoRow[] = [...this.pallrows]
 
+    if(f.erros) {
+      rows = rows.filter(r => r.erros > 0)
+    }
+
     if (f.cluster.length > 0) {
       rows = rows.filter(r => f.cluster.includes(r.Unidade.cluster))
     }
@@ -137,6 +144,9 @@ export class AjusteMetas implements IAjustarProduto {
     // }
   }
 
+  updateUser(user: IUser) {
+    this.pallrows.forEach( r => { r.Usuario = user, r.userId = user.matricula} )
+  }
   private calcularShare() {
     this.pallrows.forEach(r => {
       r.shareRef = (r.metaReferencia / this.metaReferencia) * 100
