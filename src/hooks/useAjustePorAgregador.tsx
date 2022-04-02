@@ -10,6 +10,7 @@ import { atualizarObjetivosLote } from "../services/ajustesService";
 import { useFetchAjustePorAgregador } from "./useFetchAjustePorAgregador";
 
 export interface IUseAjuste {
+  tipo: 'AG' | 'SE'
   isLoading: boolean
   isUploading: boolean
   isActive: SituacaoAtivo
@@ -74,6 +75,14 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
       setrows([])
     };
   }, [ajuste]);
+
+
+  useEffect(() => {
+    refetch({})
+    return () => {
+
+    };
+  }, [tipo]);
 
   const verificaAtivo = (rows: AjustarProdutoRow[]): SituacaoAtivo => {
 
@@ -194,8 +203,8 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
   const handleMainCheckbox = () => {
     if (ajuste) {
       ajuste.toggleCheckbox()
-      const r = orderRows(ajuste.rows, sortOptions)
-      //const r = ajuste.rows
+      //const r = orderRows(ajuste.rows, sortOptions)
+      const r = [...ajuste.rows]
       setrows(r)
     }
   }
@@ -324,7 +333,7 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
     if(ajuste) {
       try {
         setIsUploading(true)
-         await  atualizarObjetivosLote(unidadeId, produtoId, ajuste, referencia).then(
+         await  atualizarObjetivosLote(tipo, unidadeId, produtoId, ajuste, referencia).then(
           (user) => {
             setSnack({ open: true, message: 'Gravado com sucesso!', severity: 'success' })
             setIsUploading(false)
@@ -361,6 +370,7 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
   };
 
   const a: IUseAjuste = {
+    tipo,
     isLoading,
     isUploading,
     isActive,

@@ -27,9 +27,13 @@ interface IRelatorioInput {
   rows: IRelatorioInputRow[]
 }
 
-async function fetchRelatorioAgregador(unidadeId: number): Promise<IRelatorioInput> {
+async function fetchRelatorioAgregador(unidadeId: number, produtoId?: number): Promise<IRelatorioInput> {
   try {
-    const resp = await instance.get(`/objetivo/relatorio/${unidadeId}`)
+    let url = `/objetivo/relatorio/${unidadeId}`
+    if (produtoId )
+      url = `/objetivo/relatorio/${unidadeId}/${produtoId}`
+
+    const resp = await instance.get(url)
 
     if (resp.status !== 200) {
       throw new Error(resp.statusText + ' | ' + resp.data.msg);
@@ -45,7 +49,7 @@ async function fetchRelatorioAgregador(unidadeId: number): Promise<IRelatorioInp
 }
 
 export async function criarRelatorioPorAgregador(unidadeId: number, produtoId?: number): Promise<RelatorioPorAgregador> {
-  const dados = await fetchRelatorioAgregador(unidadeId)
+  const dados = await fetchRelatorioAgregador(unidadeId, produtoId)
   const unidades = dados.unidades
   const produtos = dados.produtos
   const agregador = dados.agregador

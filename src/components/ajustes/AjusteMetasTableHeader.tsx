@@ -53,7 +53,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
               actions={actions}
               options={{
                 chave: 'Referencia',
-                label: 'Referência',
+                label: actions.tipo == 'AG' ? 'Referência' : 'Inicial',
                 enabled: true,
                 fisrtSort: 'desc'
               }
@@ -66,8 +66,8 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             <AjusteMetasTableSortLabel
               actions={actions}
               options={{
-                chave: 'Minima',
-                label: 'Mínima',
+                chave: actions.tipo == 'AG' ? 'Minima': 'Referencia',
+                label: actions.tipo == 'AG' ? 'Mínima': 'Referência',
                 enabled: true,
                 fisrtSort: 'desc'
               }
@@ -126,10 +126,23 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
         </TableRow>
         {showAuxiliarInput ? (
           <TableRow>
-            <TableCell style={{ top: 71 }} align="center"
-              colSpan={(actions.ajuste.unidade.tipo == 'SR' ? 7 : 6)}
-              padding='none'>
+            <TableCell style={{ top: 71 }}>
             </TableCell>
+            <TableCell style={{ top: 71 }}  align="center">
+              {actions.ajuste.unidade.nome}
+            </TableCell>
+
+
+            <TableCell style={{ top: 71 }} colSpan={2} align="right">
+              <NumberTextFormat value={actions.ajuste.metaReferencia} />
+            </TableCell>
+
+            <TableCell style={{ top: 71 }}  align="right" colSpan={2}>
+
+              <NumberTextFormat value={actions.ajuste.metaReferencia2} />
+            </TableCell>
+
+
             <TableCell style={{ top: 71 }} padding='none' colSpan={2}>
               <NumberInputFormat
                 value={actions.ajuste.auxiliarTroca}
@@ -138,8 +151,17 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
                 }}
               ></NumberInputFormat>
             </TableCell>
-            <TableCell style={{ top: 71 }} align="left" colSpan={5} padding='none'>
+            <TableCell style={{ top: 71 }}  align="right" colSpan={2}>
+
+              <NumberTextFormat value={actions.ajuste.metaAjustada} />
             </TableCell>
+
+            <TableCell style={{ top: 71 }} align="right" colSpan={3}>
+              <NumberTextFormat value={actions.ajuste.saldo} />
+            </TableCell>
+
+
+
           </TableRow>
         ) : (<></>)
         }

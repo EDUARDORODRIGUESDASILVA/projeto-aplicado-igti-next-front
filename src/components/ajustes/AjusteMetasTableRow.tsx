@@ -65,7 +65,7 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
       }}
 
       >
-        <NumberTextFormat value={row.metaMinima} />
+        <NumberTextFormat value={(actions.tipo == 'AG'? row.metaMinima : row.metaReferencia2)} />
       </TableCell>
       <TableCell padding='none' align="center"
         sx={{ fontWeight: 'bold', color: 'gray' }}

@@ -1,4 +1,4 @@
-import { Alert, Avatar, Box, Button, Card, CardHeader, CircularProgress, IconButton, LinearProgress, Snackbar } from "@mui/material";
+import { Alert, Avatar, Box, Button, Card, CardHeader, CircularProgress, IconButton, LinearProgress, Snackbar, Tab, Tabs } from "@mui/material";
 import Title from '../dashboard/Title';
 import { red } from '@mui/material/colors';
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
@@ -11,6 +11,10 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
 
   const handleAvatarClick = () => {
     router.push(`/relatorio/?un=${actions.ajuste?.unidade.id}`)
+  }
+
+  const handleChangeTipo = (tipo: 'AG' | 'SE')=> {
+    router.push(`/ajustes/${tipo}/${actions.ajuste?.unidade.id}/${actions.ajuste?.produto.id}`)
   }
 
   if (actions.ajuste) {
@@ -39,14 +43,40 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
             }
             action={<Box sx={{ mt: '13px' }}>
 
+
               {
                 actions.ajuste.unidade.tipo == 'SR' ? (
                   <>
+
+
+                    {actions.tipo == 'AG' ? (
+                      <Button variant="text"
+                        sx={{ mr: 1 }}
+                        disabled={false}
+                        onClick={() => {handleChangeTipo('SE')}}
+                      >
+                       IR SEV
+                      </Button>
+                    ) : <></>
+                    }
+
+                    {actions.tipo == 'SE' ? (
+                      <Button variant="text"
+                        sx={{ mr: 1 }}
+                        disabled={false}
+                        onClick={() => handleChangeTipo('AG')}
+                      >
+                        IR AGÊNCIA
+                      </Button>
+                    ) : <></>
+                    }
+
+
                     <Button variant="text"
                       sx={{ mr: 1 }}
                       disabled={
                         // actions.ajuste.saldo !== 0 ||  -- temporiamente desabilitado para testes
-                         actions.ajuste.auxiliarTroca !== 0
+                        actions.ajuste.auxiliarTroca !== 0
                         || actions.isActive == 0
                         || actions.isUploading}
                       onClick={() => { actions.handleGravar(true); }}
@@ -70,15 +100,15 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
               {
                 actions.ajuste.unidade.tipo == 'SEV' ? (
 
-              <Button variant="text"
-                sx={{ mr: 1 }}
-                disabled={true}
-              >
-                Negociações
-              </Button>
+                  <Button variant="text"
+                    sx={{ mr: 1 }}
+                    disabled={true}
+                  >
+                    Negociações
+                  </Button>
 
-                ): <></>
-            }
+                ) : <></>
+              }
 
 
 
@@ -128,11 +158,11 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
 
             </Box>}
             title={
-            <>
-            <Title>{actions.ajuste.produto.nome}</Title>
-            </>
+              <>
+                <Title>{actions.ajuste.produto.nome}</Title>
+              </>
 
-        }
+            }
             subheader={<AjusteMetasSubHeader actions={actions}></AjusteMetasSubHeader>}
           />
           {actions.isUploading ? (

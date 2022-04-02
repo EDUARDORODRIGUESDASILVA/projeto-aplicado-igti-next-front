@@ -48,7 +48,7 @@ interface IUpdateObjetivosLote {
   metaAjustada: number
 }
 
-export async function atualizarObjetivosLote(unidadeId: number, produtoId: number,
+export async function atualizarObjetivosLote(tipo: 'AG' | 'SE', unidadeId: number, produtoId: number,
    ajuste: AjusteMetas, gravaReferencia: boolean): Promise<IUser> {
   try {
     const lote: IUpdateObjetivosLote[] = []
@@ -60,7 +60,7 @@ export async function atualizarObjetivosLote(unidadeId: number, produtoId: numbe
       }
       lote.push(l)
     })
-    const resp = await instance.post(`/objetivo/ajustar/${unidadeId}/${produtoId}`, lote)
+    const resp = await instance.post(`/objetivo/ajustar/${tipo}/${unidadeId}/${produtoId}`, lote)
 
     if (resp.status !== 200) {
       throw new Error(resp.statusText + ' | ' + resp.data.msg);
