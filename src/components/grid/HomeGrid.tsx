@@ -1,8 +1,13 @@
 import { Box, Button,  Container,Stack, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function HomeGrid() {
+  const router = useRouter()
 
+  function go() {
+    router.push('/relatorio/2625')
+  }
   return (
     <div>
       <Box
@@ -36,7 +41,7 @@ export default function HomeGrid() {
             spacing={2}
             justifyContent="center"
           >
-            <Button variant="contained" href='/relatorio/2625' component={Link}>Relatório</Button>
+            <Button variant="contained" onClick={go} >Relatório</Button>
             <Button variant="outlined">Trocas</Button>
           </Stack>
         </Container>
