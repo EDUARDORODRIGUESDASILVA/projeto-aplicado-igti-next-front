@@ -1,7 +1,6 @@
 import { Box, Button,  Container,Stack, Typography } from '@mui/material';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-
+import Image from 'next/image'
 export default function HomeGrid() {
   const router = useRouter()
 
@@ -28,7 +27,7 @@ export default function HomeGrid() {
             Sistema de Apoio a Distribuição de Metas
           </Typography>
           <Box sx={{ml: 'auto', mr: 'auto', maxWidth:'580px', maxHeight:'400px'}}>
-            <img src='./logo.svg' alt="me" width="600" height='400'/>
+            <Image src={`.logo.svg`} alt="me" width="600" height='400'/>
           </Box>
 
           <Typography variant="h5" sx={{mt: '10px'}} align="center" color="text.secondary" paragraph>

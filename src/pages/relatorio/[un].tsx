@@ -1,9 +1,13 @@
-import RelatorioDash from "./[un]/RelatorioDash";
+import Dashboard from "../../components/dashboard/Dashboard";
+import Relatorio from "../../components/relatorio/Relatorio";
+
 
 
 export default function Index() {
   return (
-    <RelatorioDash></RelatorioDash>
+    <Dashboard>
+      <Relatorio></Relatorio>
+    </Dashboard>
 
   )
 }
