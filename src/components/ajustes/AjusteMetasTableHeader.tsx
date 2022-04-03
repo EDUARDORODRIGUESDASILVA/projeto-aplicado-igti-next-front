@@ -6,7 +6,7 @@ import CalculateIcon from '@mui/icons-material/Calculate';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import AjusteMetasTableSortLabel from "./AjusteMetasTableSortLabel";
-
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjuste }) {
   const [showAuxiliarInput, setshowAuxiliarInput] = useState(false);
   if (actions.ajuste)
@@ -155,8 +155,15 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
 
               <NumberTextFormat value={actions.ajuste.metaAjustada} />
             </TableCell>
+            <TableCell style={{ top: 71 }} align="center">
+              <IconButton aria-label="cart" size="small" onClick={actions.handleInicial}
+                disabled={actions.ajuste.unidade.tipo !== 'SR'}>
+                < RestartAltIcon />
 
-            <TableCell style={{ top: 71 }} align="right" colSpan={3}>
+              </IconButton>
+
+             </TableCell>
+            <TableCell style={{ top: 71 }} align="right" colSpan={2}>
               <NumberTextFormat value={actions.ajuste.saldo} />
             </TableCell>
 

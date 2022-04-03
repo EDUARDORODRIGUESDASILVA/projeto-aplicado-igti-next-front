@@ -264,7 +264,13 @@ export class AjusteMetas implements IAjustarProduto {
     this.rows.forEach(r => {
       r.zerar()
     })
+    this.totalizar()
+  }
 
+  inicial() {
+      this.rows.forEach( r=> {
+        r.inicial()
+      })
     this.totalizar()
   }
 }

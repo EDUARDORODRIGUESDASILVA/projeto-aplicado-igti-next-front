@@ -19,6 +19,7 @@ export interface IUseAjuste {
   handleMainCheckbox: () => void
   handleGerarExcel: () => void
   handleZerar: () => void
+  handleInicial: () => void
   handleAtualizar: () => void
   handleGravar: (referencia: boolean) => void
   handleCalc: () => void
@@ -122,6 +123,14 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
       const r = orderRows(ajuste.rows, sortOptions)
       setrows([...r])
        }
+  }
+
+  const handleInicial = () => {
+    if (ajuste) {
+      ajuste.inicial()
+      const r = orderRows(ajuste.rows, sortOptions)
+      setrows([...r])
+    }
   }
 
   const handleGerarExcel = () => {
@@ -386,6 +395,7 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
     handleImportarExcel,
     handleSortChange,
     handleZerar,
+    handleInicial,
     handleGravar,
     handleMainCheckbox,
     handleCalc,
