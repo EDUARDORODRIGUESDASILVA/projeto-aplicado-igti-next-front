@@ -1,4 +1,5 @@
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Link, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button,  Container,Stack, Typography } from '@mui/material';
+import Link from 'next/link';
 
 export default function HomeGrid() {
 
