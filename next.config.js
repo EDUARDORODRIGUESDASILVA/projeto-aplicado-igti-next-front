@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-    trailingSlash: true,
     env: {
     customKey: 'my-value',
     baseURL:  'https://sr2625-metas-api.herokuapp.com/api/v1'
