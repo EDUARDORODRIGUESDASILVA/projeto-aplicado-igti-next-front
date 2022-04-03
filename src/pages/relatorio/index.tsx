@@ -1,10 +1,9 @@
 import RelatorioDash from "./[un]/RelatorioDash";
 
-export default function index() {
+
+export default function Index() {
   return (
-    <>
-      <RelatorioDash></RelatorioDash>
-    </>
+    <RelatorioDash></RelatorioDash>
 
   )
 }

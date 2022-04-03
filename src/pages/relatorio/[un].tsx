@@ -1,4 +1,4 @@
-import RelatorioDash from "./RelatorioDash";
+import RelatorioDash from "./[un]/RelatorioDash";
 
 
 export default function Index() {
