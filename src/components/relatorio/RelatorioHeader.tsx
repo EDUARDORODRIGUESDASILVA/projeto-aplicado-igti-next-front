@@ -17,9 +17,9 @@ export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
     if (actions.relatorio){
       if (user?.unidadeId == actions.relatorio.agregador.sr
         && actions.relatorio.agregador.sr !== actions.relatorio.agregador.id) {
-        router.push(`/relatorio/?un=${actions.relatorio.agregador.sr}`)
+        router.push(`/relatorio/${actions.relatorio.agregador.sr}`)
       } else {
-        router.push(`/relatorio/?un=${actions.relatorio.agregador.id}`)
+        router.push(`/relatorio/${actions.relatorio.agregador.id}`)
         actions.handleAtualizar()
       }
     }
