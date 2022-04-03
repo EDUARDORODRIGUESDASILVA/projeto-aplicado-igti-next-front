@@ -28,14 +28,21 @@ export class AjusteMetas implements IAjustarProduto {
   private pauxiliarTroca: number
   private pfilter: IAjusteMetasFiltro
   public qtdTotalizacoes: number = 0
+  public metaReferencia: number
+  public trocas: number
+  public readonly metaReferencia2: number
   constructor(
     public unidade: IUnidade,
     public produto: IProduto,
-    public metaReferencia: number,
-    public readonly metaReferencia2: number,
-    public trocas: number,
+    metaReferencia: number,
+    metaReferencia2: number,
+    trocas: number,
     public erros: number = 0
   ) {
+
+    this.metaReferencia = Math.trunc(metaReferencia * 100) / 100
+    this.metaReferencia2 = Math.trunc(metaReferencia2 * 100) / 100
+    this.trocas = Math.trunc(trocas * 100) / 100
     this.pauxiliarTroca = 0
     this.checkbox = false
     this.pfilter = {
@@ -66,7 +73,7 @@ export class AjusteMetas implements IAjustarProduto {
     return this.pauxiliarTroca
   }
   set auxiliarTroca(valor: number) {
-    this.pauxiliarTroca = valor
+    this.pauxiliarTroca = Math.trunc(valor * 100) / 100
     this.totalizar()
   }
   get filter() {
@@ -78,6 +85,7 @@ export class AjusteMetas implements IAjustarProduto {
   }
 
   totalizar() {
+
     let totalMetaAjustada = 0
     let totalMetaRef = 0
     let totalMetaRef2 = 0
@@ -100,7 +108,7 @@ export class AjusteMetas implements IAjustarProduto {
     }
 
     this.metaAjustada = totalMetaAjustada
-    this.psaldo = (this.metaAjustada - (this.metaReferencia2 + this.trocas + this.pauxiliarTroca))
+    this.calculaSaldo()
     this.totalizarErros()
     this.calcularShare()
     this.qtdTotalizacoes++
@@ -158,11 +166,21 @@ export class AjusteMetas implements IAjustarProduto {
   }
 
   set metaAjustada(meta) {
-    this.pmetaAjustada = meta
+    this.pmetaAjustada = Math.trunc(meta * 100) / 100
   }
 
+  calculaSaldo() {
+    if (this.unidade.tipo== 'SR')
+      this.psaldo = (this.metaAjustada - (this.metaReferencia  + this.pauxiliarTroca))
+    else
+      this.psaldo = (this.metaAjustada - (this.metaReferencia2 + this.trocas + this.pauxiliarTroca))
+    this.psaldo = Math.trunc(this.psaldo * 100) / 100
+      return this.psaldo
+  }
+
+
   get saldo() {
-    return Math.trunc(this.psaldo * 100)/100
+    return Math.trunc(this.psaldo * 100) / 100
   }
 
   get checked() {
@@ -202,12 +220,10 @@ export class AjusteMetas implements IAjustarProduto {
 
   distribuirProporcional(contagem?: number) {
     if (typeof(contagem)=='undefined') {
-      contagem = 10
+      contagem = 20
     }
     let totalSelecionado = 0
-    this.totalizar()
-    const saldo = this.psaldo
-    console.log('recalcula', contagem, saldo)
+    const saldo = this.calculaSaldoDistribuir()
     this.rows.forEach(r => {
       if (r.checked) {
         totalSelecionado += r.metaAjustada
@@ -225,21 +241,25 @@ export class AjusteMetas implements IAjustarProduto {
     if(qtdUnidades > 0) {
       if (this.auxiliarTroca !== 0) {
         this.auxiliarTroca = 0
-      } else {
-        // garantir o arredondamento zero
+      }
+      else {
         this.totalizar()
-        const saldo = this.psaldo
-        console.log('recalcula', contagem, saldo)
+        const saldo =this.calculaSaldoDistribuir()
         if ( saldo !== 0 && contagem > 0) {
           this.distribuirProporcional(contagem - 1)
         }
       }
-
     }
-
-
-
   }
+  calculaSaldoDistribuir(): number {
+    let distribuir = 0
+    if (this.unidade.tipo == 'SR')
+      distribuir =  (this.pmetaAjustada - (this.metaReferencia + this.pauxiliarTroca))
+    else
+      distribuir = (this.pmetaAjustada - (this.metaReferencia2 + this.trocas + this.pauxiliarTroca))
+    return Math.trunc(distribuir * 100) / 100
+  }
+
   zerar() {
     this.rows.forEach(r => {
       r.zerar()

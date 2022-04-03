@@ -120,7 +120,7 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
     if (ajuste) {
       ajuste.zerar()
       const r = orderRows(ajuste.rows, sortOptions)
-      setrows(r)
+      setrows([...r])
        }
   }
 
@@ -144,6 +144,7 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
       const rows = ajuste.rows
       setrows(orderRows(rows, sortOptions))
       setsortOptions(sortOptions)
+      setPage(0);
     }
   }
 
@@ -167,6 +168,10 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
 
       if (field === 'Referencia'){
         return (a.metaReferencia < b.metaReferencia ? order : (a.metaReferencia > b.metaReferencia ? -order : 0))
+      }
+
+      if (field === 'Referencia2') {
+        return (a.metaReferencia2 < b.metaReferencia2 ? order : (a.metaReferencia2 > b.metaReferencia2 ? -order : 0))
       }
 
       if (field === 'Minima') {
@@ -213,7 +218,7 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
     if (ajuste) {
       ajuste.distribuirProporcional()
       const r = orderRows(ajuste.rows, sortOptions)
-      setrows(r)
+      setrows([...r])
     }
   }
 
@@ -304,8 +309,10 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
   }
 
   const handleInputValor = (row: AjustarProdutoRow, valor: number) => {
+    if (row.inputValor !== valor) {
     row.inputValor = valor ? valor : 0
-    setrows([...rows])
+    //setrows([...rows])
+    }
   }
 
   const handleInputPct = (row: AjustarProdutoRow, pct: number) => {

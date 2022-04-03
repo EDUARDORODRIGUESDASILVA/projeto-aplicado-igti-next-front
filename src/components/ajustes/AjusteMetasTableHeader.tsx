@@ -66,7 +66,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             <AjusteMetasTableSortLabel
               actions={actions}
               options={{
-                chave: actions.tipo == 'AG' ? 'Minima': 'Referencia',
+                chave: actions.tipo == 'AG' ? 'Minima': 'Referencia2',
                 label: actions.tipo == 'AG' ? 'Mínima': 'Referência',
                 enabled: true,
                 fisrtSort: 'desc'

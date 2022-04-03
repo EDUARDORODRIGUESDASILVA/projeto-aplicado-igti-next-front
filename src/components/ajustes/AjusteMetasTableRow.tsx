@@ -7,23 +7,12 @@ import NumberTextFormat from "../../utils/NumberTextFormat";
 
 export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdutoRow, actions: IUseAjuste }) {
 
-  const [backgroundColor, setbackgroundColor] = useState('');
-  useEffect(() => {
-
-    if (row.erros) {
-      const backgroundColor = row.erros > 0 ? '#ffebee' : ''
-      setbackgroundColor(backgroundColor)
-    }
-
-
-  }, [row.erros]);
-
-  return (
+   return (
     <TableRow style={{ height: 18 }}
       hover={true && row.erros===0}
       selected={row.checked || (row.id === actions.selectedRow?.id && row.erros === 0) }
       onClick={() => actions.setSelectedRow(row)}
-      sx={{ backgroundColor: backgroundColor }}
+      sx={{ backgroundColor: row.erros > 0 ? '#ffebee' : '' }}
     >
       <TableCell padding="checkbox" sx={{ paddingRight: '0px', paddingLeft: '0px', marginLeft: '0px' }}>
         <Checkbox
@@ -36,7 +25,7 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
 
 
       <TableCell padding='none'
-        sx={{ minWidth: '270px', maxWidth: '270px'}}
+        sx={{ minWidth: '300px', maxWidth: '300px'}}
       >
         <Typography variant="caption" display="block" >
           {actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
@@ -71,7 +60,7 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         sx={{ fontWeight: 'bold', color: 'gray' }}
       >
         {row.trava}</TableCell>
-      <TableCell padding='none' sx={{ minWidth: '90px', maxWidth: '90px' }}>
+      <TableCell padding='none' sx={{ minWidth: '85px', maxWidth: '85px' }}>
         <NumberInputFormat
           value={row.inputPct}
           handleInputChanges={actions.handleInputPct}
@@ -87,7 +76,7 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
       </TableCell>
 
       <TableCell align="right" padding='none'
-        sx={{ minWidth: '100px', maxWidth: '150px', fontWeight: 'bold' }}
+        sx={{ minWidth: '100px', maxWidth: '100px', fontWeight: 'bold' }}
       >
         <NumberTextFormat value={row.metaAjustada} />
       </TableCell>

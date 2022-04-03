@@ -13,7 +13,7 @@ export default function AjusteMetas() {
   const pr = parseInt(prod?.toString() || '0')
 
   const actions = useAjustePorAgregador(tipo !== 'SE' ? 'AG' : 'SE', unid, pr)
-  console.log(actions)
+
   if (actions.isLoading) {
     return <>
       <Stack

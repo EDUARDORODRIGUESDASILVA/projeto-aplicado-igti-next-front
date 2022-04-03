@@ -75,11 +75,13 @@ export class AjustarProdutoRow implements IRowAjustar {
   }
 
   set inputValor(valor: number) {
+    if (valor !== this.ipct) {
     this.ivalor = valor
     this.calculaMetaAjustada()
     if (this.parent) {
       this.parent.totalizar()
     }
+  }
   }
 
   set inputMetaAjustada(metaAjustada: number) {
@@ -88,10 +90,8 @@ export class AjustarProdutoRow implements IRowAjustar {
 
 
     const novoValor = metaAjustada - this.metaReferencia2 - this.trocas
-
     this.inputValor = novoValor
     if (!(this.metaAjustada == metaAjustada)) {
-      console.log('meta não bate', this.metaAjustada, metaAjustada, )
       throw new Error("Meta ajustada calculada incorreta");
     }
   }
@@ -101,10 +101,12 @@ export class AjustarProdutoRow implements IRowAjustar {
   }
 
   set inputPct(pct: number) {
+    if(pct !== this.ipct ){
     this.ipct = pct
     this.calculaMetaAjustada()
     if (this.parent) {
       this.parent.totalizar()
+    }
     }
   }
 
@@ -141,11 +143,13 @@ export class AjustarProdutoRow implements IRowAjustar {
     this.ipct = 0
     this.ivalor = 0
     const novoValor = novaMeta - (this.metaReferencia2 + this.trocas)
-    this.inputValor = novoValor
+    this.ivalor = novoValor
+    this.calculaMetaAjustada()
   }
   private calculaMetaAjustada() {
     this.metaAjustada = this.metaReferencia2 + this.trocas +
-    this.metaReferencia * (this.inputPct / 100) + this.inputValor
+      this.metaReferencia * (this.ipct / 100) + this.ivalor
+    this.metaAjustada =this.metaAjustada
     this.verificaErros()
     this.calcPctChange()
   }
@@ -180,7 +184,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   }
 
   private verificaTravaPercentual(): 0 | 1 {
-    
+
     if (this.trava === 'Livre') {
       return 0
     }
