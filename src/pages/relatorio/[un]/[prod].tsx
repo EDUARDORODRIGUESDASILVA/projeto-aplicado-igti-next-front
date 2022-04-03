@@ -1,4 +1,4 @@
-import RelatorioDash from "../RelatorioDash";
+import RelatorioDash from "./RelatorioDash";
 
 export default function index() {
   return (
@@ -8,5 +8,3 @@ export default function index() {
 
   )
 }
-
-
