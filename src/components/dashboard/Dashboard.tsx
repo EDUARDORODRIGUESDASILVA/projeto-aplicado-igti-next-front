@@ -19,13 +19,11 @@ import SideNav from './SideNav';
 import UserAvatar from './UserAvatar';
 import SignIn from '../sign-in/SignIn';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { login, selectUser } from '../../store/userSlice';
 import { useFetchLoggedUser } from '../../hooks/useFetchLoggedUser';
-import { useDispatch } from 'react-redux';
-import { IUser } from '../../core/interfaces/IUser';
-import { Alert } from '@mui/material';
 import { useRouter } from 'next/router'
-
+import { selectSidebarState } from '../../store/sidebarSlice';
+import { toggleSidebar} from '../../store/sidebarSlice';
+import { Alert } from '@mui/material';
 const drawerWidth: number = 240;
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -79,11 +77,19 @@ const mdTheme = createTheme();
 
 
 function DashboardContent({ children }: LayoutProps) {
-  const [open, setOpen] = React.useState(false);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+
+  const dispatch = useAppDispatch();
+
+
+  const open = useAppSelector(selectSidebarState);
   const router = useRouter()
+  const toggleDrawer = () => {
+    // setOpen(!open);
+    dispatch(toggleSidebar())
+
+  };
+
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>

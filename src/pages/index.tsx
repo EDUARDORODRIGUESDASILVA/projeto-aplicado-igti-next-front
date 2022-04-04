@@ -5,13 +5,10 @@ import HomeGrid from '../components/grid/HomeGrid';
 
 const Home: NextPage = () => {
   return (
-    <>
       <Dashboard>
-        <>
           <HomeGrid></HomeGrid>
-        </>
-      </Dashboard>
-    </>
+       </Dashboard>
+
   );
 };
 

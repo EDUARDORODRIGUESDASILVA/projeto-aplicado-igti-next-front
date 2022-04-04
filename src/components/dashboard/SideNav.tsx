@@ -9,17 +9,25 @@ import { useRouter } from 'next/router';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import { selectTrocasModalState } from '../../store/sidebarSlice';
+import { useAppSelector } from '../../store/hooks';
+import { selectUser } from '../../store/userSlice';
 
 export default function SideNav() {
   const router = useRouter();
+
+  const user = useAppSelector(selectUser);
+  const unidadeId =  user ? user.unidadeId :  2625
+
   const pathname = router.pathname
+  const openedTrocasModal = useAppSelector(selectTrocasModalState);
   return (
     <>
     <List component="nav">
       <List>
           <ListItemButton
-            selected={router.pathname == '/relatorio'}
-            component="a" onClick={() => router.push('/relatorio/2625')} >
+            selected={router.pathname.startsWith('/relatorio') || router.pathname.startsWith('/ajustes')  }
+            component="a" onClick={() => router.push(`/relatorio/${unidadeId}`)} >
             <ListItemIcon>
               <AppRegistrationIcon />
             </ListItemIcon>
@@ -27,8 +35,8 @@ export default function SideNav() {
           </ListItemButton>
 
         <ListItemButton
-            disabled={true}
-            selected={pathname == '/trocas'}
+            disabled={false}
+            selected={router.pathname == '/trocas'}
             component="a" onClick={() => router.push('/trocas/')} >
           <ListItemIcon>
               <SwapHorizIcon />

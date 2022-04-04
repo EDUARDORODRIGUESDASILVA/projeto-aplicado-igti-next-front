@@ -1,12 +1,13 @@
 import { Button, Checkbox, TableCell, TableRow, Tooltip, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 import { AjustarProdutoRow } from "../../core/model/ajustar-objetivos/AjustarProdutoRow";
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
+import { useAppSelector } from "../../store/hooks";
 import NumberInputFormat from "../../utils/NumberInputFormat";
 import NumberTextFormat from "../../utils/NumberTextFormat";
+import { selectSidebarState } from '../../store/sidebarSlice';
 
 export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdutoRow, actions: IUseAjuste }) {
-
+  const sidebarOpen = useAppSelector(selectSidebarState);
    return (
     <TableRow style={{ height: 18 }}
       hover={true && row.erros===0}
@@ -28,7 +29,7 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         sx={{ minWidth: '300px', maxWidth: '300px'}}
       >
         <Typography variant="caption" display="block" >
-          {actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
+           {actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
             <Button size="small" sx={{paddingRight: '0px', paddingLeft: '0px', marginLeft: '0px'}}
               onClick={() => actions.handleToogleSEV(row.Unidade.se)}
               color='secondary'>{row.Unidade.se}</Button>
@@ -40,9 +41,18 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
       </TableCell>
 
       <TableCell padding='none' align="center">
+
         <Button size="small"
          onClick={() => actions.handleToogleCluster(row.Unidade.cluster)}
-        color='secondary'>{row.Unidade.cluster}</Button>
+        color='secondary'>
+           {!sidebarOpen  ? (
+              row.Unidade.cluster
+           ) : row.Unidade.tipo +'P'+ row.Unidade.porte
+            }
+          </Button>
+
+
+
         </TableCell>
       <TableCell padding='none' align="right" >
         <NumberTextFormat value={row.metaReferencia} />
@@ -52,8 +62,9 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         fontWeight: row.erroPiso ? 'bold' : '',
         color: (row.erroPiso ? 'red' : '')
       }}
-
       >
+
+
         <NumberTextFormat value={(actions.tipo == 'AG'? row.metaMinima : row.metaReferencia2)} />
       </TableCell>
       <TableCell padding='none' align="center"

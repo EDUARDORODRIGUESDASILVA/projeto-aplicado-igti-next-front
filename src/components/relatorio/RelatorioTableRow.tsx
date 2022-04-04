@@ -105,8 +105,8 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
 
       <TableCell align="right" sx={{
         paddingLeft: '13px',
-        fontWeight: (row.saldo !== 0 ? 'bold' : ''),
-        color: (row.saldo !== 0 ? 'red' : '')
+        fontWeight: (Math.abs(row.saldo) >= 0.02 ? 'bold' : ''),
+        color: (Math.abs(row.saldo) >= 0.02 ? 'red' : '')
       }}
 >
 
@@ -114,7 +114,6 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
       </TableCell>
 
       <TableCell padding="none" align="center" sx={{ backgroundColor: cellBackgroundColor() }} >
-
         <Chip variant="outlined" size="small" label={row.gravado + '/' + row.qtdlinhas} />
         {/* {row.gravado}/{row.qtdlinhas} */}
       </TableCell>

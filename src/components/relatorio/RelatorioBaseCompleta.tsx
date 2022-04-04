@@ -19,7 +19,7 @@ export default function RelatorioBaseCompleta({actions}: {actions: IUseRelatorio
     >
         { isLoading ? (
           <>
-                  <CircularProgress color="info" size="15px" />
+                  <CircularProgress color="info" size="15px" sx={{marginRight: '4px'}} />
                   Gerando base completa...
           </>
         ): (<>Exportar base completa</>)

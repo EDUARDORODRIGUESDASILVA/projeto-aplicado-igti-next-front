@@ -5,10 +5,11 @@ import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import { useRouter } from "next/router";
 import AjustesUploadButton from "./AjustesUploadButton";
 import AjusteMetasSubHeader from "./AjusteMetasSubHeader";
-
+import { useAppSelector } from "../../store/hooks";
+import { selectSidebarState } from '../../store/sidebarSlice';
 export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) {
   const router = useRouter()
-
+  const sidebarOpen = useAppSelector(selectSidebarState);
   const handleAvatarClick = () => {
     router.push(`/relatorio/${actions.ajuste?.unidade.id}`)
   }
@@ -82,15 +83,15 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                       onClick={() => { actions.handleGravar(true); }}
 
                     >
-                      Gravar Referência
+                      Gravar Ref.
                     </Button>
 
-                    <Button variant="text"
+                    {/* <Button variant="text"
                       sx={{ mr: 1 }}
                       disabled={true}
                     >
                       OUTLIERS
-                    </Button>
+                    </Button> */}
                   </>
 
 

@@ -18,8 +18,8 @@ export class RelatorioPorAgregadorRow implements IRelatorioRow {
       this.id = row.id
       this.unidade = row.unidade
       this.produto = row.produto
-    this.metaReferencia = row.metaReferencia
-    this.metaReferencia2 = row.metaReferencia2
+    this.metaReferencia = Math.trunc(row.metaReferencia * 100) / 100
+    this.metaReferencia2 = Math.trunc(row.metaReferencia2 * 100) / 100
     this.trocas = row.trocas
     this.pmetaAjustada = row.metaAjustada
       this.perros = row.erros

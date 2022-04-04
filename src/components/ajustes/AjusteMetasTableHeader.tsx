@@ -7,8 +7,12 @@ import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 import AjusteMetasTableSortLabel from "./AjusteMetasTableSortLabel";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { selectSidebarState } from '../../store/sidebarSlice';
+import { useAppSelector } from "../../store/hooks";
 export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjuste }) {
   const [showAuxiliarInput, setshowAuxiliarInput] = useState(false);
+  const sidebarOpen = useAppSelector(selectSidebarState);
+
   if (actions.ajuste)
     return (
       <TableHead>
@@ -21,7 +25,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
               disabled={false} />
           </TableCell>
 
-          <TableCell align="center">
+          <TableCell padding='none' align="center">
             <AjusteMetasTableSortLabel
               actions={actions}
               options={{
@@ -61,7 +65,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             ></AjusteMetasTableSortLabel>
           </TableCell>
 
-          <TableCell align="right" >
+          <TableCell   align="right" >
 
             <AjusteMetasTableSortLabel
               actions={actions}
@@ -83,25 +87,25 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             %
           </TableCell>
 
-          <TableCell align="center" >
+          <TableCell  align="center" >
             <Tooltip title="Trocas">
-            <IconButton
+            <IconButton size="small"
               onClick={() => setshowAuxiliarInput(!showAuxiliarInput)}
               color={showAuxiliarInput ? 'primary' : 'default'} component="span">
-              <ShuffleIcon fontSize="small" />
+                <ShuffleIcon fontSize="inherit" />
             </IconButton>
             </Tooltip>
             Valor
             <Tooltip title="Distribuir linear">
-            <IconButton disabled={actions.ajuste.saldo == 0}
+            <IconButton  disabled={actions.ajuste.saldo == 0}
               onClick={() => actions.handleCalc()}
               color="primary" aria-label="upload picture" component="span">
-              <CalculateIcon />
+                <CalculateIcon fontSize="inherit" />
             </IconButton>
             </Tooltip>
           </TableCell>
 
-          <TableCell align="right" colSpan={3}>
+          <TableCell padding='none'  align="right" colSpan={3}>
             <AjusteMetasTableSortLabel
               actions={actions}
               options={{
@@ -126,24 +130,24 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
         </TableRow>
         {showAuxiliarInput ? (
           <TableRow>
-            <TableCell style={{ top: 71 }}>
+            <TableCell style={{ top: 60 }}>
             </TableCell>
-            <TableCell style={{ top: 71 }}  align="center">
+            <TableCell style={{ top: 60 }}  align="center">
               {actions.ajuste.unidade.nome}
             </TableCell>
 
 
-            <TableCell style={{ top: 71 }} colSpan={2} align="right">
+            <TableCell style={{ top: 60 }} colSpan={2} align="right">
               <NumberTextFormat value={actions.ajuste.metaReferencia} />
             </TableCell>
 
-            <TableCell style={{ top: 71 }}  align="right" colSpan={2}>
+            <TableCell style={{ top: 60 }}  align="right" colSpan={2}>
 
               <NumberTextFormat value={actions.ajuste.metaReferencia2} />
             </TableCell>
 
 
-            <TableCell style={{ top: 71 }} padding='none' colSpan={2}>
+            <TableCell style={{ top: 60 }} padding='none' colSpan={2}>
               <NumberInputFormat
                 value={actions.ajuste.auxiliarTroca}
                 handleInputChanges={(_row: undefined, value: number) => {
@@ -151,11 +155,11 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
                 }}
               ></NumberInputFormat>
             </TableCell>
-            <TableCell style={{ top: 71 }}  align="right" colSpan={2}>
+            <TableCell style={{ top: 60}}  align="right" colSpan={2}>
 
               <NumberTextFormat value={actions.ajuste.metaAjustada} />
             </TableCell>
-            <TableCell style={{ top: 71 }} align="center">
+            <TableCell style={{ top: 60 }} align="center">
               <IconButton aria-label="cart" size="small" onClick={actions.handleInicial}
                 disabled={actions.ajuste.unidade.tipo !== 'SR'}>
                 < RestartAltIcon />
@@ -163,7 +167,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
               </IconButton>
 
              </TableCell>
-            <TableCell style={{ top: 71 }} align="right" colSpan={2}>
+            <TableCell style={{ top: 60 }} align="right" colSpan={2}>
               <NumberTextFormat value={actions.ajuste.saldo} />
             </TableCell>
 

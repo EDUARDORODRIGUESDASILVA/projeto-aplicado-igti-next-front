@@ -18,18 +18,18 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@reduxjs/toolkit": "^1.6.2",
-    "@types/axios": "^0.14.0",
     "@types/react-redux": "^7.1.20",
     "@types/xlsx-populate": "git+https://github.com/JanLoebel/types-xlsx-populate.git",
     "axios": "^0.24.0",
+    "chart.js": "^3.7.1",
     "file-saver": "^2.0.5",
     "fs": "^0.0.1-security",
-    "http-server": "^14.1.0",
     "install": "^0.13.0",
     "next": "latest",
     "next-redux-wrapper": "^7.0.5",
     "npm": "^8.2.0",
     "react": "latest",
+    "react-chartjs-2": "^4.0.1",
     "react-debounce-input": "^3.2.5",
     "react-dom": "latest",
     "react-number-format": "^4.9.1",
@@ -40,6 +40,7 @@
     "xlsx-populate-types": "^1.21.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^6.1.1",
     "@next/eslint-plugin-next": "^12.0.7",
     "@types/react": "latest",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
@@ -49,6 +50,8 @@
     "eslint-config-next": "latest",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.27.1",
+    "faker": "^6.6.6",
+    "http-server": "^14.1.0",
     "redux-devtools-extension": "^2.13.9",
     "typescript": "latest"
   }

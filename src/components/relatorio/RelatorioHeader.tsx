@@ -6,6 +6,8 @@ import { useAppSelector } from "../../store/hooks";
 import { selectUser } from '../../store/userSlice';
 import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
 import RelatorioBaseCompleta from "./RelatorioBaseCompleta";
+import TrocasModal from "../trocas/TrocasModal";
+import TrocasButton from "../trocas/TrocasButton";
 
 
 export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
@@ -43,13 +45,14 @@ export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
           }
           action={<Box sx={{ mt: '13px' }}>
 
-            <Button variant="text"
+            {/* <Button variant="text"
               sx={{ mr: 1 }}
               onClick={actions.handleExcelClick}
               disabled={true}
             >
               Negociações
-            </Button>
+            </Button> */}
+            <TrocasButton unidadeId={actions.relatorio.agregador.id}></TrocasButton>
 
             <RelatorioBaseCompleta actions={actions}></RelatorioBaseCompleta>
 
