@@ -1,6 +1,7 @@
-import { Alert, AlertTitle, Box, CircularProgress, Paper, Stack, Tab, Tabs } from "@mui/material"
+import { Alert, AlertTitle, Box, CircularProgress, Divider, Paper, Stack, Tab, Tabs } from "@mui/material"
 import { useRelatorioTrocas } from "../../hooks/useRelatorioTrocas"
 import TrocasHeader from "./TrocasHeader"
+import TrocasIncluir from "./TrocasIncluir"
 import TrocasTable from "./TrocasTable"
 
 export default function Trocas({unidadeId}: {unidadeId: number}) {
@@ -30,7 +31,12 @@ export default function Trocas({unidadeId}: {unidadeId: number}) {
   if (actions.relatorio) {
     return <>
       <TrocasHeader actions={actions} ></TrocasHeader>
-      <Paper sx={{ width: '100%', height: '60vh', overflow:'auto', mt: '13px'}}>
+
+      {/* <TrocasIncluir></TrocasIncluir> */}
+      <Paper sx={{ width: '100%', height: '68vh', overflow:'auto', mt: '13px'}}>
+
+        {/* <TrocasIncluir actions={actions}></TrocasIncluir> */}
+
         <TrocasTable actions={actions}></TrocasTable>
       </Paper>
     </>

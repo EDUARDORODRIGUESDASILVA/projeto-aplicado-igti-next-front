@@ -1,28 +1,29 @@
 import { TableCell, TableRow } from "@mui/material";
 import { IUseRelatorioTrocas } from "../../hooks/useRelatorioTrocas";
-import { ITroca } from "../../services/trocasService";
+import { Troca } from "../../services/trocasService";
+import NumberTextFormat from "../../utils/NumberTextFormat";
 
-export default function TrocasTableRow({ row }: { row: ITroca, actions: IUseRelatorioTrocas }) {
+export default function TrocasTableRow({ row }: { row: Troca, actions: IUseRelatorioTrocas }) {
   return (
     <TableRow>
       <TableCell padding='none' colSpan={2} sx={{ paddingLeft: '8px' }}>
       </TableCell>
 
       <TableCell align="center" >
-        {row.incrementaId}
+        {row.incrementa.nome}
       </TableCell>
 
       <TableCell align="center">
-        {row.reduzId}
+        {row.reduz.nome}
       </TableCell>
 
       <TableCell align="center">
-        {row.produtoId}
+        {row.produto.nome}
       </TableCell>
 
       <TableCell align="center"
       >
-        {row.valor}
+        <NumberTextFormat value={row.valor} />
       </TableCell>
 
       <TableCell align="center" >

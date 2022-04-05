@@ -66,14 +66,14 @@ export const data = {
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
 
-    {
-      type: 'line' as const,
-      label: 'Dataset 3',
-      borderColor: 'rgb(255, 99, 132)',
-      borderWidth: 2,
-      fill: false,
-      data: labels.map(() => 500),
-    },
+    // {
+    //   type: 'line' as const,
+    //   label: 'Dataset 3',
+    //   borderColor: 'rgb(255, 99, 132)',
+    //   borderWidth: 2,
+    //   fill: false,
+    //   data: labels.map(() => 500),
+    // },
   ],
 };
 

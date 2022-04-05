@@ -4,7 +4,7 @@ import { IUser } from "../core/interfaces/IUser"
 import instance from "./axiosService"
 
 
-export interface ITroca {
+interface ITroca {
   id: number
   incrementaId: number
   reduzId: number
@@ -12,10 +12,11 @@ export interface ITroca {
   userId: string
   valor: number
   status: 'OK' | 'Cancelada'
+
 }
 
 
-export interface IRelatorioTrocas {
+interface IRelatorioTrocas {
   agregador: IUnidade
   produtos: IProduto[]
   unidadesAumentar: IUnidade[]
@@ -23,7 +24,64 @@ export interface IRelatorioTrocas {
   trocas: ITroca[]
 }
 
-export async function fetchRelatorioTrocas(unidadeId: number): Promise<IRelatorioTrocas> {
+export class Troca implements ITroca {
+  id: number
+  incrementaId: number
+  reduzId: number
+  produtoId: number
+  userId: string
+  valor: number
+  status: "OK" | "Cancelada"
+
+  produto!: IProduto
+  incrementa!: IUnidade
+  reduz!: IUnidade
+
+  constructor(t: ITroca, r: IRelatorioTrocas) {
+    this.id = t.id
+    this.incrementaId = t.incrementaId
+    this.reduzId = t.reduzId
+    this.status = t.status
+    this.userId = t.userId
+    this.valor = t.valor
+    this.produtoId = t.produtoId
+
+    const p = r.produtos.find(p => p.id == t.produtoId)
+    if (p)
+      this.produto = p
+
+    const reduz = r.unidadesReduzir.find( u => u.id = t.reduzId)
+    if(reduz)
+      this.reduz = reduz
+
+    const incrementa = r.unidadesReduzir.find( u => u.id = t.incrementaId)
+    if (incrementa)
+      this.incrementa = incrementa
+  }
+}
+export class RelatorioTrocas implements IRelatorioTrocas {
+  agregador: IUnidade
+  produtos: IProduto[]
+  unidadesAumentar: IUnidade[]
+  unidadesReduzir: IUnidade[]
+  trocas: Troca[]
+
+  constructor(r: IRelatorioTrocas) {
+    this.agregador = r.agregador
+    this.produtos = r.produtos
+    this.unidadesAumentar = r.unidadesAumentar
+    this.unidadesReduzir = r.unidadesReduzir
+    this.trocas = r.trocas.map( t => new Troca(t, r))
+  }
+
+
+}
+
+export async function criarRelatorioTrocas(unidadeId: number): Promise<RelatorioTrocas> {
+  const r = await fetchRelatorioTrocas(unidadeId)
+  return new RelatorioTrocas(r)
+}
+async function fetchRelatorioTrocas(unidadeId: number): Promise<IRelatorioTrocas> {
   try {
     let url = `/troca/relatorio/${unidadeId}`
 
@@ -37,7 +95,10 @@ export async function fetchRelatorioTrocas(unidadeId: number): Promise<IRelatori
     return dados
 } catch (error: any) {
   console.log(error)
-  throw new Error('Falha ao buscar ajuste');
+  throw new Error('Falha ao buscar os dados de trocas.');
 }
+
+
+
 }
 

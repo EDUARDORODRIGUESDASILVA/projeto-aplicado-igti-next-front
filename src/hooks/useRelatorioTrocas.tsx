@@ -1,10 +1,9 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { IRelatorioTrocas, ITroca } from "../services/trocasService"
-import {fetchRelatorioTrocas} from "../services/trocasService"
+import { criarRelatorioTrocas, RelatorioTrocas, Troca } from "../services/trocasService"
 export interface IUseRelatorioTrocas {
   isLoading: boolean
-  relatorio: IRelatorioTrocas | undefined
-  rows: ITroca[]
+  relatorio: RelatorioTrocas | undefined
+  rows: Troca[]
   error: string
   page: number
   rowsPerPage: number
@@ -20,14 +19,14 @@ export interface IUseRelatorioTrocas {
 const useFetchRelatorioTrocas = (unidadeId: number) => {
   const [isLoading, setisLoading] = useState(false);
   const [error, seterror] = useState('');
-  const [relatorio, setrelatorio] = useState<IRelatorioTrocas>();
+  const [relatorio, setrelatorio] = useState<RelatorioTrocas>();
   const [shouldRefetch, refetch] = useState({});
 
   useEffect(() => {
     async function fetchRelatorio() {
       setisLoading(true)
       try {
-        const relatorio = await fetchRelatorioTrocas(unidadeId)
+        const relatorio = await criarRelatorioTrocas(unidadeId)
         setrelatorio(relatorio)
         setisLoading(false)
 
@@ -47,7 +46,7 @@ const useFetchRelatorioTrocas = (unidadeId: number) => {
 
 export const useRelatorioTrocas = (unidadeId: number) => {
   const { isLoading, relatorio, error, refetch } = useFetchRelatorioTrocas(unidadeId)
-  const [rows, setrows] = useState<ITroca[]>([]);
+  const [rows, setrows] = useState<Troca[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 

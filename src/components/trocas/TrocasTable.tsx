@@ -9,8 +9,8 @@ export default function TrocasTable({actions}: { actions: IUseRelatorioTrocas })
   const relatorio = true
   if (relatorio)
     return (
-      <div>
-        <TableContainer sx={{ maxHeight: '60vh', minHeight: '50vh' }}>
+      <>
+        <TableContainer sx={{ maxHeight: '60vh'  }}>
 
           <Table stickyHeader size="small">
             <TableHead>
@@ -70,7 +70,7 @@ export default function TrocasTable({actions}: { actions: IUseRelatorioTrocas })
           onPageChange={actions.handleChangePage}
           onRowsPerPageChange={actions.handleChangeRowsPerPage}
         />
-      </div>
+      </>
     )
 
   return <></>
