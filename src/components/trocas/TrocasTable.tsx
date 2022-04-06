@@ -1,6 +1,5 @@
 import {  Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import { IUseRelatorioTrocas } from "../../hooks/useRelatorioTrocas";
-import TrocasTableIncluir from "./TrocasTableIncluir";
 import TrocasTableRow from "./TrocasTableRow";
 
 
@@ -18,16 +17,17 @@ export default function TrocasTable({actions}: { actions: IUseRelatorioTrocas })
                 <TableCell padding='none' colSpan={2} sx={{ paddingLeft: '8px' }}>
                 </TableCell>
 
+
+                <TableCell align="center">
+                  Produto
+                </TableCell>
+
                 <TableCell align="center" >
                   Aumentar
                 </TableCell>
 
                 <TableCell align="center">
                   Reduzir
-                </TableCell>
-
-                <TableCell align="center">
-                  Produto
                 </TableCell>
 
                 <TableCell align="center"
@@ -43,7 +43,6 @@ export default function TrocasTable({actions}: { actions: IUseRelatorioTrocas })
 
                 </TableCell>
               </TableRow>
-              <TrocasTableIncluir actions={actions}></TrocasTableIncluir>
 
 
             </TableHead>
@@ -61,7 +60,7 @@ export default function TrocasTable({actions}: { actions: IUseRelatorioTrocas })
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 15, 25, 130]}
+          rowsPerPageOptions={[10]}
           component="div"
           count={actions.rows.length}
           rowsPerPage={actions.rowsPerPage}

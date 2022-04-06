@@ -1,14 +1,24 @@
-import { Avatar, Box, Button, Card, CardHeader, IconButton, LinearProgress } from "@mui/material";
+import { Alert, Avatar, Box, Button, Card, CardHeader, IconButton, LinearProgress, Snackbar } from "@mui/material";
 import { red } from '@mui/material/colors';
 import { IUseRelatorioTrocas } from "../../hooks/useRelatorioTrocas";
 import Title from '../dashboard/Title';
+import TrocasModalIncluir from "./TrocasModalIncluir";
 
 
-export default function TrocasHeader({actions}: { actions: IUseRelatorioTrocas }) {
+export default function TrocasHeader({ actions }: { actions: IUseRelatorioTrocas }) {
   const handleAvatarClick = () => {
   }
   if (actions.relatorio) {
-  return (
+    return (
+      <>
+         <Snackbar open={(actions.snack.open ? true : false)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          autoHideDuration={1500} onClose={actions.handleSnackClose}>
+          <Alert severity={actions.snack.severity} sx={{ width: '100%' }}>
+            {actions.snack.message}
+          </Alert>
+        </Snackbar>
+
     <Card sx={{ px: '2px' }}>
       <CardHeader
         avatar={
@@ -26,9 +36,12 @@ export default function TrocasHeader({actions}: { actions: IUseRelatorioTrocas }
         action={<Box sx={{ mt: '13px' }}>
 
           <Button variant="text"
+          disabled
           >
             Excel
           </Button>
+
+
 
 
           <Button variant="text"
@@ -42,7 +55,8 @@ export default function TrocasHeader({actions}: { actions: IUseRelatorioTrocas }
         subheader={actions.relatorio.agregador.nome}
       />
     </Card>
-  )
+      </>
+    )
   }
 
   return <></>

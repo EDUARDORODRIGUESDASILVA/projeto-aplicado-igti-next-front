@@ -46,15 +46,15 @@ export class Troca implements ITroca {
     this.valor = t.valor
     this.produtoId = t.produtoId
 
-    const p = r.produtos.find(p => p.id == t.produtoId)
+    const p = r.produtos.find(p => p.id === t.produtoId)
     if (p)
       this.produto = p
 
-    const reduz = r.unidadesReduzir.find( u => u.id = t.reduzId)
+    const reduz = r.unidadesReduzir.find( u => u.id === t.reduzId)
     if(reduz)
       this.reduz = reduz
 
-    const incrementa = r.unidadesReduzir.find( u => u.id = t.incrementaId)
+    const incrementa = r.unidadesReduzir.find( u => u.id === t.incrementaId)
     if (incrementa)
       this.incrementa = incrementa
   }
@@ -72,6 +72,8 @@ export class RelatorioTrocas implements IRelatorioTrocas {
     this.unidadesAumentar = r.unidadesAumentar
     this.unidadesReduzir = r.unidadesReduzir
     this.trocas = r.trocas.map( t => new Troca(t, r))
+
+    console.log(this)
   }
 
 
@@ -97,8 +99,25 @@ async function fetchRelatorioTrocas(unidadeId: number): Promise<IRelatorioTrocas
   console.log(error)
   throw new Error('Falha ao buscar os dados de trocas.');
 }
-
-
-
 }
 
+
+export async function gravarTroca(troca: ITroca) {
+
+  try {
+    let url = `/troca`
+
+    const resp = await instance.post(url, troca)
+
+    if (resp.status !== 201) {
+      throw new Error(resp.statusText + ' | ' + resp.data.msg);
+    }
+
+    const dados: ITroca = resp.data
+    return dados
+  } catch (error: any) {
+    console.log(error)
+    throw new Error('Falha ao buscar os dados de trocas.');
+  }
+
+}

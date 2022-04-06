@@ -32,6 +32,7 @@ export default function NumberInputFormat(props: {
         thousandSeparator="."
         decimalSeparator=","
         prefix=""
+
         fixedDecimalScale={true}
         allowLeadingZeros={false}
         customInput={PcInput}

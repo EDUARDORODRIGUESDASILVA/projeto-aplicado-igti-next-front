@@ -1,14 +1,25 @@
+import { AlertColor } from "@mui/material"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { criarRelatorioTrocas, RelatorioTrocas, Troca } from "../services/trocasService"
+import { criarRelatorioTrocas, gravarTroca, RelatorioTrocas, Troca } from "../services/trocasService"
 export interface IUseRelatorioTrocas {
   isLoading: boolean
+  isUploading: boolean
+  selectedId: number | undefined
   relatorio: RelatorioTrocas | undefined
   rows: Troca[]
   error: string
   page: number
   rowsPerPage: number
+  snack: {
+    open: Boolean;
+    message: string;
+    severity: AlertColor;
+  }
   handleAtualizar: () => void
   handleExcelClick: () => void
+  handleGravar: (troca: Troca) => Promise<void>
+  handleSelecionaLinha: (troca: Troca) => void
+  handleSnackClose: (event: any, reason: any) => void
   // handleFilterChange: (filter: RelatorioPorAgregadorFilter) => void
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -46,13 +57,16 @@ const useFetchRelatorioTrocas = (unidadeId: number) => {
 
 export const useRelatorioTrocas = (unidadeId: number) => {
   const { isLoading, relatorio, error, refetch } = useFetchRelatorioTrocas(unidadeId)
+  const [isUploading, setIsUploading] = useState(false);
+  const [selectedId, setSelectedId] = useState<number>();
   const [rows, setrows] = useState<Troca[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [snack, setSnack] = useState<{ open: Boolean, message: string, severity: AlertColor }>({ open: false, message: '', severity: 'success' });
 
   useEffect(() => {
     if (relatorio) {
-      setrows(relatorio.trocas)
+      setrows(relatorio.trocas.sort( (r1, r2) => r2.id - r1.id ))
       setPage(0)
 
     }
@@ -71,13 +85,27 @@ export const useRelatorioTrocas = (unidadeId: number) => {
     }
   }
 
-  // const handleFilterChange = (filter: RelatorioPorAgregadorFilter) => {
-  //   if (relatorio) {
-  //     relatorio.filter = filter;
-  //     setrows(relatorio.rows)
-  //     setPage(0);
-  //   }
-  // }
+  const handleSelecionaLinha = (troca: Troca) => {
+    setSelectedId(troca.id)
+  }
+  const handleGravar = async (troca: Troca) => {
+    setIsUploading(true)
+
+    gravarTroca(troca).then((troca) => {
+      console.log(troca.id)
+      setSelectedId(troca.id)
+      handleAtualizar()
+      setSnack({ open: true, message: 'Gravado com sucesso!', severity: 'success' })
+      setIsUploading(false)
+
+    }).catch((err) => {
+      setIsUploading(false)
+      setSnack({ open: true, message: 'Falha ao gravar!', severity: 'error' })
+    });
+
+
+
+  }
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -88,16 +116,30 @@ export const useRelatorioTrocas = (unidadeId: number) => {
     setPage(0);
   };
 
+
+  const handleSnackClose = (event: any, reason: any) => {
+    // if (reason === 'clickaway') {
+    //   return;
+    // }
+    setSnack({ open: false, message: '', severity: 'success' })
+  };
+
   const a: IUseRelatorioTrocas = {
     isLoading,
+    selectedId,
+    isUploading,
     relatorio,
     error,
     rows,
     page,
     rowsPerPage,
+    snack,
     handleAtualizar,
+    handleGravar,
     handleExcelClick,
     handleChangePage,
+    handleSelecionaLinha,
+    handleSnackClose,
     handleChangeRowsPerPage,
     setPage,
     setRowsPerPage

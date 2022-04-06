@@ -41,6 +41,8 @@ export const useRelatorioPorAgregador = (unidadeId: number, produtoId: number) =
     refetch({})
   }
 
+
+
   const handleExcelClick = () => {
     if (relatorio) {
       const nome = 'RelatorioAjustes_' + relatorio.agregador.nome
