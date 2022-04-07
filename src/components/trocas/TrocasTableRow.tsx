@@ -1,8 +1,12 @@
-import { TableCell, TableRow, Tooltip } from "@mui/material";
+import { IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
 import { Troca } from "../../core/model/troca/Trocas";
 import { IUseRelatorioTrocas } from "../../hooks/useRelatorioTrocas";
 import NumberTextFormat from "../../utils/NumberTextFormat";
-
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 export default function TrocasTableRow({ row, actions }: { row: Troca, actions: IUseRelatorioTrocas }) {
   if (actions)
   return (
@@ -33,15 +37,57 @@ export default function TrocasTableRow({ row, actions }: { row: Troca, actions: 
         <NumberTextFormat value={row.valor} />
       </TableCell>
 
-      <TableCell align="right"
+      <TableCell align="center"
         sx={{ paddingLeft: '5px', fontWeight: 'italic', color: 'gray' }}
       >
-        <Tooltip title={row.Usuario.nome} placement="left">
-          <small>{row.userId}</small>
+
+        <Tooltip title={row.criador?.nome || ''} placement="left">
+          <small>{row.criadoUserId}</small>
         </Tooltip>
       </TableCell>
 
-      <TableCell align="center" >
+      <TableCell padding="none"  align="center" >
+
+
+        {row.status == 'Criada' && actions.relatorio?.agregador.tipo !== 'SR' ?
+          <Tooltip title={"Aguardando homologação"} placement="left" >
+        <ThumbsUpDownIcon fontSize="small" color="warning"></ThumbsUpDownIcon>
+        </Tooltip>
+        : <></>}
+        {row.status == 'Homologada' ?
+          <Tooltip title={`Homologado por ${row.homologador?.nome} `} placement="left" >
+        <ThumbUpIcon fontSize="small" color="success"></ThumbUpIcon>
+        </Tooltip>
+         :<></> }
+        {row.status == 'Cancelada' ?
+          <Tooltip title={`Cancelado por ${row.homologador?.nome} `} placement="left" >
+        <ThumbDownIcon fontSize="small" color="error"></ThumbDownIcon>
+          </Tooltip>
+        : <></>}
+
+        {row.status == 'Criada' && actions.relatorio?.agregador.tipo == 'SR' ? (
+          <IconButton
+            onClick={() => actions.handleHomologarTroca(row)}
+          >
+            <Tooltip title={"Homologar negociação"} placement="left" >
+              <ThumbUpOffAltIcon fontSize="small" color="success"></ThumbUpOffAltIcon>
+            </Tooltip>
+          </IconButton>
+        )
+          : <></>
+        }
+
+        {row.status !== 'Cancelada' && actions.relatorio?.agregador.tipo == 'SR' ? (
+              <IconButton
+                onClick={()=>actions.handleCancelarTroca(row)}
+              >
+                <Tooltip title={"Cancelar negociação"} placement="left" >
+                  <ThumbDownOffAltIcon fontSize="small" color="error"></ThumbDownOffAltIcon>
+                </Tooltip>
+              </IconButton>
+              )
+              :<></>
+          }
 
       </TableCell>
     </TableRow>

@@ -35,13 +35,11 @@ export default function TrocasTable({actions}: { actions: IUseRelatorioTrocas })
                   Valor
                 </TableCell>
 
-                <TableCell align="center" >
+                <TableCell align="left" colSpan={2} >
                   Responsável
                 </TableCell>
 
-                <TableCell align="center" >
 
-                </TableCell>
               </TableRow>
 
 

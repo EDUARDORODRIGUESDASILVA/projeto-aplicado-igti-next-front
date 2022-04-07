@@ -58,7 +58,7 @@ export default function TrocasModal( props: { unidadeId: number}) {
               p: 2,
             }}
           >
-            <Trocas unidadeId={props.unidadeId}></Trocas>
+            <Trocas unidadeId={props.unidadeId} closeModal={handleClose}></Trocas>
           </Box>
         </Modal>
         </ThemeProvider>

@@ -50,14 +50,13 @@ export default function TrocasIncluir({ actions, closeModal }: { actions: IUseRe
       incrementaId: aumentar?.id,
       reduzId: reduzir?.id,
        produtoId: produto?.id,
-      userId: user.matricula,
+      criadoUserId: user.matricula,
        valor,
-      status: 'OK',
-      Usuario: user
+      status: 'Criada',
+      criador: user,
+      homologadoUserId: null
     }, actions.relatorio)
 
-
-    console.log('started', troca)
     actions.handleGravar(troca)
 
     }

@@ -17,6 +17,7 @@ export default function AjusteMetas() {
   if (actions.isLoading) {
     return <>
       <Stack
+        sx={{ mt: '26px' }}
         direction="row"
         justifyContent="center"
         alignItems="center"

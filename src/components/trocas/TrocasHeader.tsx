@@ -2,12 +2,15 @@ import { Alert, Avatar, Box, Button, Card, CardHeader, IconButton, LinearProgres
 import { red } from '@mui/material/colors';
 import { IUseRelatorioTrocas } from "../../hooks/useRelatorioTrocas";
 import Title from '../dashboard/Title';
-import TrocasModalIncluir from "./TrocasModalIncluir";
+import CloseIcon from '@mui/icons-material/Close';
 
+export default function TrocasHeader({ actions, closeModal }: { actions: IUseRelatorioTrocas, closeModal?: Function }) {
 
-export default function TrocasHeader({ actions }: { actions: IUseRelatorioTrocas }) {
-  const handleAvatarClick = () => {
+  function onCloseModal() {
+    if (closeModal)
+      closeModal()
   }
+
   if (actions.relatorio) {
     return (
       <>
@@ -23,7 +26,7 @@ export default function TrocasHeader({ actions }: { actions: IUseRelatorioTrocas
       <CardHeader
         avatar={
           <IconButton
-            onClick={handleAvatarClick}
+                onClick={() => { actions.handleAtualizar() }}
           >
             <Avatar sx={{ bgcolor: red[500] }}
 
@@ -33,7 +36,12 @@ export default function TrocasHeader({ actions }: { actions: IUseRelatorioTrocas
           </IconButton>
         }
 
-        action={<Box sx={{ mt: '13px' }}>
+        action={
+          <>
+
+
+        <Box sx={{ mt: '13px' }}>
+
 
           <Button variant="text"
           onClick={()=> {actions.handleExcelClick()}}
@@ -49,7 +57,16 @@ export default function TrocasHeader({ actions }: { actions: IUseRelatorioTrocas
           >
             Atualizar
           </Button>
-        </Box>}
+
+              {closeModal ?
+              <IconButton onClick={onCloseModal} aria-label="settings">
+                <CloseIcon></CloseIcon>
+              </IconButton>
+              : <></>
+              }
+        </Box>
+
+          </>}
 
         title={<Title>Negociações registradas</Title>}
         subheader={actions.relatorio.agregador.nome}

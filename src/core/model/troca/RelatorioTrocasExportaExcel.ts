@@ -39,7 +39,7 @@ export class RelatorioTrocasExportaExcel {
     const plan = workbook.sheet('Sheet1');
     plan.name('Trocas');
 
-    const titlerow = plan.range('A1:I1');
+    const titlerow = plan.range('A1:K1');
     titlerow.style('horizontalAlignment', 'center');
     titlerow.style('fill', CoresExcel.COR_FUNDO_CABECALHO); // light gray
     titlerow.style('fontColor', CoresExcel.COR_TEXTO_CABECALHO); // dark gray
@@ -58,11 +58,11 @@ export class RelatorioTrocasExportaExcel {
 
     let coluna = 0
     let linha = 2
-    const nomescolunas = plan.range('A2:I2');
+    const nomescolunas = plan.range('A2:K2');
     nomescolunas.style('fill', CoresExcel.COR_FUNDO_COLUNAS);
     nomescolunas.style('fontColor', CoresExcel.COR_TEXTO_COLUNAS);
     nomescolunas.style('bold', true)
-    const colunasf = workbook.sheet(0).range('A2:I2');
+    const colunasf = workbook.sheet(0).range('A2:K2');
     colunasf.autoFilter();
     plan.freezePanes(3, 2);
 
@@ -90,7 +90,13 @@ export class RelatorioTrocasExportaExcel {
     plan.cell(linha, ++coluna).value('Ajustada').style('horizontalAlignment', 'center');
     plan.column(coluna).width(16).style('bold', true).style('numberFormat', '#,##0.00;[Red]-#,##0.00')
 
-    plan.cell(linha, ++coluna).value('Responsável').style('horizontalAlignment', 'center');
+    plan.cell(linha, ++coluna).value('Status').style('horizontalAlignment', 'center');
+    plan.column(coluna).width(12).style('bold', true)
+
+    plan.cell(linha, ++coluna).value('Criado por').style('horizontalAlignment', 'center');
+    plan.column(coluna).width(35).style('fontColor', '7B7B7B')
+
+    plan.cell(linha, ++coluna).value('Homologado por').style('horizontalAlignment', 'center');
     plan.column(coluna).width(35).style('fontColor', '7B7B7B')
 
 
@@ -101,9 +107,6 @@ export class RelatorioTrocasExportaExcel {
     this.relatorio.trocas.forEach (r => {
 
       let coluna = 1
-
-
-
       const id = workbook.sheet(0).cell(linha, coluna++)
       id.value(r.id)
 
@@ -131,8 +134,16 @@ export class RelatorioTrocasExportaExcel {
         valor.style('fill', 'FFF2CC')
       }
 
-      const responsavel = workbook.sheet(0).cell(linha, coluna++)
-      responsavel.value(r.userId + ' - ' + r.Usuario.nome)
+      const status = workbook.sheet(0).cell(linha, coluna++)
+      status.value(r.status)
+
+
+      const criador = workbook.sheet(0).cell(linha, coluna++)
+      criador.value(r.criadoUserId + ' - ' + r.criador?.nome)
+
+      const homologador = workbook.sheet(0).cell(linha, coluna++)
+      if (r.homologador)
+        homologador.value(r.homologadoUserId + ' - ' + r.homologador?.nome )
 
 
       linha++

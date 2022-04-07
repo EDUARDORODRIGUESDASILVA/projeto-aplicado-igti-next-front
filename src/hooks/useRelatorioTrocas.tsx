@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { RelatorioTrocas } from "../core/model/troca/RelatorioTrocas"
 import { RelatorioTrocasExportaExcel } from "../core/model/troca/RelatorioTrocasExportaExcel"
 import { Troca } from "../core/model/troca/Trocas"
-import { criarRelatorioTrocas, gravarTroca} from "../services/trocasService"
+import { cancelarTroca, criarRelatorioTrocas, gravarTroca, homologarTroca} from "../services/trocasService"
 export interface IUseRelatorioTrocas {
   isLoading: boolean
   isUploading: boolean
@@ -20,6 +20,8 @@ export interface IUseRelatorioTrocas {
   }
   handleAtualizar: () => void
   handleExcelClick: () => void
+  handleCancelarTroca: (troca: Troca) =>void
+  handleHomologarTroca: (troca: Troca) => void
   handleGravar: (troca: Troca) => Promise<void>
   handleSelecionaLinha: (troca: Troca) => void
   handleSnackClose: (event: any, reason: any) => void
@@ -68,7 +70,7 @@ export const useRelatorioTrocas = (unidadeId: number) => {
 
   useEffect(() => {
     if (relatorio) {
-      setrows(relatorio.trocas.sort( (r1, r2) => r2.id - r1.id ))
+      setrows(relatorio.trocas.sort( (r1, r2) => (r2.id || 0) - (r1.id || 0) ))
       setPage(0)
 
     }
@@ -85,7 +87,6 @@ export const useRelatorioTrocas = (unidadeId: number) => {
     if (relatorio) {
       const gerador = new RelatorioTrocasExportaExcel(relatorio)
       gerador.gerarExcel('trocas')
-
     }
   }
 
@@ -105,6 +106,40 @@ export const useRelatorioTrocas = (unidadeId: number) => {
     }).catch((err) => {
       setIsUploading(false)
       setSnack({ open: true, message: 'Falha ao gravar!', severity: 'error' })
+    });
+  }
+
+  const handleCancelarTroca = (troca:Troca) => {
+    setIsUploading(true)
+    cancelarTroca(troca).then( (savedTroca) => {
+        setIsUploading(false)
+        troca.status = savedTroca.status
+        troca.homologadoUserId = savedTroca.homologadoUserId
+        troca.homologador= savedTroca.homologador
+
+        console.log({troca, savedTroca})
+        setSnack({ open: true, message: `Troca ${troca.id} cancelada com sucesso!`, severity: 'success' })
+
+    }).catch((err) => {
+      setIsUploading(false)
+      setSnack({ open: true, message: `Falha ao cancelar troca ${troca.id}!`, severity: 'error' })
+    });
+  }
+
+  const handleHomologarTroca = (troca: Troca) => {
+    setIsUploading(true)
+    homologarTroca(troca).then((savedTroca) => {
+      setIsUploading(false)
+      troca.status = savedTroca.status
+      troca.homologadoUserId = savedTroca.homologadoUserId
+      troca.homologador = savedTroca.homologador
+      console.log({ troca, savedTroca })
+
+      setSnack({ open: true, message: `Troca ${troca.id} homologada com sucesso!`, severity: 'success' })
+
+    }).catch((err) => {
+      setIsUploading(false)
+      setSnack({ open: true, message: `Falha ao homologar troca ${troca.id}!`, severity: 'error' })
     });
   }
 
@@ -137,6 +172,8 @@ export const useRelatorioTrocas = (unidadeId: number) => {
     snack,
     handleAtualizar,
     handleGravar,
+    handleCancelarTroca,
+    handleHomologarTroca,
     handleExcelClick,
     handleChangePage,
     handleSelecionaLinha,

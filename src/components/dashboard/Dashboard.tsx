@@ -77,10 +77,7 @@ const mdTheme = createTheme();
 
 
 function DashboardContent({ children }: LayoutProps) {
-
   const dispatch = useAppDispatch();
-
-
   const open = useAppSelector(selectSidebarState);
   const router = useRouter()
   const toggleDrawer = () => {
@@ -121,10 +118,8 @@ function DashboardContent({ children }: LayoutProps) {
                 onClick={() => { router.push('/') }}
               sx={{ flexGrow: 1 }}
               style={{cursor: 'pointer'}}
-
             >
               Distribuição de metas
-
             </Typography>
 
             <UserAvatar></UserAvatar>
@@ -145,7 +140,6 @@ function DashboardContent({ children }: LayoutProps) {
           </Toolbar>
           <Divider />
           <SideNav></SideNav>
-
         </Drawer>
         <Box
           component="main"
