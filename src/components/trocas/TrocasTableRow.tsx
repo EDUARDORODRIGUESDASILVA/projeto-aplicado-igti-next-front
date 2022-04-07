@@ -1,6 +1,6 @@
-import { TableCell, TableRow } from "@mui/material";
+import { TableCell, TableRow, Tooltip } from "@mui/material";
+import { Troca } from "../../core/model/troca/Trocas";
 import { IUseRelatorioTrocas } from "../../hooks/useRelatorioTrocas";
-import { Troca } from "../../services/trocasService";
 import NumberTextFormat from "../../utils/NumberTextFormat";
 
 export default function TrocasTableRow({ row, actions }: { row: Troca, actions: IUseRelatorioTrocas }) {
@@ -19,7 +19,6 @@ export default function TrocasTableRow({ row, actions }: { row: Troca, actions: 
         {row.produto.nome}
       </TableCell>
 
-
       <TableCell align="left" >
         {row.incrementa.nome}
       </TableCell>
@@ -27,8 +26,6 @@ export default function TrocasTableRow({ row, actions }: { row: Troca, actions: 
       <TableCell align="left">
         {row.reduz.nome}
       </TableCell>
-
-
 
       <TableCell align="right"
         sx={{ fontWeight: 'bold' }}
@@ -39,7 +36,9 @@ export default function TrocasTableRow({ row, actions }: { row: Troca, actions: 
       <TableCell align="right"
         sx={{ paddingLeft: '5px', fontWeight: 'italic', color: 'gray' }}
       >
-        {row.userId}
+        <Tooltip title={row.Usuario.nome} placement="left">
+          <small>{row.userId}</small>
+        </Tooltip>
       </TableCell>
 
       <TableCell align="center" >

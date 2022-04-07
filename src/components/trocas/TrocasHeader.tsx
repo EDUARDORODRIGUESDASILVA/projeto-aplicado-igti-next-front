@@ -36,7 +36,7 @@ export default function TrocasHeader({ actions }: { actions: IUseRelatorioTrocas
         action={<Box sx={{ mt: '13px' }}>
 
           <Button variant="text"
-          disabled
+          onClick={()=> {actions.handleExcelClick()}}
           >
             Excel
           </Button>

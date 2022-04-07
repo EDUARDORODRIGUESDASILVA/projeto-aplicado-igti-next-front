@@ -1,6 +1,9 @@
 import { AlertColor } from "@mui/material"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { criarRelatorioTrocas, gravarTroca, RelatorioTrocas, Troca } from "../services/trocasService"
+import { RelatorioTrocas } from "../core/model/troca/RelatorioTrocas"
+import { RelatorioTrocasExportaExcel } from "../core/model/troca/RelatorioTrocasExportaExcel"
+import { Troca } from "../core/model/troca/Trocas"
+import { criarRelatorioTrocas, gravarTroca} from "../services/trocasService"
 export interface IUseRelatorioTrocas {
   isLoading: boolean
   isUploading: boolean
@@ -54,7 +57,6 @@ const useFetchRelatorioTrocas = (unidadeId: number) => {
   return { isLoading, relatorio, error, refetch }
 }
 
-
 export const useRelatorioTrocas = (unidadeId: number) => {
   const { isLoading, relatorio, error, refetch } = useFetchRelatorioTrocas(unidadeId)
   const [isUploading, setIsUploading] = useState(false);
@@ -81,6 +83,8 @@ export const useRelatorioTrocas = (unidadeId: number) => {
 
   const handleExcelClick = () => {
     if (relatorio) {
+      const gerador = new RelatorioTrocasExportaExcel(relatorio)
+      gerador.gerarExcel('trocas')
 
     }
   }
@@ -102,9 +106,6 @@ export const useRelatorioTrocas = (unidadeId: number) => {
       setIsUploading(false)
       setSnack({ open: true, message: 'Falha ao gravar!', severity: 'error' })
     });
-
-
-
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
