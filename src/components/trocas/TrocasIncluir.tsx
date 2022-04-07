@@ -12,7 +12,9 @@ import Title from "../dashboard/Title";
 import { IProduto } from "../../core/interfaces/IProduto";
 import { IUnidade } from "../../core/interfaces/IUnidade";
 import { Input, styled } from "@mui/material";
-import { Troca } from "../../services/trocasService";
+import { Troca } from "../../core/model/troca/Trocas";
+import { useAppSelector } from "../../store/hooks";
+import { selectUser } from "../../store/userSlice";
 
 const ValorInput = styled(TextField)(() => ({
   "& .MuiInputBase-input": {
@@ -22,6 +24,7 @@ const ValorInput = styled(TextField)(() => ({
 
 export default function TrocasIncluir({ actions, closeModal }: { actions: IUseRelatorioTrocas, closeModal?: Function }) {
 
+  const user = useAppSelector(selectUser);
   const [valor, setvalor] = useState(0)
   const [produto, setproduto] = useState<IProduto | null>()
   const [aumentar, setaumentar] = useState<IUnidade | null>()
@@ -41,15 +44,16 @@ export default function TrocasIncluir({ actions, closeModal }: { actions: IUseRe
   }
 
   const handleIncluirNegociacao = () => {
-    if(actions.relatorio && aumentar && reduzir && produto && valor > 0) {
+    if(actions.relatorio && aumentar && reduzir && produto && valor > 0 && user) {
     const troca: Troca = new Troca({
       id: 0,
       incrementaId: aumentar?.id,
       reduzId: reduzir?.id,
        produtoId: produto?.id,
-        userId: '',
+      userId: user.matricula,
        valor,
-      status: 'OK'
+      status: 'OK',
+      Usuario: user
     }, actions.relatorio)
 
 
