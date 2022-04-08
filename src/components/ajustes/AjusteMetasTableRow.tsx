@@ -40,6 +40,7 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         </Typography>
       </TableCell>
 
+       {actions.tipo == 'AG' ? (
       <TableCell padding='none' align="center">
 
         <Button size="small"
@@ -51,9 +52,8 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
             }
           </Button>
 
-
-
         </TableCell>
+       ) :<></>}
       <TableCell padding='none' align="right" >
         <NumberTextFormat value={row.metaReferencia} />
       </TableCell>
@@ -67,10 +67,24 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
 
         <NumberTextFormat value={(actions.tipo == 'AG'? row.metaMinima : row.metaReferencia2)} />
       </TableCell>
+
+
+       {actions.tipo == 'SE' ? (
+       <TableCell padding='checkbox' align="right" sx={{
+         paddingLeft: '2px',
+         fontWeight: row.erroPiso ? 'bold' : '',
+         color: (row.trocas ? 'red' : '')
+       }}
+       >
+         <NumberTextFormat value={(actions.tipo == 'SE' ? row.trocas : 0 )} />
+       </TableCell>
+       ):<></>}
+
       <TableCell padding='none' align="center"
         sx={{ fontWeight: 'bold', color: 'gray' }}
       >
         {row.trava}</TableCell>
+
       <TableCell padding='none' sx={{ minWidth: '85px', maxWidth: '85px' }}>
         <NumberInputFormat
           value={row.inputPct}

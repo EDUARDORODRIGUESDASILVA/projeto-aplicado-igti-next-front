@@ -170,10 +170,10 @@ export class AjusteMetas implements IAjustarProduto {
   }
 
   calculaSaldo() {
-    if (this.unidade.tipo== 'SR')
-      this.psaldo = (this.metaAjustada - (this.metaReferencia  + this.pauxiliarTroca))
+    if (this.unidade.tipo== 'SR' )
+      this.psaldo = (this.metaAjustada - (this.metaReferencia + this.pauxiliarTroca))
     else
-      this.psaldo = (this.metaAjustada - (this.metaReferencia2 + this.trocas + this.pauxiliarTroca))
+      this.psaldo = (this.metaAjustada - (this.metaReferencia2 + this.pauxiliarTroca))
     this.psaldo = Math.trunc(this.psaldo * 100) / 100
       return this.psaldo
   }

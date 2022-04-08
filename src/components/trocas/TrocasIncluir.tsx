@@ -43,15 +43,20 @@ export default function TrocasIncluir({ actions, closeModal }: { actions: IUseRe
     setreduzir(value)
   }
 
-  const handleIncluirNegociacao = () => {
+  const handlerCloseModal = () => {
+    if (closeModal)
+      closeModal()
+  }
+
+  const handlerIncluirNegociacao = () => {
     if(actions.relatorio && aumentar && reduzir && produto && valor > 0 && user) {
     const troca: Troca = new Troca({
       id: 0,
       incrementaId: aumentar?.id,
       reduzId: reduzir?.id,
-       produtoId: produto?.id,
+      produtoId: produto?.id,
       criadoUserId: user.matricula,
-       valor,
+      valor,
       status: 'Criada',
       criador: user,
       homologadoUserId: null
@@ -76,10 +81,7 @@ export default function TrocasIncluir({ actions, closeModal }: { actions: IUseRe
     }
   }, [valor, produto, aumentar, reduzir,actions.isLoading]);
 
-  function onCloseModal() {
-    if (closeModal)
-      closeModal()
-  }
+
 
   if (actions.relatorio)
     return (
@@ -92,7 +94,7 @@ export default function TrocasIncluir({ actions, closeModal }: { actions: IUseRe
           }
           action={
             closeModal ? (
-              <IconButton onClick={onCloseModal} aria-label="settings">
+              <IconButton onClick={handlerCloseModal} aria-label="settings">
                 <CloseIcon></CloseIcon>
               </IconButton>
             ) : <></>
@@ -232,7 +234,7 @@ export default function TrocasIncluir({ actions, closeModal }: { actions: IUseRe
           <Grid item xs={4}>
             <Button variant="contained"
               color="success"
-              onClick={handleIncluirNegociacao}
+              onClick={handlerIncluirNegociacao}
               fullWidth
               disabled={!liberado}
             >
@@ -244,7 +246,7 @@ export default function TrocasIncluir({ actions, closeModal }: { actions: IUseRe
           </Grid>
         </CardActions>
 
-        <Grid item xs={12} sx={{ height: '5vh' }}>
+        <Grid item xs={12} sx={{ height: '4vh' }}>
         </Grid>
       </Card>
     )

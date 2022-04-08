@@ -240,7 +240,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   zerar() {
     this.ipct = 0
     this.ivalor = 0
-    const novoValor = this.metaReferencia2 - (this.metaReferencia2 + this.trocas)
+    const novoValor = 0
     this.ivalor = novoValor
     this.calculaMetaAjustada()
   }

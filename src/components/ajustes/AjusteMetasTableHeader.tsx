@@ -1,4 +1,4 @@
-import { Checkbox, IconButton, TableCell, TableHead, TableRow, Tooltip } from "@mui/material"
+import { Box, Checkbox, IconButton, TableCell, TableHead, TableRow, Tooltip } from "@mui/material"
 import { useState } from "react";
 import NumberInputFormat from "../../utils/NumberInputFormat"
 import NumberTextFormat from "../../utils/NumberTextFormat"
@@ -38,6 +38,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             ></AjusteMetasTableSortLabel>
           </TableCell>
 
+          {actions.tipo == 'AG' ? (
           <TableCell padding='none' align="center" >
             Cluster
             <AjusteMetasTableSortLabel
@@ -50,7 +51,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
               }
               }
             ></AjusteMetasTableSortLabel>
-          </TableCell>
+          </TableCell> ):<></>}
 
           <TableCell padding='none' align="right">
             <AjusteMetasTableSortLabel
@@ -79,6 +80,11 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             ></AjusteMetasTableSortLabel>
           </TableCell>
 
+          {actions.tipo == 'SE' ? (
+          <TableCell padding='none' align="center">
+            Trocas
+          </TableCell> ) :<></> }
+
           <TableCell padding='none' align="center">
             Trava
           </TableCell>
@@ -105,14 +111,16 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
             </Tooltip>
           </TableCell>
 
-          <TableCell padding='none'  align="right" colSpan={3}>
+          <TableCell padding='none'  align="right" colSpan={2}>
             <AjusteMetasTableSortLabel
               actions={actions}
               options={{
                 chave: 'Ajustada',
-                label: <h2>
+                label: <Box sx={{ mr: '3px' }}>
+                  <h3>
                   <NumberTextFormat value={actions.ajuste.metaAjustada} />
-                </h2>,
+                  </h3>
+                </Box>,
                 enabled: true,
                 fisrtSort: 'desc'
               }
@@ -121,7 +129,7 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
           </TableCell>
           <TableCell align="center" padding='none'
             sx={{ backgroundColor: actions.ajuste.saldo !== 0 ? "#ffebee" : "" }}
-            colSpan={2}>
+            colSpan={3}>
             <h2>
               <NumberTextFormat value={actions.ajuste.saldo} />
             </h2>
@@ -136,16 +144,13 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
               {actions.ajuste.unidade.nome}
             </TableCell>
 
-
             <TableCell style={{ top: 60 }} colSpan={2} align="right">
               <NumberTextFormat value={actions.ajuste.metaReferencia} />
             </TableCell>
 
             <TableCell style={{ top: 60 }}  align="right" colSpan={2}>
-
               <NumberTextFormat value={actions.ajuste.metaReferencia2} />
             </TableCell>
-
 
             <TableCell style={{ top: 60 }} padding='none' colSpan={2}>
               <NumberInputFormat
@@ -163,16 +168,12 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
               <IconButton aria-label="cart" size="small" onClick={actions.handleInicial}
                 disabled={actions.ajuste.unidade.tipo !== 'SR'}>
                 < RestartAltIcon />
-
               </IconButton>
-
              </TableCell>
+
             <TableCell style={{ top: 60 }} align="right" colSpan={2}>
               <NumberTextFormat value={actions.ajuste.saldo} />
             </TableCell>
-
-
-
           </TableRow>
         ) : (<></>)
         }
