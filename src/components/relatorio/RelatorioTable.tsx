@@ -11,7 +11,7 @@ export default function RelatorioTable({ actions }: { actions: IUseRelatorio }) 
   if (actions.relatorio)
     return (
       <div>
-        <TableContainer sx={{ maxHeight: '66vh' }}>
+        <TableContainer sx={{ maxHeight: 'calc(100vh - 260px)' }}>
 
           <Table stickyHeader size="small">
             <TableHead>

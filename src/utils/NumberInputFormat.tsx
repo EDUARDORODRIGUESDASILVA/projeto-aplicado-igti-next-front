@@ -38,7 +38,7 @@ export default function NumberInputFormat(props: {
         customInput={PcInput}
         onValueChange={(values, sourceInfo) => {
           const { floatValue } = values;
-          handleInputChanges(row, floatValue);
+          handleInputChanges(row, floatValue == undefined ? 0 : floatValue );
           // const { event, source } = sourceInfo;
         }}
         displayType="input"

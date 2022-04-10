@@ -25,6 +25,7 @@
     "file-saver": "^2.0.5",
     "fs": "^0.0.1-security",
     "install": "^0.13.0",
+    "json2mq": "^0.2.0",
     "next": "latest",
     "next-redux-wrapper": "^7.0.5",
     "npm": "^8.2.0",

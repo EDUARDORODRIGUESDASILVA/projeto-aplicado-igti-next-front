@@ -75,7 +75,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   }
 
   set inputValor(valor: number) {
-    if (valor !== this.ipct) {
+    if (valor !== this.ivalor) {
     this.ivalor = valor
     this.calculaMetaAjustada()
     if (this.parent) {

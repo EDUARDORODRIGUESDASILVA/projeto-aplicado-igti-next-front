@@ -318,10 +318,11 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
   }
 
   const handleInputValor = (row: AjustarProdutoRow, valor: number) => {
-    if (row.inputValor !== valor) {
-      row.inputValor = valor ? valor : 0
-      setrows([...rows])
-    }
+    console.log(valor)
+    if (valor == undefined)
+      valor = 0
+    row.inputValor = valor
+    setrows([...rows])
   }
 
   const handleInputPct = (row: AjustarProdutoRow, pct: number) => {

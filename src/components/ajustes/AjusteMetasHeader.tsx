@@ -98,7 +98,7 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                 ) : <></>
               }
 
-              {
+              {/* {
                 actions.ajuste.unidade.tipo == 'SEV' ? (
 
                   <Button variant="text"
@@ -109,7 +109,7 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                   </Button>
 
                 ) : <></>
-              }
+              } */}
 
 
 

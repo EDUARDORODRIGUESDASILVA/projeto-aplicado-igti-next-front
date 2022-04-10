@@ -23,7 +23,10 @@ import { useFetchLoggedUser } from '../../hooks/useFetchLoggedUser';
 import { useRouter } from 'next/router'
 import { selectSidebarState } from '../../store/sidebarSlice';
 import { toggleSidebar} from '../../store/sidebarSlice';
-import { Alert } from '@mui/material';
+import { Alert, AlertTitle } from '@mui/material';
+import json2mq from 'json2mq';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 const drawerWidth: number = 240;
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -170,15 +173,33 @@ interface LayoutProps {
 export default function Dashboard({ children }: LayoutProps) {
   const {user, isLoading, error} = useFetchLoggedUser()
 
+  const matches = useMediaQuery(
+    json2mq({
+      minWidth: 1440,
+    }),
+  );
+
+
+
    if (!user) {
     return <DashboardContent>
       <SignIn isloading={isLoading} error={error} ></SignIn>
     </DashboardContent>
   }
 
+  if (!matches) {
+    return <DashboardContent>
+      <Alert severity="error">
+        <AlertTitle>Resolução não suportada!</AlertTitle>
+        Para uma melhor experiência, utilize um dispositivo com uma <strong>resolução mínima de 1440px.</strong>
+      </Alert>
+    </DashboardContent>
+  }
+
   if(user){
     return <>
       <DashboardContent>
+
         {children}
       </DashboardContent>
     </>

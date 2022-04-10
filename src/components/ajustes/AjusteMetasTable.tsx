@@ -8,7 +8,7 @@ export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
   if (actions.ajuste) {
     return (
       <>
-        <TableContainer sx={{ maxHeight: '60vh', marginTop: '2px' }}>
+        <TableContainer sx={{ maxHeight: 'calc(100vh - 310px)', marginTop: '2px' }}>
           <Table stickyHeader size="small">
             <AjusteMetasTableHeader
               actions={actions}

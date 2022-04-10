@@ -158,7 +158,10 @@ export class AjusteMetas implements IAjustarProduto {
   }
   private calcularShare() {
     this.pallrows.forEach(r => {
+      if(this.metaReferencia)
       r.shareRef = (r.metaReferencia / this.metaReferencia) * 100
+
+      if (this.metaAjustada)
       r.shareAjustado = (r.metaAjustada / this.metaAjustada) * 100
     })
   }
