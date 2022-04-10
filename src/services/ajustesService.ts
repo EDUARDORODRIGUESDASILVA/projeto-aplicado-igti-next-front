@@ -5,7 +5,8 @@ import { AjusteMetas } from '../core/model/ajustar-objetivos/AjusteMetas';
 import { IRowAjustar } from '../core/interfaces/ajustar-objetivos/IRowAjustar';
 import { IUser } from '../core/interfaces/IUser';
 
-export async function fetchAjustesAgregador(tipo: 'AG' | 'SE', unidadeId: number, produtoId: number): Promise<IAjustarProduto> {
+export async function fetchAjustesAgregador(tipo: 'AG' | 'SE',
+ unidadeId: number, produtoId: number): Promise<IAjustarProduto> {
   try {
     const resp = await instance.get(`/objetivo/ajustar/${tipo}/${unidadeId}/${produtoId}`)
 
@@ -22,8 +23,10 @@ export async function fetchAjustesAgregador(tipo: 'AG' | 'SE', unidadeId: number
   }
 }
 
-export async function criarAjustePorAgregador(tipo: 'AG' | 'SE',unidadeId: number, produtoId: number): Promise<AjusteMetas> {
-  const fetched: IAjustarProduto = await fetchAjustesAgregador(tipo, unidadeId, produtoId)
+export async function criarAjustePorAgregador(tipo: 'AG' | 'SE',
+unidadeId: number, produtoId: number): Promise<AjusteMetas> {
+  const fetched: IAjustarProduto = await fetchAjustesAgregador(tipo,
+    unidadeId, produtoId)
 
   const rows: AjustarProdutoRow[] = []
 
@@ -32,6 +35,7 @@ export async function criarAjustePorAgregador(tipo: 'AG' | 'SE',unidadeId: numbe
   )
 
   const ajuste: AjusteMetas = new AjusteMetas(
+    tipo,
     fetched.unidade,
     fetched.produto,
     fetched.metaReferencia,
@@ -48,8 +52,9 @@ interface IUpdateObjetivosLote {
   metaAjustada: number
 }
 
-export async function atualizarObjetivosLote(tipo: 'AG' | 'SE', unidadeId: number, produtoId: number,
-   ajuste: AjusteMetas, gravaReferencia: boolean): Promise<IUser> {
+export async function atualizarObjetivosLote(tipo: 'AG' | 'SE',
+unidadeId: number, produtoId: number,
+  ajuste: AjusteMetas, gravaReferencia: boolean): Promise<IUser> {
   try {
     const lote: IUpdateObjetivosLote[] = []
 
@@ -96,7 +101,7 @@ export async function fetchBaseCompleta(query: IFetchBaseCompletaQuery): Promise
       squery = `?se=${query.se}`
     }
 
-     if (query.produtoId) {
+    if (query.produtoId) {
       squery += `&produtoId=${query.produtoId}`
     }
 
@@ -122,14 +127,18 @@ function baseCompletaCalcula(ajustes: IRowAjustar[]): AjustarProdutoRow[] {
     r => rows.push(new AjustarProdutoRow(r))
   )
 
-  rows.forEach( r => {
-    const totalRef = rows.map( j => j.Produto.id == r.Produto.id ? j.metaReferencia : 0).reduce( (p, c) => p + c, 0)
-    const totalAjustado = rows.map( j => j.Produto.id == r.Produto.id ? j.metaAjustada : 0).reduce( (p, c) => p + c, 0)
+  rows.forEach(r => {
+    const totalRef = rows
+      .map(j => j.Produto.id == r.Produto.id ? j.metaReferencia : 0)
+      .reduce((p, c) => p + c, 0)
+    const totalAjustado = rows
+      .map(j => j.Produto.id == r.Produto.id ? j.metaAjustada : 0)
+      .reduce((p, c) => p + c, 0)
     r.shareRef = (r.metaReferencia / (totalRef ? totalRef : 1)) * 100
-    r.shareAjustado = (r.metaAjustada / (totalAjustado ? totalAjustado: 1)) * 100
+    r.shareAjustado = (r.metaAjustada / (totalAjustado ? totalAjustado : 1)) * 100
   })
 
-  rows.sort( (a: AjustarProdutoRow, b: AjustarProdutoRow) => {
+  rows.sort((a: AjustarProdutoRow, b: AjustarProdutoRow) => {
     if (a.erros > b.erros) {
       return -1
     }
@@ -157,7 +166,7 @@ function baseCompletaCalcula(ajustes: IRowAjustar[]): AjustarProdutoRow[] {
       return -1
     }
 
-     if (a.Unidade.nome > b.Unidade.nome) {
+    if (a.Unidade.nome > b.Unidade.nome) {
       return 1
     }
 

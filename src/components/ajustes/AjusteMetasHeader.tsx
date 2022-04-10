@@ -73,7 +73,7 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                     }
 
 
-                    <Button variant="text"
+                    {/* <Button variant="text"
                       sx={{ mr: 1 }}
                       disabled={
                         actions.ajuste.saldo !== 0 //||  -- temporiamente desabilitado para testes
@@ -84,7 +84,7 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
 
                     >
                       Gravar Ref.
-                    </Button>
+                    </Button> */}
 
                     {/* <Button variant="text"
                       sx={{ mr: 1 }}

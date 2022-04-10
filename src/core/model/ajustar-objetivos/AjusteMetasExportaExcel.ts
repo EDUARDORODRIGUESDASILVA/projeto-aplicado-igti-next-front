@@ -23,13 +23,13 @@ export class AjusteMetasExportaExcel {
     const plan = workbook.sheet('Sheet1');
     plan.name(planame);
 
-    const titlerow = plan.range('A1:S1');
+    const titlerow = plan.range('A1:T1');
     titlerow.style('horizontalAlignment', 'center');
     titlerow.style('fill', CoresExcel.COR_FUNDO_CABECALHO); // light gray
     titlerow.style('fontColor', CoresExcel.COR_TEXTO_CABECALHO); // dark gray
     titlerow.style('bold', true)
 
-    const title = plan.range('A1:S1');
+    const title = plan.range('A1:T1');
     title.merged(true);
     title.style('horizontalAlignment', 'center');
     title.style('fill', CoresExcel.COR_FUNDO_CABECALHO); // light gray
@@ -42,11 +42,11 @@ export class AjusteMetasExportaExcel {
 
     let coluna = 0
     let linha = 2
-    const nomescolunas = plan.range('A2:S2');
+    const nomescolunas = plan.range('A2:T2');
     nomescolunas.style('fill', CoresExcel.COR_FUNDO_COLUNAS);
     nomescolunas.style('fontColor', CoresExcel.COR_TEXTO_COLUNAS);
     nomescolunas.style('bold', true)
-    const colunasf = workbook.sheet(0).range('A2:S2');
+    const colunasf = workbook.sheet(0).range('A2:T2');
     colunasf.autoFilter();
     plan.freezePanes(4, 2);
 
@@ -84,6 +84,9 @@ export class AjusteMetasExportaExcel {
     plan.cell(linha, ++coluna).value('Referência').style('horizontalAlignment', 'center');
     plan.column(coluna).width(15).style('numberFormat', '#,##0.00;[Red]-#,##0.00');
 
+    plan.cell(linha, ++coluna).value('Trocas').style('horizontalAlignment', 'center');
+    plan.column(coluna).width(15).style('numberFormat', '#,##0.00;[Red]-#,##0.00');
+
     plan.cell(linha, ++coluna).value('Ajustada').style('horizontalAlignment', 'center');
     plan.column(coluna).width(15).style('bold', true).style('numberFormat', '#,##0.00;[Red]-#,##0.00');
 
@@ -116,7 +119,7 @@ export class AjusteMetasExportaExcel {
       let coluna = 0
 
       if (r.erros > 0) {
-        const address = `A${linha}:M${linha}`
+        const address = `A${linha}:T${linha}`
         plan.range(address).style('bold', true).style('fill', 'FFEBEE')
       }
 
@@ -152,6 +155,9 @@ export class AjusteMetasExportaExcel {
 
       const referencia2 = plan.cell(linha, ++coluna)
       referencia2.value(r.metaReferencia2)
+
+      const trocas = plan.cell(linha, ++coluna)
+      trocas.value(r.trocas)
 
       const ajustada = plan.cell(linha, ++coluna)
       ajustada.value(r.metaAjustada)

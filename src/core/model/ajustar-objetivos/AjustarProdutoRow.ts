@@ -60,7 +60,7 @@ export class AjustarProdutoRow implements IRowAjustar {
     this.ativo = r.ativo
 
     this.ipct = 0
-    this.ivalor = this.metaAjustada - (this.metaReferencia2 + this.trocas)
+    this.ivalor = this.metaAjustada - (this.metaReferencia2)
 
     this.erroPiso = false
     this.erroTrava = false
@@ -142,12 +142,12 @@ export class AjustarProdutoRow implements IRowAjustar {
     const novaMeta = this.metaAjustada + valor
     this.ipct = 0
     this.ivalor = 0
-    const novoValor = novaMeta - (this.metaReferencia2 + this.trocas)
+    const novoValor = novaMeta - (this.metaReferencia2)
     this.ivalor = novoValor
     this.calculaMetaAjustada()
   }
   private calculaMetaAjustada() {
-    this.metaAjustada = this.metaReferencia2 + this.trocas +
+    this.metaAjustada = this.metaReferencia2 +
       this.metaReferencia * (this.ipct / 100) + this.ivalor
     this.metaAjustada =this.metaAjustada
     this.verificaErros()
@@ -248,7 +248,7 @@ export class AjustarProdutoRow implements IRowAjustar {
   inicial() {
     this.ipct = 0
     this.ivalor = 0
-    const novoValor = this.metaReferencia - (this.metaReferencia2 + this.trocas)
+    const novoValor = this.metaReferencia - (this.metaReferencia2 )
     this.ivalor = novoValor
     this.calculaMetaAjustada()
   }

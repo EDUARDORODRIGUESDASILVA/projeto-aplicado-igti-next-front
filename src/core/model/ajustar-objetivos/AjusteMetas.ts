@@ -32,6 +32,7 @@ export class AjusteMetas implements IAjustarProduto {
   public trocas: number
   public readonly metaReferencia2: number
   constructor(
+    public visao: 'AG' | 'SE',
     public unidade: IUnidade,
     public produto: IProduto,
     metaReferencia: number,
@@ -253,10 +254,10 @@ export class AjusteMetas implements IAjustarProduto {
   }
   calculaSaldoDistribuir(): number {
     let distribuir = 0
-    if (this.unidade.tipo == 'SR')
-      distribuir =  (this.pmetaAjustada - (this.metaReferencia + this.pauxiliarTroca))
+    if (this.visao == 'SE')
+      distribuir =  (this.pmetaAjustada - (this.metaReferencia +  this.trocas + this.pauxiliarTroca))
     else
-      distribuir = (this.pmetaAjustada - (this.metaReferencia2 + this.trocas + this.pauxiliarTroca))
+      distribuir = (this.pmetaAjustada - (this.metaReferencia2 + this.pauxiliarTroca))
     return Math.trunc(distribuir * 100) / 100
   }
 
