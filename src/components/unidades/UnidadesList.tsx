@@ -102,7 +102,7 @@ export default function UnidadesList() {
               </Typography>
             </Box>
             <Box>
-              <Link href="/unidades/create">
+            <Link href="/unidades/create" passHref>
                 <Button variant="contained" color="primary">
                   Adicionar
                 </Button>

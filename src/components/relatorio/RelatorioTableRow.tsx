@@ -37,11 +37,11 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
           </Tooltip>
         </Link>
         {row.unidade.tipo == 'SR' ? (
-        <Link href={`/relatorio/${row.unidade.id}/${row.produto.id}`}>
+          <Link href={`/relatorio/${row.unidade.id}/${row.produto.id}`} passHref>
           <Button size="small">{row.produto.nome}</Button>
           </Link>
         ):<>
-            <Link href={`/ajustes/AG/${row.unidade.id}/${row.produto.id}`}>
+            <Link href={`/ajustes/AG/${row.unidade.id}/${row.produto.id}`} passHref>
               <Button size="small">{row.produto.nome}</Button>
             </Link>
         </>
@@ -51,10 +51,10 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
         <Stack direction="row" spacing={0}>
           {row.unidade.tipo == 'SR' ? (
             <>
-              <Link href={`/ajustes/AG/${row.unidade.id}/${row.produto.id}`}>
+              <Link href={`/ajustes/AG/${row.unidade.id}/${row.produto.id}`} passHref>
                 <Button size="small" color='secondary'>Agência</Button>
               </Link>
-               <Link href={`/ajustes/SE/${row.unidade.id}/${row.produto.id}`}>
+              <Link href={`/ajustes/SE/${row.unidade.id}/${row.produto.id}`} passHref>
                 <Button size="small" disabled={false} color='secondary'>SEV</Button>
               </Link>
             </>
