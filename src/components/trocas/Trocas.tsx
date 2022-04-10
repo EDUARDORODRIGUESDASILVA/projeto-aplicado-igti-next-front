@@ -1,7 +1,6 @@
 import { Alert, AlertTitle, Box, CircularProgress, Divider, Grid, Paper, Stack, Tab, Tabs } from "@mui/material"
 import { useRelatorioTrocas } from "../../hooks/useRelatorioTrocas"
 import TrocasHeader from "./TrocasHeader"
-import TrocasIncluir from "./TrocasIncluir"
 import TrocasModalIncluir from "./TrocasModalIncluir"
 import TrocasTable from "./TrocasTable"
 
@@ -35,8 +34,6 @@ export default function Trocas({unidadeId, closeModal }: { unidadeId: number, cl
       <TrocasHeader actions={actions} closeModal={closeModal} ></TrocasHeader>
 
       <Paper sx={{ width: '100%', height: '68vh', overflow:'auto', mt: '13px'}}>
-
-
         { actions.relatorio.trocas.length == 0 ?
         <Alert severity="warning" sx={{mb: '13px'}}>
           <AlertTitle>Nenhuma negociação localizada.</AlertTitle>
@@ -56,11 +53,8 @@ export default function Trocas({unidadeId, closeModal }: { unidadeId: number, cl
       </Paper>
     </>
   }
-
-
   return (
-    <>
-    </>
+    <></>
   )
 }
 

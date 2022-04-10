@@ -35,7 +35,6 @@ export class RelatorioTrocasExportaExcel {
   }
 
   private geraWorkbook(workbook: XlsxPopulate.Workbook): XlsxPopulate.Workbook {
-
     const plan = workbook.sheet('Sheet1');
     plan.name('Trocas');
 
@@ -99,8 +98,6 @@ export class RelatorioTrocasExportaExcel {
     plan.cell(linha, ++coluna).value('Homologado por').style('horizontalAlignment', 'center');
     plan.column(coluna).width(35).style('fontColor', '7B7B7B')
 
-
-
     nomescolunas.style('fontColor', CoresExcel.COR_TEXTO_COLUNAS);
     linha++
 
@@ -137,20 +134,14 @@ export class RelatorioTrocasExportaExcel {
       const status = workbook.sheet(0).cell(linha, coluna++)
       status.value(r.status)
 
-
       const criador = workbook.sheet(0).cell(linha, coluna++)
       criador.value(r.criadoUserId + ' - ' + r.criador?.nome)
 
       const homologador = workbook.sheet(0).cell(linha, coluna++)
       if (r.homologador)
         homologador.value(r.homologadoUserId + ' - ' + r.homologador?.nome )
-
-
       linha++
-
     })
-
     return workbook
-
   }
 }

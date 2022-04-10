@@ -9,6 +9,7 @@ import AjusteMetasTableSortLabel from "./AjusteMetasTableSortLabel";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { selectSidebarState } from '../../store/sidebarSlice';
 import { useAppSelector } from "../../store/hooks";
+
 export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjuste }) {
   const [showAuxiliarInput, setshowAuxiliarInput] = useState(false);
   const sidebarOpen = useAppSelector(selectSidebarState);
@@ -179,6 +180,5 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
         }
       </TableHead>
     )
-
   return <></>
 }

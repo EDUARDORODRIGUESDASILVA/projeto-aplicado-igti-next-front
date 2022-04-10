@@ -18,8 +18,7 @@ export default function Relatorio() {
         sx={{ mt: '26px' }}
         direction="row"
         justifyContent="center"
-        alignItems="center"
-      >
+        alignItems="center">
         <CircularProgress color="secondary" />
       </Stack>
     </>

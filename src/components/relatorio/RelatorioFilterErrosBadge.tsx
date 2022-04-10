@@ -17,7 +17,6 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 export default function RelatorioFilterErrosBadge({ actions }: { actions: IUseRelatorio }) {
 
   const [checked, setchecked] = useState(false);
-
   const toggleChecked = () => {
     if(actions.relatorio) {
       const j: RelatorioPorAgregadorFilter = {
@@ -31,8 +30,8 @@ export default function RelatorioFilterErrosBadge({ actions }: { actions: IUseRe
       actions.handleFilterChange(j)
       actions.setPage(0)
     }
-
   }
+
   if (actions.relatorio)
     return (
       <IconButton aria-label="cart" onClick={toggleChecked}

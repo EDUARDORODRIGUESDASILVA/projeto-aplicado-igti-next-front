@@ -38,7 +38,6 @@ export default function AjusteMetas() {
   }
 
   if (actions.ajuste)
-
   return (
     <>
       <AjusteMetasHeader actions={actions}></AjusteMetasHeader>
@@ -52,5 +51,5 @@ export default function AjusteMetas() {
     </>
   )
 
-  return <>TESTE</>
+  return <></>
 }

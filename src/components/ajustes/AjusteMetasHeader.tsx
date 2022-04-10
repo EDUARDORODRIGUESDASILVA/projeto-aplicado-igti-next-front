@@ -8,8 +8,10 @@ import AjusteMetasSubHeader from "./AjusteMetasSubHeader";
 import { useAppSelector } from "../../store/hooks";
 import { selectSidebarState } from '../../store/sidebarSlice';
 export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) {
+
   const router = useRouter()
   const sidebarOpen = useAppSelector(selectSidebarState);
+
   const handleAvatarClick = () => {
     router.push(`/relatorio/${actions.ajuste?.unidade.id}`)
   }
@@ -36,20 +38,15 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                 onClick={handleAvatarClick}
               >
                 <Avatar sx={{ bgcolor: red[500] }}
-
                   aria-label="recipe">
                   <small>{actions.ajuste.unidade.id}</small>
                 </Avatar>
               </IconButton>
             }
             action={<Box sx={{ mt: '13px' }}>
-
-
               {
                 actions.ajuste.unidade.tipo == 'SR' ? (
                   <>
-
-
                     {actions.tipo == 'AG' ? (
                       <Button variant="text"
                         sx={{ mr: 1 }}
@@ -71,8 +68,6 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                       </Button>
                     ) : <></>
                     }
-
-
                     {/* <Button variant="text"
                       sx={{ mr: 1 }}
                       disabled={
@@ -81,7 +76,6 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                         || actions.isActive == 0
                         || actions.isUploading}
                       onClick={() => { actions.handleGravar(true); }}
-
                     >
                       Gravar Ref.
                     </Button> */}
@@ -93,8 +87,6 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                       OUTLIERS
                     </Button> */}
                   </>
-
-
                 ) : <></>
               }
 
@@ -110,9 +102,6 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
 
                 ) : <></>
               } */}
-
-
-
               <Button variant="text"
                 sx={{ mr: 1 }}
                 onClick={() => actions.handleGerarExcel()}
@@ -120,10 +109,7 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
               >
                 Excel
               </Button>
-
-
               <AjustesUploadButton actions={actions} />
-
 
               <Button variant="text"
                 sx={{ mr: 1 }}
@@ -153,16 +139,12 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                   </small>
                 ) : (<>Gravar </>)
                 }
-
-
               </Button>
-
             </Box>}
             title={
               <>
                 <Title>{actions.ajuste.produto.nome}</Title>
               </>
-
             }
             subheader={<AjusteMetasSubHeader actions={actions}></AjusteMetasSubHeader>}
           />

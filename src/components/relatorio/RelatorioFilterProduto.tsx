@@ -13,7 +13,6 @@ export default function RelatorioFilterProduto({ actions }: { actions: IUseRelat
 
   const handleChange = (event: object, value: IProduto | IProduto[], reason: string) => {
     console.log({event, value, reason})
-
   }
 
   if (actions.relatorio)

@@ -9,19 +9,19 @@ import { closeTrocasModal, selectTrocasModalState, toggleTrocasModal } from '../
 import { createTheme, ThemeProvider } from '@mui/material';
 
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  width: '95%',
-  height: '95%',
+// const style = {
+//   position: 'absolute' as 'absolute',
+//   top: '50%',
+//   left: '50%',
+//   width: '95%',
+//   height: '95%',
 
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'background.paper',
+//   transform: 'translate(-50%, -50%)',
+//   bgcolor: 'background.paper',
 
-  boxShadow: 10,
-  p: 3,
-};
+//   boxShadow: 10,
+//   p: 3,
+// };
 const mdTheme = createTheme();
 
 export default function TrocasModal( props: { unidadeId: number}) {

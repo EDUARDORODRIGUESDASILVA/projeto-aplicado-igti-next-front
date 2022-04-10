@@ -3,8 +3,6 @@ import { deepOrange } from '@mui/material/colors';
 import { useAppSelector } from '../../store/hooks';
 import { selectUser } from '../../store/userSlice';
 
-import AccountMenu from './AcountMenu';
-
 function stringToColor(string: string) {
   let hash = 0;
   let i;

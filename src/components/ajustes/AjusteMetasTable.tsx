@@ -41,6 +41,5 @@ export default function AjusteMetasTable({ actions }: { actions: IUseAjuste }) {
       </>
     )
   }
-
   return <></>
 }

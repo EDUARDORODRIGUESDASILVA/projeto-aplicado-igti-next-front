@@ -33,7 +33,6 @@ export const useBaseCompletaPorAgregador = () => {
       seterror('Não foi possível baixar os ajustes!')
       setisLoading(false)
     }
-
   }
 
     const handleExcelBaseCompleta = async (agregador: IUnidade, produtoId?: number) => {
@@ -46,7 +45,6 @@ export const useBaseCompletaPorAgregador = () => {
       const gerador: AjusteMetasExportaExcel =  new AjusteMetasExportaExcel()
       await gerador.gerarExcel(nome, planame, titulo, base)
       setisLoading(false)
-
     } else {
        setisLoading(false)
     }

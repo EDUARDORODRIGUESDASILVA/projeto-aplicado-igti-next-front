@@ -41,15 +41,10 @@ export class RelatorioPorAgregador implements IRelatorio {
       unidades: [],
       textSearch: ''
     }
-
-
     this.sortRows()
     this.totalizar()
     this.sortRows()
     this.filterRows()
-
-
-
   }
 
   totalizar() {

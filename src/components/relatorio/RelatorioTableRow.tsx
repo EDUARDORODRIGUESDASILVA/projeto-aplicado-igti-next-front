@@ -9,7 +9,6 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
   const rowBackgroundColor = () => {
     if (row.erros > 0 || Math.abs(row.saldo) > 0.015)
       return '#ffebee'
-
     // if (row.gravado  === row.qtdlinhas)
     //   return '#dfffdb'
     // return ''
@@ -29,7 +28,6 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
       hover={true}
       sx={{ backgroundColor: rowBackgroundColor() }}
     >
-
       <TableCell colSpan={1} padding='none'>
         <Link href={`/relatorio/${row.unidade.id}`} passHref>
           <Tooltip title={row.unidade.nome} placement="right">
@@ -60,25 +58,17 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
             </>
           ) : (<></>)}
         </Stack>
-
-
       </TableCell>
 
       <TableCell align="right" sx={{
         color: (row.metaReferencia2 < 0 ? 'red' : '')
-      }}
-
-      >
-
+      }}>
         <NumberTextFormat value={row.metaReferencia} />
       </TableCell>
 
       <TableCell align="right" sx={{
         color: (row.metaReferencia2 < 0 ? 'red' : '')
-      }}
-
-      >
-
+      }}>
         <NumberTextFormat value={row.metaReferencia2} />
       </TableCell>
 
@@ -86,20 +76,15 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
         sx={{
           fontWeight: (row.trocas !== 0 ? 'bold': ''),
           color: (row.trocas < 0 ? 'red' : '')
-        }}
-
-      >
+        }}>
         <NumberTextFormat value={row.trocas} />
       </TableCell>
-
 
       <TableCell align="right"
         sx={{
         fontWeight: 'bold',
         color: (row.metaAjustada < 0 ? 'red' : '')
-      }}
-      >
-
+      }}>
         <NumberTextFormat value={row.metaAjustada} />
       </TableCell>
 
@@ -107,9 +92,7 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
         paddingLeft: '13px',
         fontWeight: (Math.abs(row.saldo) >= 0.02 ? 'bold' : ''),
         color: (Math.abs(row.saldo) >= 0.02 ? 'red' : '')
-      }}
->
-
+      }}>
         <NumberTextFormat value={row.saldo} />
       </TableCell>
 
@@ -117,7 +100,6 @@ export default function RelatorioTableRow({ row, actions }: { row: RelatorioPorA
         <Chip variant="outlined" size="small" label={row.gravado + '/' + row.qtdlinhas} />
         {/* {row.gravado}/{row.qtdlinhas} */}
       </TableCell>
-
     </TableRow>
   )
 }

@@ -63,6 +63,7 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
   const [isActive, setIsActive] = useState<SituacaoAtivo>(SituacaoAtivo.Fechado);
   const [sortOptions, setsortOptions] = useState <IAjusteMetasSortSelected>( {chave: 'Ajustada', sortOrder: 'desc'});
   const [selectedRow, setSelectedRow] = useState <AjustarProdutoRow>();
+
   useEffect(() => {
     if (ajuste) {
       const r = orderRows(ajuste.rows, sortOptions)
@@ -81,12 +82,10 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
   useEffect(() => {
     refetch({})
     return () => {
-
     };
   }, [tipo]);
 
   const verificaAtivo = (rows: AjustarProdutoRow[]): SituacaoAtivo => {
-
     if (ajuste && ajuste.rows.length > 0){
       const t = rows.map(r => r.ativo).reduce((p, n) => Math.max(p, n))
 
@@ -149,7 +148,6 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
 
   const handleSortChange = (sortOptions: IAjusteMetasSortSelected) => {
     if (ajuste) {
-
       const rows = ajuste.rows
       setrows(orderRows(rows, sortOptions))
       setsortOptions(sortOptions)
@@ -186,9 +184,7 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
       if (field === 'Minima') {
         return (a.metaMinima < b.metaMinima ? order : (a.metaMinima > b.metaMinima ? -order : 0))
       }
-
       return 0
-
     }).slice( 0, 9999)
 
     return sortedRows
@@ -204,9 +200,7 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
           //const r= ajuste.rows
           setSnack({ open: true, message: 'Arquivo importado com sucesso!', severity: 'success' })
           setrows(r)
-
         }
-
       } catch (error) {
         console.log(error)
         setSnack({ open: true, message: 'Arquivo com layout incorreto! ' + error, severity: 'error' })
@@ -270,7 +264,6 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
       }
       handleFiltro(value)
     }
-
   }
 
     const handleToogleSEV = (sev: number) => {
@@ -313,7 +306,6 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
             f.erros = true
       }
     })
-
     return f
   }
 
@@ -357,7 +349,6 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
             handleGerarExcel()
             ajuste.updateUser(user)
             setrows([...rows])
-
             if (referencia){
               handleAtualizar()
             }
@@ -425,7 +416,6 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
     setFilterValue,
     setPage,
     setRowsPerPage
-
   }
   return a
 }

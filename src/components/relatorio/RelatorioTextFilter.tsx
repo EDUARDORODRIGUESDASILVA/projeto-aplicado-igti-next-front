@@ -24,8 +24,6 @@ export default function RelatorioTextFilter({ actions }: { actions: IUseRelatori
       actions.handleFilterChange(filtro)
     }
   };
-
-
   if (actions.relatorio) {
     return (
       <TextField id="input-with-sx"
@@ -52,7 +50,6 @@ export default function RelatorioTextFilter({ actions }: { actions: IUseRelatori
           )
         }}
         placeholder="Pesquisa" size="small" variant="outlined" />
-
     )
   }
 

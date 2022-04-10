@@ -153,19 +153,20 @@ function DashboardContent({ children }: LayoutProps) {
                 : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
-            overflow: 'auto',
+            overflow: 'hidden',
           }}
         >
           <Toolbar />
           <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
             {children}
+
           </Container>
         </Box>
+
       </Box>
     </ThemeProvider>
   );
 }
-
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -178,8 +179,6 @@ export default function Dashboard({ children }: LayoutProps) {
       minWidth: 1440,
     }),
   );
-
-
 
    if (!user) {
     return <DashboardContent>
@@ -199,7 +198,6 @@ export default function Dashboard({ children }: LayoutProps) {
   if(user){
     return <>
       <DashboardContent>
-
         {children}
       </DashboardContent>
     </>

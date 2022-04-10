@@ -2,19 +2,27 @@ import { Box, Button,  Container,Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import Image from 'next/image'
 import Logo from './logo.svg';
+import { selectUser } from '../../store/userSlice';
+import { useAppSelector } from '../../store/hooks';
 export default function HomeGrid() {
   const router = useRouter()
+  const user = useAppSelector(selectUser);
 
   function go() {
-    router.push('/relatorio/2625')
+    router.push(`/relatorio/${user?.unidadeId}`)
+  }
+
+  function goTrocas() {
+    router.push('/trocas')
   }
   return (
     <div>
       <Box
         sx={{
           bgcolor: 'background.paper',
-          pt: 5,
-          pb: 5,
+          pt: 10,
+          pb: 10,
+          height: 'calc(100vh - 100px)'
         }}
       >
         <Container maxWidth="lg">
@@ -42,7 +50,7 @@ export default function HomeGrid() {
             justifyContent="center"
           >
             <Button variant="contained" onClick={go} >Relatório</Button>
-            <Button variant="outlined">Trocas</Button>
+            <Button variant="outlined" onClick={goTrocas}>Trocas</Button>
           </Stack>
         </Container>
       </Box>

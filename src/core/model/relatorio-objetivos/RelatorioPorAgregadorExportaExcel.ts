@@ -99,7 +99,6 @@ export class RelatorioPorAgregadorExportaExcel {
     plan.cell(linha, ++coluna).value('Gravadas').style('horizontalAlignment', 'center');
     plan.column(coluna).width(13).style('fontColor', '7B7B7B').style('horizontalAlignment', 'center')
 
-
     nomescolunas.style('fontColor', CoresExcel.COR_TEXTO_COLUNAS);
     linha++
 
@@ -152,12 +151,8 @@ export class RelatorioPorAgregadorExportaExcel {
       if (r.erros == 0 && r.qtdlinhas == r.gravado) {
         gravadas.style('bold', true).style('fill', 'E2EFDA')
       }
-
       linha++
-
     })
-
     return workbook
-
   }
 }

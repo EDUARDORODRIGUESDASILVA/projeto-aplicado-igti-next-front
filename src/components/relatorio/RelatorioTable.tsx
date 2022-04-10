@@ -1,8 +1,7 @@
-import { Box, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import RelatorioFilterErrosBadge from "./RelatorioFilterErrosBadge";
 import RelatorioTableRow from "./RelatorioTableRow";
 import RelatorioTextFilter from "./RelatorioTextFilter";
-import SearchIcon from '@mui/icons-material/Search';
 
 import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
 
@@ -32,16 +31,15 @@ export default function RelatorioTable({ actions }: { actions: IUseRelatorio }) 
                   Negociações
                 </TableCell>
 
-                <TableCell align="center"
-              >
+                <TableCell align="center">
                   Ajustada
                 </TableCell>
 
-                <TableCell align="center" >
+                <TableCell align="center">
                   Saldo
                 </TableCell>
 
-                <TableCell align="center" >
+                <TableCell align="center">
                   <RelatorioFilterErrosBadge actions={actions}></RelatorioFilterErrosBadge>
                 </TableCell>
               </TableRow>

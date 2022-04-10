@@ -31,6 +31,7 @@ export class AjusteMetas implements IAjustarProduto {
   public metaReferencia: number
   public trocas: number
   public readonly metaReferencia2: number
+
   constructor(
     public visao: 'AG' | 'SE',
     public unidade: IUnidade,
@@ -77,9 +78,11 @@ export class AjusteMetas implements IAjustarProduto {
     this.pauxiliarTroca = Math.trunc(valor * 100) / 100
     this.totalizar()
   }
+
   get filter() {
     return this.pfilter
   }
+
   set filter(f: IAjusteMetasFiltro) {
     this.pfilter = f
     this.filtrar(f)
@@ -156,6 +159,7 @@ export class AjusteMetas implements IAjustarProduto {
   updateUser(user: IUser) {
     this.pallrows.forEach( r => { r.Usuario = user, r.userId = user.matricula} )
   }
+
   private calcularShare() {
     this.pallrows.forEach(r => {
       if(this.metaReferencia)
@@ -165,6 +169,7 @@ export class AjusteMetas implements IAjustarProduto {
       r.shareAjustado = (r.metaAjustada / this.metaAjustada) * 100
     })
   }
+
   get metaAjustada() {
     return this.pmetaAjustada
   }
@@ -181,7 +186,6 @@ export class AjusteMetas implements IAjustarProduto {
     this.psaldo = Math.trunc(this.psaldo * 100) / 100
       return this.psaldo
   }
-
 
   get saldo() {
     return Math.trunc(this.psaldo * 100) / 100

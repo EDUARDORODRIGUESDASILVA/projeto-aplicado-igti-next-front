@@ -71,10 +71,5 @@ export const getOptions = (rows: AjustarProdutoRow[]): AjusteMetasFiltroOption[]
     }
     options.push(o)
   })
-
-
-
-
-
   return options
 }

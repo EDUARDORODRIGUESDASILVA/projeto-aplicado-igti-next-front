@@ -39,7 +39,6 @@ export class AjusteMetasExportaExcel {
     title.style('fontSize', 11);
     title.value(titulo);
 
-
     let coluna = 0
     let linha = 2
     const nomescolunas = plan.range('A2:T2');
@@ -49,7 +48,6 @@ export class AjusteMetasExportaExcel {
     const colunasf = workbook.sheet(0).range('A2:T2');
     colunasf.autoFilter();
     plan.freezePanes(4, 2);
-
 
     plan.cell(linha, ++coluna).value('id').style('horizontalAlignment', 'center');
     plan.column(coluna).width(7).style('bold', true)

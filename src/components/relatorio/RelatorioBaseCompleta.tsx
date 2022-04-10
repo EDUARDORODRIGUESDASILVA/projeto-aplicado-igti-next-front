@@ -3,14 +3,12 @@ import { useBaseCompletaPorAgregador } from "../../hooks/useBaseCompletaPorAgreg
 import { IUseRelatorio } from "../../hooks/useRelatorioPorAgregador";
 
 export default function RelatorioBaseCompleta({actions}: {actions: IUseRelatorio}) {
-
-
   const {isLoading, handleExcelBaseCompleta} = useBaseCompletaPorAgregador()
 
   const agregador = actions.relatorio?.agregador
   const produtoId = actions.produtoId
-  if (agregador) {
 
+  if (agregador) {
     return (
     <Button variant="text"
       sx={{ mr: 1 }}

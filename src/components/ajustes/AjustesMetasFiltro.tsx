@@ -7,8 +7,6 @@ import { AjusteMetasFiltroOption } from "../../core/model/ajustar-objetivos/Ajus
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-
-
 export default function AjustesMetasFiltro({ actions }: { actions: IUseAjuste }) {
 
   const handleChange = (event: object, value: AjusteMetasFiltroOption[], reason: string) => {

@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
 
 type Order = 'asc' | 'desc';
-
-
 type IAjusteMetasSortKey = 'Ajustada' | 'Referencia' | 'Referencia2' | 'Cluster' | 'Minima' | 'Unidade'
 export interface IAjusteMetasSortOptions {
   chave: IAjusteMetasSortKey,
@@ -13,7 +11,6 @@ export interface IAjusteMetasSortOptions {
   fisrtSort: Order
   enabled: boolean
 }
-
 export interface IAjusteMetasSortSelected {
   chave: IAjusteMetasSortKey,
   sortOrder: Order
@@ -41,7 +38,6 @@ export default function AjusteMetasTableSortLabel({ actions, options }:
   }
 
   const toggleSortOrder = () => {
-
     let newOrder = sortOrder
     // if (actions.sortOptions.chave == options.chave)
     //   newOrder = actions.sortOptions.sortOrder
@@ -49,8 +45,6 @@ export default function AjusteMetasTableSortLabel({ actions, options }:
     newOrder = (newOrder === 'asc' ?  'desc': 'asc')
     setsortOrder(newOrder)
     handleSortChange(newOrder)
-
-
   }
 
   if (options && options.enabled)

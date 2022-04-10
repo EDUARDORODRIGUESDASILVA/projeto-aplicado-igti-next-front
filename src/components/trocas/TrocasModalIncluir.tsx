@@ -32,7 +32,6 @@ export default function TrocasModalIncluir({ actions }: { actions: IUseRelatorio
         Incluir Negociação
       </Button>
 
-
       <ThemeProvider theme={mdTheme}>
         <Modal
           open={open}
@@ -58,7 +57,6 @@ export default function TrocasModalIncluir({ actions }: { actions: IUseRelatorio
             }}
           >
             <TrocasIncluir actions={actions} closeModal={handleClose}></TrocasIncluir>
-
           </Box>
         </Modal>
       </ThemeProvider>

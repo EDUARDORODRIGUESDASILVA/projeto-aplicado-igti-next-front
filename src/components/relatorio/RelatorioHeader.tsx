@@ -9,11 +9,9 @@ import RelatorioBaseCompleta from "./RelatorioBaseCompleta";
 import TrocasModal from "../trocas/TrocasModal";
 import TrocasButton from "../trocas/TrocasButton";
 
-
 export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
   const router = useRouter()
   const user = useAppSelector(selectUser);
-
 
   const handleAvatarClick = () => {
     if (actions.relatorio){
@@ -26,7 +24,6 @@ export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
       }
     }
   }
-
 
   if(actions.relatorio) {
     return (
@@ -64,9 +61,7 @@ export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
               Excel
             </Button>
 
-
             <Button variant="text"
-
               onClick={() => { actions.handleAtualizar() }}
             >
               Atualizar
@@ -81,6 +76,4 @@ export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
   }
 
   return <></>
-
-
 }

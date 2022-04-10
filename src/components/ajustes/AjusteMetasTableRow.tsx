@@ -36,7 +36,6 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
 
           ) : (<></>)}
           {row.Unidade.nome}
-
         </Typography>
       </TableCell>
 
@@ -51,7 +50,6 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
            ) : row.Unidade.tipo +'P'+ row.Unidade.porte
             }
           </Button>
-
         </TableCell>
        ) :<></>}
       <TableCell padding='none' align="right" >
@@ -63,8 +61,6 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         color: (row.erroPiso ? 'red' : '')
       }}
       >
-
-
         <NumberTextFormat value={(actions.tipo == 'AG'? row.metaMinima : row.metaReferencia2)} />
       </TableCell>
 
