@@ -5,7 +5,7 @@ import { useAppSelector } from "../../store/hooks";
 import NumberInputFormat from "../../utils/NumberInputFormat";
 import NumberTextFormat from "../../utils/NumberTextFormat";
 import { selectSidebarState } from '../../store/sidebarSlice';
-
+import AjusteMetasOutlierPopOver from "./AjusteMetasOutlierPopOver";
 export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdutoRow, actions: IUseAjuste }) {
   const sidebarOpen = useAppSelector(selectSidebarState);
    return (
@@ -37,9 +37,17 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
           ) : (<></>)}
           {row.Unidade.nome}
         </Typography>
-      </TableCell>
 
+      </TableCell>
+       <TableCell padding='none'>
+         {actions.tipo == 'AG' && actions.ajuste && actions.ajuste.unidade.tipo == 'SR' ? (
+         <AjusteMetasOutlierPopOver row={row} actions={actions} ></AjusteMetasOutlierPopOver>
+         ):<></>}
+          </TableCell>
        {actions.tipo == 'AG' ? (
+         <>
+
+
       <TableCell padding='none' align="center">
 
         <Button size="small"
@@ -51,6 +59,8 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
             }
           </Button>
         </TableCell>
+
+         </>
        ) :<></>}
       <TableCell padding='none' align="right" >
         <NumberTextFormat value={row.metaReferencia} />
@@ -100,6 +110,7 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         sx={{ minWidth: '100px', maxWidth: '100px', fontWeight: 'bold' }}
       >
         <NumberTextFormat value={row.metaAjustada} />
+
       </TableCell>
 
       <TableCell padding='none' sx={{ paddingLeft: '13px',
@@ -126,6 +137,8 @@ export default function AjusteMetasTableRow({row, actions}: { row: AjustarProdut
         <Tooltip title={row.Usuario.nome} placement="left">
         <small>{row.userId}</small>
         </Tooltip>
+
+
       </TableCell>
    </TableRow>
   )

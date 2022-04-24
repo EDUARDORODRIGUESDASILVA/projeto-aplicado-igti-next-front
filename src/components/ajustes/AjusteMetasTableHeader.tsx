@@ -38,6 +38,8 @@ export default function AjusteMetasTableHeader({ actions }: { actions: IUseAjust
               }
             ></AjusteMetasTableSortLabel>
           </TableCell>
+          <TableCell padding='none'>
+        </TableCell>
 
           {actions.tipo == 'AG' ? (
           <TableCell padding='none' align="center" >

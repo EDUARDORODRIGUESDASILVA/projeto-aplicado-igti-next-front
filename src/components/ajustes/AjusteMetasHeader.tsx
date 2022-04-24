@@ -1,4 +1,4 @@
-import { Alert, Avatar, Box, Button, Card, CardHeader, CircularProgress, IconButton, LinearProgress, Snackbar, Tab, Tabs } from "@mui/material";
+import { Alert, Avatar, Box, Button, Card, CardHeader, CircularProgress, IconButton, LinearProgress, Snackbar } from "@mui/material";
 import Title from '../dashboard/Title';
 import { red } from '@mui/material/colors';
 import { IUseAjuste } from "../../hooks/useAjustePorAgregador";
@@ -16,7 +16,7 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
     router.push(`/relatorio/${actions.ajuste?.unidade.id}`)
   }
 
-  const handleChangeTipo = (tipo: 'AG' | 'SE')=> {
+  const handleChangeTipo = (tipo: 'AG' | 'SE') => {
     router.push(`/ajustes/${tipo}/${actions.ajuste?.unidade.id}/${actions.ajuste?.produto.id}`)
   }
 
@@ -48,13 +48,25 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                 actions.ajuste.unidade.tipo == 'SR' ? (
                   <>
                     {actions.tipo == 'AG' ? (
-                      <Button variant="text"
-                        sx={{ mr: 1 }}
-                        disabled={false}
-                        onClick={() => {handleChangeTipo('SE')}}
-                      >
-                       IR SEV
-                      </Button>
+                      <>
+                        <Button variant="text"
+                          sx={{ mr: 1 }}
+                          disabled={false}
+                          onClick={() => { handleChangeTipo('SE') }}
+                        >
+                          IR SEV
+                        </Button>
+
+                        <Button variant="text"
+                          sx={{ mr: 1 }}
+                          disabled={false}
+                          onClick={() => { actions.handleGerarExcelOutliers() }}
+                        >
+                          OUTLIERS
+                        </Button>
+                      </>
+
+
                     ) : <></>
                     }
 
@@ -120,7 +132,6 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
               </Button>
 
               <Button variant="text"
-
                 onClick={() => { actions.handleAtualizar() }}
               >
                 Atualizar

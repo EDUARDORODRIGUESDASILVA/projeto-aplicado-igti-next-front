@@ -7,7 +7,7 @@ import Divider from '@mui/material/Divider';
 import GroupIcon from '@mui/icons-material/Group';
 import { useRouter } from 'next/router';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { selectTrocasModalState } from '../../store/sidebarSlice';
 import { useAppSelector } from '../../store/hooks';
@@ -44,15 +44,18 @@ export default function SideNav() {
           <ListItemText primary="Negociações" />
         </ListItemButton>
 
-          <ListItemButton
+          {/* <ListItemButton
             disabled={true}
             selected={pathname == '/Outliers'}
             component="a" onClick={() => router.push('/outliers/')} >
             <ListItemIcon>
-              <ErrorOutlineIcon />
+
             </ListItemIcon>
+
+
             <ListItemText primary="Outliers" />
-          </ListItemButton>
+          </ListItemButton> */}
+
           <ListItemButton
             disabled={true}
             selected={pathname == '/usuarios'}

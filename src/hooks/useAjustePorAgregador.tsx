@@ -4,6 +4,7 @@ import { IAjusteMetasSortSelected } from "../components/ajustes/AjusteMetasTable
 import { AjustarProdutoRow, SituacaoAtivo } from "../core/model/ajustar-objetivos/AjustarProdutoRow";
 import { AjusteMetas, IAjusteMetasFiltro } from "../core/model/ajustar-objetivos/AjusteMetas";
 import { AjusteMetasExportaExcel } from "../core/model/ajustar-objetivos/AjusteMetasExportaExcel";
+import { AjusteMetasExportaExcelOutliers } from "../core/model/ajustar-objetivos/AjusteMetasExportaExcelOutliers";
 import { AjusteMetasFiltroOption, getOptions } from "../core/model/ajustar-objetivos/AjusteMetasFiltroFunctions";
 import { AjusteMetasImportaExcel } from "../core/model/ajustar-objetivos/AjusteMetasImportaExcel";
 import { atualizarObjetivosLote } from "../services/ajustesService";
@@ -18,6 +19,7 @@ export interface IUseAjuste {
   error: string
   handleMainCheckbox: () => void
   handleGerarExcel: () => void
+  handleGerarExcelOutliers: () => void
   handleZerar: () => void
   handleInicial: () => void
   handleAtualizar: () => void
@@ -143,6 +145,19 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
       const titulo = ajuste.produto.codsidem + '  -  ' + ajuste.produto.nome + '  -  ' + ajuste.unidade.nome
       const planame = ajuste.produto.codsidem + '_' + ajuste.unidade.id
       gerador.gerarExcel(nome, planame, titulo,ajuste.rows)
+    }
+  }
+
+  const handleGerarExcelOutliers = () => {
+    if (ajuste) {
+      const produto = ajuste.produto.nome
+      const unidade = ajuste.unidade.nome
+
+      const gerador = new AjusteMetasExportaExcelOutliers()
+      const nome = `Outliers - ${produto} - ${unidade}`
+      const titulo = 'Outliers  -  ' + ajuste.produto.nome + '  -  ' + ajuste.unidade.nome
+      const planame = ajuste.produto.codsidem + '_' + ajuste.unidade.id
+      gerador.gerarExcel(nome, planame, titulo, ajuste.rows)
     }
   }
 
@@ -384,6 +399,7 @@ export const useAjustePorAgregador = (tipo: 'AG' | 'SE', unidadeId: number, prod
     isActive,
     handleAtualizar,
     handleGerarExcel,
+    handleGerarExcelOutliers,
     handleImportarExcel,
     handleSortChange,
     handleZerar,

@@ -78,7 +78,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
-
 function DashboardContent({ children }: LayoutProps) {
   const dispatch = useAppDispatch();
   const open = useAppSelector(selectSidebarState);
@@ -88,7 +87,6 @@ function DashboardContent({ children }: LayoutProps) {
     dispatch(toggleSidebar())
 
   };
-
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -159,10 +157,8 @@ function DashboardContent({ children }: LayoutProps) {
           <Toolbar />
           <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
             {children}
-
           </Container>
         </Box>
-
       </Box>
     </ThemeProvider>
   );

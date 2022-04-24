@@ -11,7 +11,19 @@ export enum SituacaoAtivo {
   ApenasSEV = 3
 }
 
-export class AjustarProdutoRow implements IRowAjustar {
+interface IAjustarProdutoRowOutier {
+  clusterMedia: number
+  clusterDesvio: number
+  clusterMinimo: number
+  clusterMaximo: number
+  isOutlier(): 1 | 0
+  isMinOutlier(): 1 | 0
+  isMaxOutlier(): 1 | 0
+  outlierValorAumentar(): number
+  outlierValorReduzir(): number
+}
+
+export class AjustarProdutoRow implements IRowAjustar, IAjustarProdutoRowOutier {
   private pshareRef: number = 0
   private pshareAjustado: number = 0
   private pparent: AjusteMetas | undefined
@@ -38,6 +50,12 @@ export class AjustarProdutoRow implements IRowAjustar {
 
   public erroPiso: boolean
   public erroTrava: boolean
+  clusterMedia: number = 0
+  clusterDesvio: number = 0
+  clusterMinimo: number = 0
+  clusterMaximo: number = 0
+
+
 
   private linhaSelecionada: boolean
   constructor(r: IRowAjustar) {
@@ -152,6 +170,8 @@ export class AjustarProdutoRow implements IRowAjustar {
     this.metaAjustada =this.metaAjustada
     this.verificaErros()
     this.calcPctChange()
+
+
   }
 
   private calcPctChange() {
@@ -251,5 +271,29 @@ export class AjustarProdutoRow implements IRowAjustar {
     const novoValor = this.metaReferencia - (this.metaReferencia2 )
     this.ivalor = novoValor
     this.calculaMetaAjustada()
+  }
+
+  setOutliersClusterValues(v: {media: number, desvio: number, minimo: number, maximo: number}) {
+    this.clusterMedia = v.media
+    this.clusterDesvio = v.desvio
+    this.clusterMinimo = v.minimo
+    this.clusterMaximo = v.maximo
+  }
+  isOutlier() {
+    return (this.metaAjustada > this.clusterMaximo || this.metaAjustada < this.clusterMinimo) ? 1 : 0
+  }
+
+  isMinOutlier() {
+    return (this.metaAjustada < this.clusterMinimo) ? 1 : 0
+  }
+  isMaxOutlier() {
+    return (this.metaAjustada > this.clusterMaximo) ? 1 : 0
+
+  }
+  outlierValorAumentar()  {
+    return this.isMinOutlier() == 1 ? this.clusterMinimo - this.metaAjustada : 0
+  }
+  outlierValorReduzir() {
+    return this.isMaxOutlier() == 1 ? this.clusterMaximo - this.metaAjustada : 0
   }
 }

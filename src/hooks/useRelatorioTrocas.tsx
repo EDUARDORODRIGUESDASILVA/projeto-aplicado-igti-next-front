@@ -25,7 +25,6 @@ export interface IUseRelatorioTrocas {
   handleGravar: (troca: Troca) => Promise<void>
   handleSelecionaLinha: (troca: Troca) => void
   handleSnackClose: (event: any, reason: any) => void
-  // handleFilterChange: (filter: RelatorioPorAgregadorFilter) => void
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
   setPage: Dispatch<SetStateAction<number>>
@@ -66,7 +65,9 @@ export const useRelatorioTrocas = (unidadeId: number) => {
   const [rows, setrows] = useState<Troca[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [snack, setSnack] = useState<{ open: Boolean, message: string, severity: AlertColor }>({ open: false, message: '', severity: 'success' });
+  const [snack, setSnack] = useState<
+  { open: Boolean, message: string, severity: AlertColor }
+  >({ open: false, message: '', severity: 'success' });
 
   useEffect(() => {
     if (relatorio) {
