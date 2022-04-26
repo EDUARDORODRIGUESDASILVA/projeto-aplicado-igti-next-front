@@ -1,4 +1,4 @@
-import { IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
+import { Button, IconButton, TableCell, TableRow, Tooltip } from "@mui/material";
 import { Troca } from "../../core/model/troca/Trocas";
 import { IUseRelatorioTrocas } from "../../hooks/useRelatorioTrocas";
 import NumberTextFormat from "../../utils/NumberTextFormat";
@@ -7,6 +7,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+import Link from "next/link";
 export default function TrocasTableRow({ row, actions }: { row: Troca, actions: IUseRelatorioTrocas }) {
   if (actions)
   return (
@@ -19,15 +20,17 @@ export default function TrocasTableRow({ row, actions }: { row: Troca, actions: 
         {row.id}
       </TableCell>
 
-      <TableCell align="left">
-        {row.produto.nome}
+      <TableCell padding="none" align="left">
+        <Link href={`/relatorio/${actions.relatorio?.agregador.id}/${row.produtoId}`} passHref>
+          <Button color="primary" size="small"> {row.produto.nome}</Button>
+        </Link>
       </TableCell>
 
       <TableCell align="left" >
         {row.incrementa.nome}
       </TableCell>
 
-      <TableCell align="left">
+      <TableCell padding="none" align="left">
         {row.reduz.nome}
       </TableCell>
 

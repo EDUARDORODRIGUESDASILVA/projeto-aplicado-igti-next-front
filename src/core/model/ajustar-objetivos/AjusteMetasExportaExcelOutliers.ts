@@ -88,11 +88,13 @@ export class AjusteMetasExportaExcelOutliers {
     plan.cell(linha, ++coluna).value('Dif.').style('horizontalAlignment', 'center');
     plan.column(coluna).width(15).style('bold', true).style('numberFormat', '#,##0.00;[Red]-#,##0.00');
 
+    plan.cell(linha, ++coluna).value('Média').style('horizontalAlignment', 'center');
+    plan.column(coluna).width(15).style('italic', true).style('numberFormat', '#,##0.00;[Red]-#,##0.00');
+
     plan.cell(linha, ++coluna).value('Desvio').style('horizontalAlignment', 'center');
     plan.column(coluna).width(15).style('italic', true).style('numberFormat', '#,##0.00;[Red]-#,##0.00');
 
-    plan.cell(linha, ++coluna).value('Média').style('horizontalAlignment', 'center');
-    plan.column(coluna).width(15).style('italic', true).style('numberFormat', '#,##0.00;[Red]-#,##0.00');
+
 
     plan.cell(linha, ++coluna).value('Mínimo').style('horizontalAlignment', 'center');
     plan.column(coluna).width(15).style('italic', true).style('numberFormat', '#,##0.00;[Red]-#,##0.00');

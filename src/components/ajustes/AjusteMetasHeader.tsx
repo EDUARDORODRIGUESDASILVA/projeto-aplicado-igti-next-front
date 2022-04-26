@@ -7,6 +7,7 @@ import AjustesUploadButton from "./AjustesUploadButton";
 import AjusteMetasSubHeader from "./AjusteMetasSubHeader";
 import { useAppSelector } from "../../store/hooks";
 import { selectSidebarState } from '../../store/sidebarSlice';
+import AjustesMetasOutliersChartButton from "./AjustesMetasOutliersChartButton";
 export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) {
 
   const router = useRouter()
@@ -64,9 +65,9 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
                         >
                           OUTLIERS
                         </Button>
+
+
                       </>
-
-
                     ) : <></>
                     }
 
@@ -114,6 +115,10 @@ export default function AjusteMetasHeader({ actions }: { actions: IUseAjuste }) 
 
                 ) : <></>
               } */}
+
+              <AjustesMetasOutliersChartButton actions={actions}></AjustesMetasOutliersChartButton>
+
+
               <Button variant="text"
                 sx={{ mr: 1 }}
                 onClick={() => actions.handleGerarExcel()}

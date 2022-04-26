@@ -48,8 +48,9 @@ export default function RelatorioHeader({actions}: {actions: IUseRelatorio}) {
               disabled={true}
             >
               Negociações
-            </Button> */}
+            </Button>
             <TrocasButton unidadeId={actions.relatorio.agregador.id}></TrocasButton>
+            */}
 
             <RelatorioBaseCompleta actions={actions}></RelatorioBaseCompleta>
 

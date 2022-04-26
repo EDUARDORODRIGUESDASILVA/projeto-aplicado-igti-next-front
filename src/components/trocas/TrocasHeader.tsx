@@ -38,19 +38,12 @@ export default function TrocasHeader({ actions, closeModal }: { actions: IUseRel
 
         action={
           <>
-
-
         <Box sx={{ mt: '13px' }}>
-
-
           <Button variant="text"
           onClick={()=> {actions.handleExcelClick()}}
           >
             Excel
           </Button>
-
-
-
 
           <Button variant="text"
             onClick={() => { actions.handleAtualizar() }}
