@@ -7,7 +7,7 @@ import { closeTrocasModal, selectTrocasModalState, toggleTrocasModal } from '../
 import { createTheme, ThemeProvider } from '@mui/material';
 import { IUseAjuste } from '../../hooks/useAjustePorAgregador';
 import HorizontalBarChart from '../charts/HorizontalBarChart';
-import AjustesMetasOutliersChart from './AjustesMetasOUtliersChart';
+import AjustesMetasOutliersChart from './AjustesMetasOutliersChart';
 
 const mdTheme = createTheme();
 
