@@ -103,7 +103,7 @@ export default function AjustesMetasOutliersChart({ actions }: { actions: IUseAj
               <>
                 <Box sx={{ mt: '13px' }}>
                   <Button variant="text"
-                    onClick={() => { actions.handleGerarExcelOutliers() }}
+                    onClick={() => { actions.handleGerarExcel() }}
                   >
                     EXCEL
                   </Button>

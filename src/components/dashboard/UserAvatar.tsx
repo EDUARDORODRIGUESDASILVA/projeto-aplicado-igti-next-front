@@ -1,5 +1,7 @@
+import { IconButton, Popover, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
+import { useState } from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { selectUser } from '../../store/userSlice';
 
@@ -36,6 +38,18 @@ function stringAvatar(name: string) {
 }
 
 export default function UserAvatar() {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   const user = useAppSelector(selectUser);
 
@@ -43,8 +57,27 @@ export default function UserAvatar() {
     <>
       {user ? (
         <>
-          {/* <AccountMenu></AccountMenu> */}
-          <Avatar {...stringAvatar(user.nome)} sx={{ bgcolor: deepOrange[500] }}></Avatar>
+          <IconButton onClick={handleClick}>
+            <Avatar {...stringAvatar(user.nome)} sx={{ bgcolor: deepOrange[500] }}></Avatar>
+          </IconButton>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+          >
+            <Typography sx={{ p: 2 }} align="center">
+              <b>{user.nome}</b><br/>
+              {user.funcao}<br />
+              {user.matricula} - {user.unidadeId}<br />
+
+            </Typography>
+          </Popover>
+
         </>
       ) : (<></>)
       }

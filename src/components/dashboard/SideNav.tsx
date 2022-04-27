@@ -57,7 +57,6 @@ export default function SideNav() {
           </ListItemButton> */}
 
           <ListItemButton
-            disabled={true}
             selected={pathname == '/usuarios'}
             component="a" onClick={() => router.push('/usuarios/')} >
             <ListItemIcon>
