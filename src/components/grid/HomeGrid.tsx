@@ -41,7 +41,7 @@ export default function HomeGrid() {
 
           <Typography variant="h5" sx={{mt: '10px'}} align="center" color="text.secondary" paragraph>
           Bem vindo!
-          O prazo de ajustes é ate <b>08/05 - 14hs</b>
+          O prazo de ajustes é ate <b>26/05 - 22hs</b>
           </Typography>
           <Stack
             sx={{ pt: 1 }}
